@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample</title>
+</head>
+<body>
+    <ul th:each="user : ${users}">
+        <li>
+            <p th:text="${'ID: ' + user.id}"></p>
+            <p th:text="${'USERNAME: ' + user.username}"></p>
+            <p th:text="${'FIRST NAME: ' + user.firstName}"></p>
+            <p th:text="${'LAST NAME: ' + user.lastName}"></p>
+            <p th:text="${'PASSWORD: ' + user.password}"></p>
+            <p th:text="${'EMAIL: ' + user.email}"></p>
+            <br>
+        </li>
+    </ul>
+</body>
+</html>
