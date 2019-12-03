@@ -33,7 +33,7 @@ public class WelcomeController {
         return "welcomePage";
     }
 
-    @PostMapping(path = "/lots")
+    @GetMapping(path = "/lots")
     public String showLotsPage(Model model) {
         List<Lot> allLots = lotService.getAllLots();
         List<User> allUsers = userService.getAllUsers();

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Sample</title>
 </head>
 <body>
-    <form action="/lots" method="POST">
-        <button type="submit">СМАТРЮ ЛОТЫ</button>
-    </form>
+<a th:href="@{/lots}">Посмотреть лоты</a><br>
+<a th:href="@{/logout}">Logout</a>
 </body>
 </html>
