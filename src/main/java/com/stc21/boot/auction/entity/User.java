@@ -1,13 +1,15 @@
 package com.stc21.boot.auction.entity;
 
+import com.stc21.boot.auction.entity.enums.Role;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
-@Table(name = "users")
+@Table(name = "users_table")
 @RequiredArgsConstructor
 public class User {
 
@@ -35,4 +37,10 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 5)
+    private Role role;
+
+    @OneToMany(targetEntity = Lot.class)
+    private List<Lot> userLots;
 }
