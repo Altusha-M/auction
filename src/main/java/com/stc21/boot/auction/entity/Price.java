@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "prices_table")
+@Table(name = "prices")
 @RequiredArgsConstructor
 public class Price {
 

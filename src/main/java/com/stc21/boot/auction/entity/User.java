@@ -1,6 +1,5 @@
 package com.stc21.boot.auction.entity;
 
-import com.stc21.boot.auction.entity.enums.Role;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,10 +8,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "users_table")
+@Table(name = "users")
 @RequiredArgsConstructor
 public class User implements UserDetails {
 
@@ -37,15 +37,21 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Transient
+    private String passwordConfirm;
+
     @Column(nullable = false)
     private String email;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 5)
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
-    @OneToMany(targetEntity = Lot.class)
-    private List<Lot> userLots;
+//    @OneToMany(targetEntity = Lot.class)
+//    private List<Lot> userLots;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -30,7 +30,7 @@ public class WelcomeController {
 
     @GetMapping(path = "/")
     public String showWelcomePage(Model model) {
-        return "welcomePage";
+        return "homePage";
     }
 
     @GetMapping(path = "/lots")

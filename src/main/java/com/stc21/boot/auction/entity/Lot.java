@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "lots_table")
+@Table(name = "lots")
 @RequiredArgsConstructor
 public class Lot {
 
