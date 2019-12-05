@@ -1,5 +1,6 @@
 package com.stc21.boot.auction.controller;
 
+import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.entity.Lot;
 import com.stc21.boot.auction.entity.Price;
 import com.stc21.boot.auction.entity.User;
@@ -36,7 +37,7 @@ public class WelcomeController {
     @GetMapping(path = "/lots")
     public String showLotsPage(Model model) {
         List<Lot> allLots = lotService.getAllLots();
-        List<User> allUsers = userService.getAllUsers();
+        List<UserDto> allUsers = userService.getAllUsers();
         model.addAttribute("lots", allLots);
         model.addAttribute("users", allUsers);
         return "lotsPage";
