@@ -3,3 +3,10 @@
 		display: block;
 	}
 }
+
+.username-acc-link, .username-acc-link:hover{
+	color: red;
+	text-decoration: underline;
+}
+
+

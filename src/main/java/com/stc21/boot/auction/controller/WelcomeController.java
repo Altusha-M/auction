@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+
 @Controller
 @RequestMapping(path = "/")
 public class WelcomeController {
@@ -34,12 +35,11 @@ public class WelcomeController {
         return "homePage";
     }
 
-    @GetMapping(path = "/lots")
+    @GetMapping(path = "/account")
     public String showLotsPage(Model model) {
         List<Lot> allLots = lotService.getAllLots();
         List<UserDto> allUsers = userService.getAllUsers();
         model.addAttribute("lots", allLots);
-        model.addAttribute("users", allUsers);
-        return "lotsPage";
+        return "accountPage";
     }
 }

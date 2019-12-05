@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- saved from url=(0065)file:///C:/Users/PavelDell/Downloads/Telegram%20Desktop/base.html -->
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
@@ -7,37 +6,50 @@
 
     <title>Cards</title>
 
-    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{css/homePage-style.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{css/homePage-style.css}">
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark justify-content-between navbar-expand-sm">
     <a class="navbar-brand" href="#">Reducto</a>
 
-    <button aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+    <button aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
             data-target="#navbarNavAltMarkup" data-toggle="collapse" type="button">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link" href="#">Browse</a>
-            <a class="nav-item nav-link" href="#">Place
-                a lot</a>
+            <a class="nav-item nav-link" href="#">Place a lot</a>
         </div>
         <hr>
-        <div class="navbar-nav ml-auto">
-            <a class="nav-item nav-link active" th:href="@{/login}">Login</a>
-            <span class="navbar-text">or</span>
-            <a class="nav-item nav-link active"
-               href="#">Register</a>
+        <div th:switch="${#authorization.expr('isAuthenticated()')}">
+            <div class="navbar-nav ml-auto" th:case="${true}">
+                <span class="navbar-brand">Authenticated as</span>
+                <a th:href="@{/account}" class="username-acc-link">
+                    <span class="navbar-brand" th:text="${#authorization.authentication.name}"></span>
+                </a>
+                <form method="POST" th:action="@{/logout}">
+                    <button class="button btn-danger nav-item mt-1 p-1" type="submit">Logout</button>
+                </form>
+            </div>
+
+            <div class="navbar-nav ml-auto" th:case="${false}">
+                <a class="nav-item nav-link active" th:href="@{/login}">Login</a>
+                <span class="navbar-text">or</span>
+                <a class="nav-item nav-link active"
+                   href="#">Register</a>
+            </div>
         </div>
     </div>
+
 </nav>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col">
-            <h1>Hello, World!</h1>
+            <h1>Hello, World</h1>
         </div>
     </div>
 
@@ -168,7 +180,7 @@
                 <div class="row no-gutters">
                     <div class="col-4" style="max-height:150px">
                         <a href="#">
-                            <img class="card-img h-100" th:src="@{placeholder/300x200}" style="object-fit: cover">
+                            <img class="card-img h-100" style="object-fit: cover" th:src="@{placeholder/300x200}">
                         </a>
                     </div>
                     <div class="col-8">
@@ -188,7 +200,7 @@
                 <div class="row no-gutters">
                     <div class="col-4" style="max-height:150px">
                         <a href="#">
-                            <img class="card-img h-100" th:src="@{placeholder/250x200}" style="object-fit: cover">
+                            <img class="card-img h-100" style="object-fit: cover" th:src="@{placeholder/250x200}">
                         </a>
                     </div>
                     <div class="col-8">
@@ -208,7 +220,7 @@
                 <div class="row no-gutters">
                     <div class="col-4" style="max-height:150px">
                         <a href="#">
-                            <img class="card-img h-100" th:src="@{placeholder/200x200}" style="object-fit: cover">
+                            <img class="card-img h-100" style="object-fit: cover" th:src="@{placeholder/200x200}">
                         </a>
                     </div>
                     <div class="col-8">
@@ -228,7 +240,7 @@
                 <div class="row no-gutters">
                     <div class="col-4" style="max-height:150px">
                         <a href="#">
-                            <img class="card-img h-100" th:src="@{placeholder/200x250}" style="object-fit: cover">
+                            <img class="card-img h-100" style="object-fit: cover" th:src="@{placeholder/200x250}">
                         </a>
                     </div>
                     <div class="col-8">
@@ -248,7 +260,7 @@
                 <div class="row no-gutters">
                     <div class="col-4" style="max-height:150px">
                         <a href="#">
-                            <img class="card-img h-100" th:src="@{placeholder/200x300}" style="object-fit: cover">
+                            <img class="card-img h-100" style="object-fit: cover" th:src="@{placeholder/200x300}">
                         </a>
                     </div>
                     <div class="col-8">

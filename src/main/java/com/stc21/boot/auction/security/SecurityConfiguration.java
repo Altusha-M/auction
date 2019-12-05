@@ -6,35 +6,62 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+// настройки Spring Security
 @Configuration
+@EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    @Qualifier("userDetailsServiceImpl")
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+    public SecurityConfiguration(@Qualifier("siteUserDetailsService") UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
     }
 
+    // конфигурация аутентификации/авторизации
+    // пока не используем шифратор пароля, далее будет BCryptPasswordEncoder
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(getNoPasswordEncoder());
+    }
+
+
+    // конфиг http-запросов
+    // куда можно ходить аутентифицированным
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests().antMatchers("/**").permitAll()
-                .and()
-                .formLogin().permitAll()
-                .and()
-                .logout().permitAll();
+        http.authorizeRequests()
+                .antMatchers("/account").authenticated()
+                .antMatchers("/*").permitAll()
+                    .and()
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .successForwardUrl("/login?success=true")
+                .failureForwardUrl("/login?success=false")
+                    .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                    .and()
+                .rememberMe()
+                .tokenValiditySeconds(2419200)
+                .key("auction");
     }
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public PasswordEncoder getNoPasswordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
 }

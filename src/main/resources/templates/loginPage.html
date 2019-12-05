@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>Login</title>
+
+		<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{css/homePage-style.css}">
+	</head>
+	<body>
+		<nav class="navbar navbar-dark bg-dark justify-content-between navbar-expand-sm">
+			<a class="navbar-brand" href="#">Reducto</a>
+			
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+				<div class="navbar-nav">
+					<a class="nav-item nav-link" href="#">Browse</a>
+					<a class="nav-item nav-link" href="#">Place a lot</a>
+				</div>
+				<hr>
+				<div class="navbar-nav ml-auto">
+					<a class="nav-item nav-link active" href="#">Login</a>
+					<span class="navbar-text">or</span>
+					<a class="nav-item nav-link active" href="#">Register</a>
+				</div>
+			</div>
+		</nav>
+	
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col d-none d-sm-block">l</div>
+				
+				<!---------------------------------->
+				
+				<div class="col-12 col-sm-10 col-md-8 col-lg-6" id="login">
+					<div class="row">
+						<div class="col pl-3 mt-3">
+							<h3>Login</h3>
+						</div>
+					</div>
+				
+					<form th:action="@{/login}" method="POST">
+						<div class="form-group form-row">
+							<label for="inputUsername" class="col-sm-2 col-form-label">Username</label>
+							<div class="col-sm-10">
+								<input name="username" type="text" class="form-control is-invalid" id="inputUsername" placeholder="Username" required>
+								<div class="invalid-feedback">
+									No user found with this username
+								</div>
+							</div>
+						</div>
+					
+						<div class="form-group form-row">
+							<label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+							<div class="col-sm-10">
+								<input name="password" type="password" class="form-control is-invalid" id="inputPassword" placeholder="Password" required>
+								<div class="invalid-feedback">
+									Wrong password
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-group form-row">
+							<div class="form-check col ml-4">
+								<input class="form-check-input" name="remember-me" type="checkbox" id="gridCheck">
+								<label class="form-check-label" for="gridCheck">
+									Remember me
+								</label>
+							</div>
+						</div>
+						
+						<div class="form-group form-row">
+							<div class="col"></div>
+							<div class="col-sm-6">
+								<button type="submit" class="btn btn-primary btn-block">Sign in</button>
+							</div>
+							<div class="col"></div>
+						</div>
+					</form>
+
+				</div>
+				
+				<!---------------------------------->
+				
+				<div class="col d-none d-sm-block">r</div>
+			</div>
+		</div>
+
+		<script th:src="@{js/jquery-3.2.1.slim.min.js}"></script>
+		<script th:src="@{js/bootstrap.min.js}"></script>
+		<script th:src="@{js/popper.min.js}"></script>
+	</body>
+</html>
