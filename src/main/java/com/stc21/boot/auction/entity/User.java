@@ -25,7 +25,7 @@ public class User implements UserDetails {
             allocationSize = 1)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(name = "first_name", nullable = false)
@@ -40,8 +40,11 @@ public class User implements UserDetails {
     @Transient
     private String passwordConfirm;
 
-    @Column(nullable = false)
+    @Column(nullable = true, unique = true)
     private String email;
+
+    @Column(nullable = true, unique = true)
+    private String phoneNumber;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

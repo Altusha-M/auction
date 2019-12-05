@@ -8,5 +8,7 @@ import java.util.List;
 public interface UserService {
     List<UserDto> getAllUsers();
     UserDto findByUsername(String username);
+    UserDto findByEmail(String email);
+    UserDto findByPhoneNumber(String phoneNumber);
     UserDto convertToDto(User user);
 }
