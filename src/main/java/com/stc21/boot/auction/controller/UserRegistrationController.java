@@ -1,10 +1,8 @@
 package com.stc21.boot.auction.controller;
 
+import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.dto.UserRegistrationDto;
-import com.stc21.boot.auction.entity.User;
 import com.stc21.boot.auction.service.UserService;
-import org.graalvm.compiler.graph.spi.Canonicalizable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,7 +45,7 @@ public class UserRegistrationController {
         }
 
         // check for existence
-        User existingUser = userService.findByUsername(userRegistrationDto.getUsername());
+        UserDto existingUser = userService.findByUsername(userRegistrationDto.getUsername());
         if (existingUser != null) {
             result.rejectValue("username", null, "User with this username already exist");
         }
@@ -66,6 +64,7 @@ public class UserRegistrationController {
             return "register";
         }
 
+        userService.save(userRegistrationDto);
         return "redirect:/register?success=true";
     }
 }

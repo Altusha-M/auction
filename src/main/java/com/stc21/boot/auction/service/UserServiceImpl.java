@@ -1,10 +1,10 @@
 package com.stc21.boot.auction.service;
 
 import com.stc21.boot.auction.dto.UserDto;
+import com.stc21.boot.auction.dto.UserRegistrationDto;
 import com.stc21.boot.auction.entity.User;
 import com.stc21.boot.auction.repository.UserRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,16 +35,32 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return convertToDto(userRepository.findByEmail(email));
     }
 
     @Override
     public UserDto findByPhoneNumber(String phoneNumber) {
-        return userRepository.findByPhoneNumber(phoneNumber);
+        return convertToDto(userRepository.findByPhoneNumber(phoneNumber));
     }
 
     @Override
     public UserDto convertToDto(User user) {
+        if (user == null) return null;
+
         return modelMapper.map(user, UserDto.class);
+    }
+
+    @Override
+    public User save(UserRegistrationDto userRegistrationDto) {
+        if (userRegistrationDto == null) {
+            throw new NullPointerException("No user to register");
+        }
+
+        User user = new User();
+        user.setUsername(userRegistrationDto.getUsername());
+        user.setPassword(userRegistrationDto.getPassword());
+        user.setEmail(userRegistrationDto.getEmail());
+        user.setPhoneNumber(userRegistrationDto.getPhoneNumber());
+        return userRepository.save(user);
     }
 }
