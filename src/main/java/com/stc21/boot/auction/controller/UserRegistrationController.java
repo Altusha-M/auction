@@ -38,27 +38,13 @@ public class UserRegistrationController {
             @ModelAttribute("user") @Valid UserRegistrationDto userRegistrationDto,
             BindingResult result) {
 
-        // TODO: write validation annotations
-        // check for validity
-        if (!userRegistrationDto.getPassword().equals(userRegistrationDto.getRepeatPassword())) {
-            result.rejectValue("repeatPassword", null, "Password doesn't match");
-        }
-
-        // check for existence
-        UserDto existingUser = userService.findByUsername(userRegistrationDto.getUsername());
-        if (existingUser != null) {
-            result.rejectValue("username", null, "User with this username already exist");
-        }
-
-        existingUser = userService.findByEmail(userRegistrationDto.getEmail());
-        if (existingUser != null) {
-            result.rejectValue("email", null, "User with this email already exist");
-        }
-
-        existingUser = userService.findByPhoneNumber(userRegistrationDto.getPhoneNumber());
-        if (existingUser != null) {
-            result.rejectValue("phoneNumber", null, "User with this phoneNumber already exist");
-        }
+        userService
+                .fieldsWithErrors(userRegistrationDto)
+                .forEach(
+                        fieldName->result.rejectValue(
+                                fieldName,
+                                null,
+                                "Username with this "+fieldName+" already exist. Pick another one."));
 
         if (result.hasErrors()) {
             return "register";

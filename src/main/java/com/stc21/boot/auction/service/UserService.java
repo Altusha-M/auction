@@ -13,5 +13,6 @@ public interface UserService {
     UserDto findByPhoneNumber(String phoneNumber);
     UserDto convertToDto(User user);
 
+    List<String> fieldsWithErrors(UserRegistrationDto userRegistrationDto);
     User save(UserRegistrationDto userRegistrationDto);
 }

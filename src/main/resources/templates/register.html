@@ -25,6 +25,9 @@
 						</div>
 					</div>
 
+					<p th:each="error: ${#fields.errors('user')}"
+					   th:text="${error}">Validation error</p>
+
 					<form th:action="@{/register}" th:object="${user}" method="POST">
 						<div class="form-group form-row">
 							<label for="inputUsername" class="col-sm-2 col-form-label">Username</label>

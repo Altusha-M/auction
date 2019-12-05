@@ -7,6 +7,7 @@ import com.stc21.boot.auction.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,16 +52,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(UserRegistrationDto userRegistrationDto) {
-        if (userRegistrationDto == null) {
-            throw new NullPointerException("No user to register");
+    public List<String> fieldsWithErrors(UserRegistrationDto userRegistrationDto) {
+        List<String> result = new ArrayList<>();
+
+        UserDto existingUser = findByUsername(userRegistrationDto.getUsername());
+        if (existingUser != null)
+            result.add("username");
+
+        existingUser = findByEmail(userRegistrationDto.getEmail());
+        if (existingUser != null)
+            result.add("email");
+
+        existingUser = findByPhoneNumber(userRegistrationDto.getPhoneNumber());
+        if (existingUser != null) {
+            result.add("phoneNumber");
         }
+
+        return result;
+    }
+
+    @Override
+    public User save(UserRegistrationDto userRegistrationDto) {
+        if (userRegistrationDto == null)
+            throw new NullPointerException("No userRegistrationDto to save");
 
         User user = new User();
         user.setUsername(userRegistrationDto.getUsername());
-        user.setPassword(userRegistrationDto.getPassword());
-        user.setEmail(userRegistrationDto.getEmail());
-        user.setPhoneNumber(userRegistrationDto.getPhoneNumber());
+        user.setPassword(userRegistrationDto.getPassword()); // TODO: to hash
+        user.setEmail(userRegistrationDto.getEmail().equals("") ? null : userRegistrationDto.getEmail());
+        user.setPhoneNumber(userRegistrationDto.getPhoneNumber().equals("") ? null : userRegistrationDto.getPhoneNumber());
+
         return userRepository.save(user);
     }
 }
