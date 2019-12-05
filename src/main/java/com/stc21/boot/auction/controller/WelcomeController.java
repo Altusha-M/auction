@@ -1,10 +1,12 @@
 package com.stc21.boot.auction.controller;
 
+import com.stc21.boot.auction.dto.LotDto;
 import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.entity.Lot;
 import com.stc21.boot.auction.entity.Price;
 import com.stc21.boot.auction.entity.User;
 import com.stc21.boot.auction.service.LotService;
+import com.stc21.boot.auction.service.MainPageLotsService;
 import com.stc21.boot.auction.service.PriceService;
 import com.stc21.boot.auction.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +32,13 @@ public class WelcomeController {
     @Autowired
     private PriceService priceService;
 
+    @Autowired
+    private MainPageLotsService mainPageLotsService;
+
     @GetMapping(path = "/")
     public String showWelcomePage(Model model) {
+        List<LotDto> mainPageLotDtos = mainPageLotsService.getMainPageLotDtos();
+        model.addAttribute("lots", mainPageLotDtos);
         return "homePage";
     }
 
