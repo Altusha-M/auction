@@ -21,23 +21,24 @@ public class User {
             allocationSize = 1)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name", nullable = true)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name", nullable = true)
     private String lastName;
 
     @Column(nullable = false)
     private String password;
 
-    @Transient
-    private String passwordConfirm;
 
-    @Column(nullable = false)
+    @Column(nullable = true, unique = true)
     private String email;
+
+    @Column(nullable = true, unique = true)
+    private String phoneNumber;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
