@@ -15,7 +15,7 @@ public class LoginController {
 
     @GetMapping
     public String showLoginPage(Model model) {
-        return "loginPage";
+        return "login";
     }
 
     // успешная аутентификация

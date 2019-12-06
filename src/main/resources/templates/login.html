@@ -1,34 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<title>Login</title>
-
-		<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
-		<link rel="stylesheet" th:href="@{css/homePage-style.css}">
-	</head>
+<head th:replace="base::head(title='Login')"></head>
 	<body>
-		<nav class="navbar navbar-dark bg-dark justify-content-between navbar-expand-sm">
-			<a class="navbar-brand" href="#">Reducto</a>
-			
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-				<div class="navbar-nav">
-					<a class="nav-item nav-link" href="#">Browse</a>
-					<a class="nav-item nav-link" href="#">Place a lot</a>
-				</div>
-				<hr>
-				<div class="navbar-nav ml-auto">
-					<a class="nav-item nav-link active" href="#">Login</a>
-					<span class="navbar-text">or</span>
-					<a class="nav-item nav-link active" href="#">Register</a>
-				</div>
-			</div>
-		</nav>
-	
+		<th:block th:replace="base::navbar" />
+
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col d-none d-sm-block">l</div>
@@ -89,8 +64,6 @@
 			</div>
 		</div>
 
-		<script th:src="@{js/jquery-3.2.1.slim.min.js}"></script>
-		<script th:src="@{js/bootstrap.min.js}"></script>
-		<script th:src="@{js/popper.min.js}"></script>
+		<th:block th:replace="base::scripts"/>
 	</body>
 </html>
