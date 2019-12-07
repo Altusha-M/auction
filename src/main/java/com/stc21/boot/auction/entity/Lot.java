@@ -1,6 +1,5 @@
 package com.stc21.boot.auction.entity;
 
-import com.stc21.boot.auction.entity.enums.Condition;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.OnDelete;
@@ -9,10 +8,9 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
-@Entity
-@Table(name = "lots")
 @RequiredArgsConstructor
+@Entity
+@Data
 public class Lot {
 
     @Id
@@ -20,23 +18,48 @@ public class Lot {
     @SequenceGenerator(
             name = "pk_lots_sequence",
             sequenceName = "lots_id_seq",
-            initialValue = 1000,
+            initialValue = 1,
             allocationSize = 1)
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column
+    private LocalDateTime name;
 
+    @Column(name = "creation_time")
+    private LocalDateTime creationTime;
+
+    @Column(name = "last_mod_time")
+    private LocalDateTime timeLastMod;
+
+    @Column
     private String description;
 
-    @Column(name = "category_name")
-    private String categoryName;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category categoryId;
 
-    @Enumerated(EnumType.STRING)
-    private Condition condition;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "condition_id", nullable = false)
+    private Condition conditionId;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "city_id", nullable = false)
+    private City city;
+
+    @Column(name = "current_price")
+    private Double currentPrice;
+
+    @Column(name = "max_price")
+    private Double maxPrice;
+
+    @Column(name = "min_price")
+    private Double minPrice;
+
+    @Column(name = "step_price")
+    private Double stepPrice;
 }
