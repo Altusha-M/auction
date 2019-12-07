@@ -28,7 +28,7 @@ public class Lot {
     private User user;
 
     @Column
-    private LocalDateTime name;
+    private String name;
 
     @Column(name = "creation_time")
     private LocalDateTime creationTime;
