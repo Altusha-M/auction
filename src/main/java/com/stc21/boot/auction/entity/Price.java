@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "prices")
+@Table(name = "price")
 @RequiredArgsConstructor
 public class Price {
 
@@ -16,7 +16,7 @@ public class Price {
     @SequenceGenerator(
             name = "pk_prices_sequence",
             sequenceName = "prices_id_seq",
-            initialValue = 1000,
+            initialValue = 1,
             allocationSize = 1)
     private long id;
 

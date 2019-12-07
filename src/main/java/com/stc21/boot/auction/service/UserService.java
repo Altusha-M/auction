@@ -5,6 +5,7 @@ import com.stc21.boot.auction.dto.UserRegistrationDto;
 import com.stc21.boot.auction.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     List<UserDto> getAllUsers();
@@ -15,4 +16,8 @@ public interface UserService {
 
     List<String> fieldsWithErrors(UserRegistrationDto userRegistrationDto);
     User save(UserRegistrationDto userRegistrationDto);
+    List<User> getAllUsers();
+    Optional<User> findByUsername(String username);
+    Optional<User> findByEmail(String username);
+
 }
