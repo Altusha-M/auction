@@ -16,8 +16,4 @@ public interface UserService {
 
     List<String> fieldsWithErrors(UserRegistrationDto userRegistrationDto);
     User save(UserRegistrationDto userRegistrationDto);
-    List<User> getAllUsers();
-    Optional<User> findByUsername(String username);
-    Optional<User> findByEmail(String username);
-
 }

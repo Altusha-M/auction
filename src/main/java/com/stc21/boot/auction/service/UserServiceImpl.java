@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,17 +32,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto findByUsername(String username) {
-        return convertToDto(userRepository.findByUsername(username));
+        return userRepository.findByUsername(username)
+                .map(this::convertToDto)
+                .orElse(null);
     }
 
     @Override
     public UserDto findByEmail(String email) {
-        return convertToDto(userRepository.findByEmail(email));
+        return userRepository.findByEmail(email)
+                .map(this::convertToDto)
+                .orElse(null);
     }
 
     @Override
     public UserDto findByPhoneNumber(String phoneNumber) {
-        return convertToDto(userRepository.findByPhoneNumber(phoneNumber));
+        return userRepository.findByPhoneNumber(phoneNumber)
+                .map(this::convertToDto)
+                .orElse(null);
     }
 
     @Override
@@ -83,10 +90,5 @@ public class UserServiceImpl implements UserService {
         user.setPhoneNumber(userRegistrationDto.getPhoneNumber().equals("") ? null : userRegistrationDto.getPhoneNumber());
 
         return userRepository.save(user);
-    }
-
-    @Override
-    public Optional<User> findByEmail(String username) {
-        return userRepository.findByEmail(username);
     }
 }

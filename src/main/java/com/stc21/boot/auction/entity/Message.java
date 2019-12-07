@@ -27,6 +27,6 @@ public class Message {
     private User sender;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "reciever_id", nullable = false)
-    private User reciever;
+    @JoinColumn(name = "receiver_id", nullable = false)
+    private User receiver;
 }

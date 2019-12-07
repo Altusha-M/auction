@@ -4,7 +4,7 @@ VALUES (nextval('city_id_seq'), 'city1'),
        (nextval('city_id_seq'), 'city3'),
        (nextval('city_id_seq'), 'city4');
 
-INSERT INTO role (id, name)
+INSERT INTO roles (id, name)
 VALUES (nextval('role_id_seq'), 'admin'),
        (nextval('role_id_seq'), 'user');
 
@@ -39,7 +39,7 @@ VALUES (nextval('users_id_seq'), 'username1', 'first name 1', 'last name 1',
         (SELECT id FROM city WHERE id = 1), 1);
 
 
-INSERT INTO message (id, body, sender_id, reciever_id)
+INSERT INTO message (id, body, sender_id, receiver_id)
 VALUES (nextval('message_id_seq'), 'Hello. I want to get my purchase.',
         (SELECT id FROM users WHERE username = 'username3'), (SELECT id FROM users WHERE username = 'username2')),
        (nextval('message_id_seq'), 'Ok, call me',

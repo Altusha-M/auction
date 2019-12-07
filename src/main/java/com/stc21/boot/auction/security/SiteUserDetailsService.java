@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 // наш кастомный сервис для Spring Security, возвращающий SiteUserPrincipalDto
 // на основе пользователя в БД
@@ -22,10 +24,10 @@ public class SiteUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException(username);
-        }
-        return new SiteUserPrincipalDto(user);
+        Optional<User> user = userRepository.findByUsername(username);
+
+        return user
+                .map(SiteUserPrincipalDto::new)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
     }
 }

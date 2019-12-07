@@ -17,20 +17,18 @@ public class SiteUserPrincipalDto implements UserDetails {
 
     private final String username;
     private final String password;
-    private final Set<Role> roles;
+    private final Role role;
 
     public SiteUserPrincipalDto(User user) {
         this.username = user.getUsername();
         this.password = user.getPassword();
-        this.roles = user.getRoles();
+        this.role = user.getRole();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         final List<GrantedAuthority> authorities = new ArrayList<>();
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        }
+        authorities.add(new SimpleGrantedAuthority(role.getName()));
         return authorities;
     }
 

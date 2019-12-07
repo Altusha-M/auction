@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class Role implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pk_roles_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pk_role_sequence")
     @SequenceGenerator(
             name = "pk_role_sequence",
             sequenceName = "role_id_seq",
