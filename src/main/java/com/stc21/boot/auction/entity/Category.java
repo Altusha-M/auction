@@ -4,22 +4,20 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "roles")
 @RequiredArgsConstructor
-public class Role implements Serializable {
+public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pk_role_sequence")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pk_category_sequence")
     @SequenceGenerator(
-            name = "pk_role_sequence",
-            sequenceName = "role_id_seq",
+            name = "pk_category_sequence",
+            sequenceName = "category_id_seq",
             initialValue = 1,
             allocationSize = 1)
-    private Long id;
+    private long id;
 
     @Column(nullable = false)
     private String name;

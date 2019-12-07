@@ -1,37 +1,63 @@
-INSERT INTO users (id, username, first_name, last_name, password, email)
-VALUES (nextval('users_id_seq'), 'username1', 'first name 1', 'last name 1', 'password1', 'email1'),
-       (nextval('users_id_seq'), 'username2', 'first name 2', 'last name 2', 'password2', 'email2'),
-       (nextval('users_id_seq'), 'username3', 'first name 3', 'last name 3', 'password3', 'email3'),
-       (nextval('users_id_seq'), 'username4', 'first name 4', 'last name 4', 'password4', 'email4'),
-       (nextval('users_id_seq'), 'username5', 'first name 5', 'last name 5', 'password5', 'email5');
+INSERT INTO city (id, name)
+VALUES (nextval('city_id_seq'), 'city1'),
+       (nextval('city_id_seq'), 'city2'),
+       (nextval('city_id_seq'), 'city3'),
+       (nextval('city_id_seq'), 'city4');
 
-INSERT INTO lots (id, category_name, condition, created_at, description, user_id)
-VALUES (nextval('lots_id_seq'), 'car', 'IDEAL', now(), 'Simple car',
-        (SELECT id FROM users WHERE username = 'username3')),
-       (nextval('lots_id_seq'), 'car', 'GOOD', now(), 'Simple car',
-        (SELECT id FROM users WHERE username = 'username3')),
-       (nextval('lots_id_seq'), 'phone', 'NORM', now(), 'Simple phone',
-        (SELECT id FROM users WHERE username = 'username2')),
-       (nextval('lots_id_seq'), 'phone', 'IDEAL', now(), 'Simple phone',
-        (SELECT id FROM users WHERE username = 'username2')),
-       (nextval('lots_id_seq'), 'car', 'IDEAL', now(), 'Simple car',
-        (SELECT id FROM users WHERE username = 'username4'));
+INSERT INTO roles (id, name)
+VALUES (nextval('role_id_seq'), 'admin'),
+       (nextval('role_id_seq'), 'user');
 
-INSERT INTO roles(id, name)
-VALUES (nextval('roles_id_seq'), 'USER'),
-       (nextval('roles_id_seq'), 'ADMIN'),
-       (nextval('roles_id_seq'), 'SUPER');
+INSERT INTO condition (id, name)
+VALUES (nextval('condition_id_seq'), 'идеальное'),
+       (nextval('condition_id_seq'), 'хорошее'),
+       (nextval('condition_id_seq'), 'среднее'),
+       (nextval('condition_id_seq'), 'плохое');
 
-INSERT INTO user_role(user_id, role_id)
-VALUES (1000, 100),
-       (1001, 100),
-       (1002, 100),
-       (1003, 101),
-       (1004, 102);
+INSERT INTO category (id, name)
+VALUES (nextval('category_id_seq'), 'Одежда'),
+       (nextval('category_id_seq'), 'Электроника'),
+       (nextval('category_id_seq'), 'Спорттовары'),
+       (nextval('category_id_seq'), 'Услуги');
 
-INSERT INTO prices (current_price, max_price, min_price, step_size_value, lot_id)
-VALUES (500, 1000, 200, 50, 1000),
-       (500, 1000, 200, 50, 1001),
-       (500, 1000, 200, 50, 1002),
-       (500, 1000, 200, 50, 1003),
-       (500, 1000, 200, 50, 1004);
+INSERT INTO users (id, username, first_name, last_name, password,
+                   phone_number, email, role_id, city_id)
+VALUES (nextval('users_id_seq'), 'username1', 'first name 1', 'last name 1',
+        'password1', '1234560', 'email1',
+        (SELECT id FROM city WHERE id = 1), 1),
+       (nextval('users_id_seq'), 'username2', 'first name 2', 'last name 2',
+        'password2', '1234560', 'email2',
+        (SELECT id FROM city WHERE id = 1), 1),
+       (nextval('users_id_seq'), 'username3', 'first name 3', 'last name 3',
+        'password3', '1234560', 'email3',
+        (SELECT id FROM city WHERE id = 1), 1),
+       (nextval('users_id_seq'), 'username4', 'first name 4', 'last name 4',
+        'password4', '1234560', 'email4',
+        (SELECT id FROM city WHERE id = 1), 1),
+       (nextval('users_id_seq'), 'username5', 'first name 5', 'last name 5',
+        'password5', '1234560', 'email5',
+        (SELECT id FROM city WHERE id = 1), 1);
+
+
+INSERT INTO message (id, body, sender_id, receiver_id)
+VALUES (nextval('message_id_seq'), 'Hello. I want to get my purchase.',
+        (SELECT id FROM users WHERE username = 'username3'), (SELECT id FROM users WHERE username = 'username2')),
+       (nextval('message_id_seq'), 'Ok, call me',
+        (SELECT id FROM users WHERE username = 'username3'), (SELECT id FROM users WHERE username = 'username2')),
+       (nextval('message_id_seq'), 'I can''t, call me back pls',
+        (SELECT id FROM users WHERE username = 'username2'), (SELECT id FROM users WHERE username = 'username3')),
+       (nextval('message_id_seq'), 'Ok, I will call you tomorrow',
+        (SELECT id FROM users WHERE username = 'username2'), (SELECT id FROM users WHERE username = 'username3'));
+
+INSERT INTO lot (id, category_id, condition_id, creation_time, last_mod_time, description,
+                  user_id, current_price, min_price, max_price, step_price, city_id)
+VALUES (nextval('lots_id_seq'), 1, 3, now(), now(), 'Simple car', (SELECT id FROM users WHERE username = 'username3'),
+        1000, 500, 1500, 75, 1),
+       (nextval('lots_id_seq'), 1, 3, now(), now(), 'Simple car', (SELECT id FROM users WHERE username = 'username3'),
+        1000, 500, 1500, 75, 1),
+       (nextval('lots_id_seq'), 1, 3, now(), now(), 'Simple phone', (SELECT id FROM users WHERE username = 'username2'),
+        1000, 500, 1500, 75, 1),
+       (nextval('lots_id_seq'), 1, 3, now(), now(), 'Simple phone', (SELECT id FROM users WHERE username = 'username2'),
+        1000, 500, 1500, 75, 1),
+       (nextval('lots_id_seq'), 1, 3, now(), now(), 'Simple car', (SELECT id FROM users WHERE username = 'username4'),
+        1000, 500, 1500, 75, 1);
