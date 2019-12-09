@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head th:replace="base::head(title='Register')"></head>
+	<body>
+		<th:block th:replace="base::navbar" />
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col d-none d-lg-block">l</div>
+
+				<!---------------------------------->
+
+				<div class="col-12 col-lg-10 mt-1" id="cards">
+				
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link active" id="lots-tab" data-toggle="tab" href="#lots" role="tab">Lots</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab">Users</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="photos-tab" data-toggle="tab" href="#photos" role="tab">Images</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="categories-tab" data-toggle="tab" href="#categories" role="tab">Categories</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="cities-tab" data-toggle="tab" href="#cities" role="tab">Cities</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" id="Conditions-tab" data-toggle="tab" href="#conditions" role="tab">Conditions</a>
+						</li>
+					</ul>
+					
+					<div class="tab-content" id="tabContent">
+					
+						<!---------------------------------->
+					
+						<div class="tab-pane fade show active" id="lots" role="tabpanel">
+							<div class="row">
+								<div class="col-12">
+									<table class="table table-sm table-hover">
+										<thead>
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Image</th>
+												<th scope="col">Title
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">Min price
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">Current price
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">Max price
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">Author
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">Created at
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">Modified at
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">Category
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">Condition
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">City
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">Actions</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<th scope="row">1</th>
+												<td>
+													<img style="object-fit: cover; width: 50px; height: 50px" src="https://via.placeholder.com/200x100">
+												</td>
+												<td><a href="#">Card title</a></td>
+												<td ><span class="badge badge-primary">50 p.</span></td>
+												<td ><span class="badge badge-primary">100 p.</span></td>
+												<td ><span class="badge badge-primary">150 p.</span></td>
+												<td><a href="#">username1</a></td>
+												<td>01.01.01 00:01</td>
+												<td>02.02.02 00:02</td>
+												<td>Электроника</td>
+												<td>Отличное</td>
+												<td>city1</td>
+												<td>
+													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
+													<a class="btn btn-outline-primary p-1" href="#">Edit</a>
+													<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+												</td>
+											</tr>
+											
+											<tr>
+												<th scope="row">2</th>
+												<td>
+													<img style="object-fit: cover; width: 50px; height: 50px" src="https://via.placeholder.com/150x150">
+												</td>
+												<td><a href="#">Another card title</a></td>
+												<td ><span class="badge badge-primary">500 p.</span></td>
+												<td ><span class="badge badge-primary">1000 p.</span></td>
+												<td ><span class="badge badge-primary">1500 p.</span></td>
+												<td><a href="#">username2</a></td>
+												<td>01.01.01 00:01</td>
+												<td>02.02.02 00:02</td>
+												<td>Одежда</td>
+												<td>Хорошее</td>
+												<td>city2</td>
+												<td>
+													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
+													<a class="btn btn-outline-primary p-1" href="#">Edit</a>
+													<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+												</td>
+											</tr>
+											
+											<tr>
+												<th scope="row">3</th>
+												<td>
+													<img style="object-fit: cover; width: 50px; height: 50px" src="https://via.placeholder.com/100x200">
+												</td>
+												<td><a href="#">Really lengthy card title</a></td>
+												<td ><span class="badge badge-primary">5000 p.</span></td>
+												<td ><span class="badge badge-primary">10000 p.</span></td>
+												<td ><span class="badge badge-primary">15000 p.</span></td>
+												<td><a href="#">username3</a></td>
+												<td>01.01.01 00:01</td>
+												<td>02.02.02 00:02</td>
+												<td>Спорттовары</td>
+												<td>Среднее</td>
+												<td>city3</td>
+												<td>
+													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
+													<a class="btn btn-outline-primary p-1" href="#">Edit</a>
+													<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-12 text-center">
+									<a class="btn btn-primary" href="#">1</a>
+									<a class="btn btn-primary" href="#">2</a>
+									
+									...
+								
+									<a class="btn btn-primary" href="#">4</a>
+									<a class="btn btn-primary" href="#">5</a>
+									<a class="btn btn-primary disabled" href="#">6</a>
+									<a class="btn btn-primary" href="#">7</a>
+									<a class="btn btn-primary" href="#">8</a>
+									
+									...
+									
+									<a class="btn btn-primary" href="#">11</a>
+									<a class="btn btn-primary" href="#">12</a>
+								</div>
+							</div>
+						</div>
+						
+						<!---------------------------------->
+						
+						<div class="tab-pane fade" id="users" role="tabpanel">
+							<div class="row">
+								<div class="col-12">
+									<table class="table table-sm table-hover">
+										<thead>
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Username
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">First name
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">Second name
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th>Phonenumber</th>
+												<th>Email</th>
+												<th scope="col">Role
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">City
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">Actions</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<th scope="row">1</th>
+												<td><a href="#">username1</a></td>
+												<td><a href="#">Carl</a></td>
+												<td><a href="#">Johnson</a></td>
+												<td>+7(123)456-78-90</td>
+												<td>email1@example.com</td>
+												<td>USER</td>
+												<td>city1</td>
+												<td>
+													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
+													<a class="btn btn-outline-primary p-1" href="#">Edit</a>
+													<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+												</td>
+											</tr>
+											
+											<tr>
+												<th scope="row">2</th>
+												<td><a href="#">username2</a></td>
+												<td><a href="#">Elon</a></td>
+												<td><a href="#">Musk</a></td>
+												<td>+7(987)654-32-10</td>
+												<td>email2@example.com</td>
+												<td>USER</td>
+												<td>city2</td>
+												<td>
+													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
+													<a class="btn btn-outline-primary p-1" href="#">Edit</a>
+													<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+												</td>
+											</tr>
+											
+											<tr>
+												<th scope="row">3</th>
+												<td><a href="#">username3</a></td>
+												<td><a href="#">David</a></td>
+												<td><a href="#">Bowie</a></td>
+												<td>+7(111)222-33-44</td>
+												<td>email3@example.com</td>
+												<td>USER</td>
+												<td>city4</td>
+												<td>
+													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
+													<a class="btn btn-outline-primary p-1" href="#">Edit</a>
+													<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-12 text-center">
+									<a class="btn btn-primary" href="#">1</a>
+									<a class="btn btn-primary" href="#">2</a>
+									
+									...
+								
+									<a class="btn btn-primary" href="#">4</a>
+									<a class="btn btn-primary" href="#">5</a>
+									<a class="btn btn-primary disabled" href="#">6</a>
+									<a class="btn btn-primary" href="#">7</a>
+									<a class="btn btn-primary" href="#">8</a>
+									
+									...
+									
+									<a class="btn btn-primary" href="#">11</a>
+									<a class="btn btn-primary" href="#">12</a>
+								</div>
+							</div>
+						</div>
+						
+						<!---------------------------------->
+						
+						<div class="tab-pane fade" id="photos" role="tabpanel">
+							<div class="row">
+								<div class="col-12">
+									<table class="table table-sm table-hover">
+										<thead>
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Image</th>
+												<th scope="col">Lot
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">Username
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">Url</th>
+												<th scope="col">Actions</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<th scope="row">1</th>
+												<td>
+													<img style="object-fit: cover; width: 100px; height: 100px" src="https://via.placeholder.com/200x100">
+												</td>
+												<td><a href="#">Card title</a></td>
+												<td><a href="#">username1</a></td>
+												<td><a href="https://far.far/away.jpg" />http://far.far/away.jpg</td>
+												<td>
+													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
+													<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+												</td>
+											</tr>
+											
+											<tr>
+												<th scope="row">2</th>
+												<td>
+													<img style="object-fit: cover; width: 100px; height: 100px" src="https://via.placeholder.com/150x150">
+												</td>
+												<td><a href="#">Really lengthy card title</a></td>
+												<td><a href="#">username2</a></td>
+												<td><a href="https://far.far/away.jpg" />http://far.far/away.jpg</td>
+												<td>
+													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
+													<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+												</td>
+											</tr>
+											
+											<tr>
+												<th scope="row">3</th>
+												<td>
+													<img style="object-fit: cover; width: 100px; height: 100px" src="https://via.placeholder.com/100x200">
+												</td>
+												<td><a href="#">Another card title</a></td>
+												<td><a href="#">username3</a></td>
+												<td><a href="https://far.far/away.jpg" />http://far.far/away.jpg</td>
+												<td>
+													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
+													<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-12 text-center">
+									<a class="btn btn-primary" href="#">1</a>
+									<a class="btn btn-primary" href="#">2</a>
+									
+									...
+								
+									<a class="btn btn-primary" href="#">4</a>
+									<a class="btn btn-primary" href="#">5</a>
+									<a class="btn btn-primary disabled" href="#">6</a>
+									<a class="btn btn-primary" href="#">7</a>
+									<a class="btn btn-primary" href="#">8</a>
+									
+									...
+									
+									<a class="btn btn-primary" href="#">11</a>
+									<a class="btn btn-primary" href="#">12</a>
+								</div>
+							</div>
+						</div>
+						
+						<!---------------------------------->
+						
+						<div class="tab-pane fade" id="categories" role="tabpanel">
+							<table class="table table-sm table-hover">
+								<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">Name
+											<a href="#">▲</a>
+											<a href="#">▼</a>
+										</th>
+										<th scope="col">Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">1</th>
+										<td>Одежда</td>
+										<td>
+											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+										</td>
+									</tr>
+									
+									<tr>
+										<th scope="row">2</th>
+										<td>Электроника</td>
+										<td>
+											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+										</td>
+									</tr>
+									
+									<tr>
+										<th scope="row">3</th>
+										<td>Спорттовары</td>
+										<td>
+											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+										</td>
+									</tr>
+									
+									<tr>
+										<th scope="row">4</th>
+										<td>Услуги</td>
+										<td>
+											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+										</td>
+									</tr>
+									
+									<tr>
+										<form>
+										<th scope="row">X</th>
+										<td>
+											<input class="form-control" placeholder="New category name" type="text">
+										</td>
+										<td>
+											<a class="btn btn-outline-primary p-1" href="#">Add</a>
+										</td>
+										</form>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<!---------------------------------->
+						
+						<div class="tab-pane fade" id="cities" role="tabpanel">
+							<table class="table table-sm table-hover">
+								<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">Name
+											<a href="#">▲</a>
+											<a href="#">▼</a>
+										</th>
+										<th scope="col">Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">1</th>
+										<td>city1</td>
+										<td>
+											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+										</td>
+									</tr>
+									
+									<tr>
+										<th scope="row">2</th>
+										<td>city2</td>
+										<td>
+											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+										</td>
+									</tr>
+									
+									<tr>
+										<th scope="row">3</th>
+										<td>city3</td>
+										<td>
+											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+										</td>
+									</tr>
+									
+									<tr>
+										<th scope="row">4</th>
+										<td>city4</td>
+										<td>
+											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+										</td>
+									</tr>
+									
+									<tr>
+										<form>
+										<th scope="row">X</th>
+										<td>
+											<input class="form-control" placeholder="New category name" type="text">
+										</td>
+										<td>
+											<a class="btn btn-outline-primary p-1" href="#">Add</a>
+										</td>
+										</form>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<!---------------------------------->
+						
+						<div class="tab-pane fade" id="conditions" role="tabpanel">
+							<table class="table table-sm table-hover">
+								<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">Name
+											<a href="#">▲</a>
+											<a href="#">▼</a>
+										</th>
+										<th scope="col">Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">1</th>
+										<td>Идеальное</td>
+										<td>
+											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+										</td>
+									</tr>
+									
+									<tr>
+										<th scope="row">2</th>
+										<td>Хорошее</td>
+										<td>
+											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+										</td>
+									</tr>
+									
+									<tr>
+										<th scope="row">3</th>
+										<td>Среднее</td>
+										<td>
+											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+										</td>
+									</tr>
+									
+									<tr>
+										<th scope="row">4</th>
+										<td>Плохое</td>
+										<td>
+											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+										</td>
+									</tr>
+									
+									<tr>
+										<form>
+										<th scope="row">X</th>
+										<td>
+											<input class="form-control" placeholder="New category name" type="text">
+										</td>
+										<td>
+											<a class="btn btn-outline-primary p-1" href="#">Add</a>
+										</td>
+										</form>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<!---------------------------------->
+						
+					</div>
+				</div>
+
+				<!---------------------------------->
+
+				<div class="col d-none d-lg-block">r</div>
+			</div>
+
+
+		</div>
+
+		<th:block th:insert="base::scripts" />
+	</body>
+</html>
