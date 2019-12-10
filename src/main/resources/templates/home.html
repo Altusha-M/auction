@@ -214,7 +214,7 @@
                                         </div>
                                         <div class="col-4">
                                             <span class="badge badge-danger"
-                                                  th:text="${lot.categoryName}"> Category </span>
+                                                  th:text="${lot.category.name}"> Category </span>
                                         </div>
                                         <div class="col-4">
                                             <span class="badge badge-info" th:text="${lot.creationTime}">Created at</span>
@@ -227,11 +227,11 @@
                     </div>
                 </div>
             </th:block>
-                <ul class="pagination">
-                    <li class="page-item" th:each="page : ${#numbers.sequence(1,lots.totalPages - 1)}">
-                        <a th:href="@{/(page=${page})}" th:text="${page}">Page</a>
-                    </li>
-                </ul>
+            <ul class="pagination">
+                <li class="page-item" th:each="page : ${#numbers.sequence(0,lots.totalPages - 1)}">
+                    <a th:href="@{/(page=${page})}" th:text="${page}">Page</a>
+                </li>
+            </ul>
         </div>
 
         <!---------------------------------->

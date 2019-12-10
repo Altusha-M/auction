@@ -31,9 +31,9 @@ public class MainPageLotsServiceImpl implements MainPageLotsService {
 
             lotDto.setUserDto(userDto);
 
-            lotDto.setCategoryName(lot.getCategoryName());
+            lotDto.setCategory(lot.getCategory());
             lotDto.setCondition(lot.getCondition());
-            lotDto.setCreatedAt(lot.getCreatedAt());
+            lotDto.setCreationTime(lot.getCreationTime());
             lotDto.setDescription(lot.getDescription());
 
             lotDtoList.add(lotDto);

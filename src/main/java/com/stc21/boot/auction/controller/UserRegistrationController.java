@@ -1,22 +1,16 @@
 package com.stc21.boot.auction.controller;
 
-import com.stc21.boot.auction.dto.CityDto;
-import com.stc21.boot.auction.dto.HomePageLotDto;
-import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.dto.UserRegistrationDto;
 import com.stc21.boot.auction.entity.City;
 import com.stc21.boot.auction.service.CityService;
-import com.stc21.boot.auction.service.HomePageLotService;
 import com.stc21.boot.auction.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -49,8 +43,6 @@ public class UserRegistrationController {
             Model model,
             @ModelAttribute("user") @Valid UserRegistrationDto userRegistrationDto,
             BindingResult result) {
-
-
 
         userService
                 .fieldsWithErrors(userRegistrationDto)

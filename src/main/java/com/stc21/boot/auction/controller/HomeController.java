@@ -1,6 +1,6 @@
 package com.stc21.boot.auction.controller;
 
-import com.stc21.boot.auction.dto.HomePageLotDto;
+import com.stc21.boot.auction.dto.LotDto;
 import com.stc21.boot.auction.service.HomePageLotService;
 import com.stc21.boot.auction.service.LotService;
 import com.stc21.boot.auction.service.UserService;
@@ -29,7 +29,7 @@ public class HomeController {
     // возвращает результат постранично
     @GetMapping(path = "/")
     public String showWelcomePage(Model model, @RequestParam(defaultValue = "0") int page) {
-        Page<HomePageLotDto> pagedHomePageLots = homePageLotService.getPageHomePageLots(page);
+        Page<LotDto> pagedHomePageLots = homePageLotService.getPageHomePageLots(page);
         model.addAttribute("lots", pagedHomePageLots);
         return "home";
     }

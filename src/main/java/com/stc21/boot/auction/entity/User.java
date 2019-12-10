@@ -38,16 +38,12 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private String password;
-
-
-    @Column(nullable = true, unique = true)
+    
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = true, unique = true)
     private String phoneNumber;
-
-    @Column(nullable = false)
-    private String email;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "role_id", nullable = false)
@@ -56,17 +52,6 @@ public class User implements UserDetails {
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "city_id")//, nullable = false)
     private City city;
-
-
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "user_role",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id"))
-//    private Set<Role> roles;
-
-//    @OneToMany(targetEntity = Lot.class)
-//    private List<Lot> userLots;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

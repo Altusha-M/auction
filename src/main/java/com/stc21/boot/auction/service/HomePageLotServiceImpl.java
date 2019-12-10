@@ -1,6 +1,6 @@
 package com.stc21.boot.auction.service;
 
-import com.stc21.boot.auction.dto.HomePageLotDto;
+import com.stc21.boot.auction.dto.LotDto;
 import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.entity.Lot;
 import com.stc21.boot.auction.repository.LotRepository;
@@ -24,20 +24,20 @@ public class HomePageLotServiceImpl implements HomePageLotService {
     }
 
     @Override
-    public Page<HomePageLotDto> getPageHomePageLots(int page) {
+    public Page<LotDto> getPageHomePageLots(int page) {
         PageRequest pageRequest = PageRequest.of(page, SIZE);
         Page<Lot> lots = lotRepository.findAll(pageRequest);
         return lots.map(this::convertToDto);
     }
 
     // через мапер преобразуем в DTO. Руками устанавливаем DTO пользователя
-    private HomePageLotDto convertToDto(Lot lot) {
-        HomePageLotDto dto = modelMapper.map(lot, HomePageLotDto.class);
+    private LotDto convertToDto(Lot lot) {
+        LotDto dto = modelMapper.map(lot, LotDto.class);
         dto.setUserDto(new UserDto(lot.getUser()));
         return dto;
     }
 
-    private Lot convertToEntity(HomePageLotDto lotDto) {
+    private Lot convertToEntity(LotDto lotDto) {
         return modelMapper.map(lotDto, Lot.class);
     }
 }
