@@ -3,6 +3,9 @@ package com.stc21.boot.auction.service;
 import com.stc21.boot.auction.dto.LotDto;
 import com.stc21.boot.auction.entity.Lot;
 import com.stc21.boot.auction.repository.LotRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +33,13 @@ public class LotServiceImpl implements LotService {
         return lotRepository.findAll().stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<LotDto> getPaginated(Pageable pageable) {
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
+
+        return lotRepository.findAll(pageRequest).map(this::convertToDto);
     }
 
     @Override

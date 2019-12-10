@@ -14,22 +14,22 @@
 
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
 						<li class="nav-item">
-							<a class="nav-link active" id="lots-tab" data-toggle="tab" href="#lots" role="tab">Lots</a>
+							<a class="nav-link" th:classappend="${section.equals('lots')} ? 'active'" id="lots-tab" data-toggle="tab" href="#lots" role="tab">Lots</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" id="users-tab" data-toggle="tab" href="#users" role="tab">Users</a>
+							<a class="nav-link" th:classappend="${section.equals('users')} ? 'active'" id="users-tab" data-toggle="tab" href="#users" role="tab">Users</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" id="photos-tab" data-toggle="tab" href="#photos" role="tab">Images</a>
+							<a class="nav-link" th:classappend="${section.equals('photos')} ? 'active'" id="photos-tab" data-toggle="tab" href="#photos" role="tab">Images</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" id="categories-tab" data-toggle="tab" href="#categories" role="tab">Categories</a>
+							<a class="nav-link" th:classappend="${section.equals('categories')} ? 'active'" id="categories-tab" data-toggle="tab" href="#categories" role="tab">Categories</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" id="cities-tab" data-toggle="tab" href="#cities" role="tab">Cities</a>
+							<a class="nav-link" th:classappend="${section.equals('cities')} ? 'active'" id="cities-tab" data-toggle="tab" href="#cities" role="tab">Cities</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" id="Conditions-tab" data-toggle="tab" href="#conditions" role="tab">Conditions</a>
+							<a class="nav-link" th:classappend="${section.equals('conditions')} ? 'active'" id="conditions-tab" data-toggle="tab" href="#conditions" role="tab">Conditions</a>
 						</li>
 					</ul>
 
@@ -37,7 +37,7 @@
 
 						<!---------------------------------->
 
-						<div class="tab-pane fade show active" id="lots" role="tabpanel">
+						<div class="tab-pane fade" th:classappend="${section.equals('lots')} ? 'show active'" id="lots" role="tabpanel">
 							<div class="row">
 								<div class="col-12">
 									<table class="table table-sm table-hover">
@@ -115,19 +115,13 @@
 							</div>
 
 
-							<div class="row">
+							<div class="row" th:if="${lots.totalPages > 1}">
 								<div class="col"></div>
 
 								<nav col="col-8">
 									<ul class="pagination">
-										<li class="page-item disabled">
-											<a class="page-link" href="#">Previous</a>
-										</li>
-										<li class="page-item"><a class="page-link" href="#">1</a></li>
-										<li class="page-item active"><a class="page-link" href="#">2</a></li>
-										<li class="page-item"><a class="page-link" href="#">3</a></li>
-										<li class="page-item">
-											<a class="page-link" href="#">Next</a>
+										<li class="page-item" th:each="pageNumber: ${#numbers.sequence(1, lots.totalPages)}" th:classappend="${pageNumber == lots.number+1} ? active">
+											<a class="page-link" th:href="@{/dashboard(section='lots', size=${lots.size}, page=${pageNumber})}" th:text="${pageNumber}">1</a>
 										</li>
 									</ul>
 								</nav>
@@ -139,7 +133,7 @@
 
 						<!---------------------------------->
 
-						<div class="tab-pane fade" id="users" role="tabpanel">
+						<div class="tab-pane fade" th:classappend="${section.equals('users')} ? 'show active'" id="users" role="tabpanel">
 							<div class="row">
 								<div class="col-12">
 									<table class="table table-sm table-hover">
@@ -195,19 +189,13 @@
 								</div>
 							</div>
 
-							<div class="row">
+							<div class="row" th:if="${users.totalPages > 1}">
 								<div class="col"></div>
 
 								<nav col="col-8">
 									<ul class="pagination">
-										<li class="page-item disabled">
-											<a class="page-link" href="#">Previous</a>
-										</li>
-										<li class="page-item"><a class="page-link" href="#">1</a></li>
-										<li class="page-item active"><a class="page-link" href="#">2</a></li>
-										<li class="page-item"><a class="page-link" href="#">3</a></li>
-										<li class="page-item">
-											<a class="page-link" href="#">Next</a>
+										<li class="page-item" th:each="pageNumber: ${#numbers.sequence(1, users.totalPages)}" th:classappend="${pageNumber == users.number+1} ? active">
+											<a class="page-link" th:href="@{/dashboard(section='users', size=${users.size}, page=${pageNumber})}" th:text="${pageNumber}">1</a>
 										</li>
 									</ul>
 								</nav>
@@ -218,7 +206,7 @@
 
 						<!---------------------------------->
 
-						<div class="tab-pane fade" id="photos" role="tabpanel">
+						<div class="tab-pane fade" th:classappend="${section.equals('photos')} ? 'show active'" id="photos" role="tabpanel">
 							<div class="row">
 								<div class="col-12">
 									<table class="table table-sm table-hover">
@@ -260,19 +248,13 @@
 								</div>
 							</div>
 
-							<div class="row">
+							<div class="row" th:if="${photos.totalPages > 1}">
 								<div class="col"></div>
 
 								<nav col="col-8">
 									<ul class="pagination">
-										<li class="page-item disabled">
-											<a class="page-link" href="#">Previous</a>
-										</li>
-										<li class="page-item"><a class="page-link" href="#">1</a></li>
-										<li class="page-item active"><a class="page-link" href="#">2</a></li>
-										<li class="page-item"><a class="page-link" href="#">3</a></li>
-										<li class="page-item">
-											<a class="page-link" href="#">Next</a>
+										<li class="page-item" th:each="pageNumber: ${#numbers.sequence(1, photos.totalPages)}" th:classappend="${pageNumber == photos.number+1} ? active">
+											<a class="page-link" th:href="@{/dashboard(section='photos', size=${photos.size}, page=${pageNumber})}" th:text="${pageNumber}">1</a>
 										</li>
 									</ul>
 								</nav>
@@ -283,7 +265,7 @@
 
 						<!---------------------------------->
 
-						<div class="tab-pane fade" id="categories" role="tabpanel">
+						<div class="tab-pane fade" th:classappend="${section.equals('categories')} ? 'show active'" id="categories" role="tabpanel">
 							<div class="row">
 								<div class="col-12">
 									<table class="table table-sm table-hover">
@@ -329,7 +311,7 @@
 
 						<!---------------------------------->
 
-						<div class="tab-pane fade" id="cities" role="tabpanel">
+						<div class="tab-pane fade" th:classappend="${section.equals('cities')} ? 'show active'" id="cities" role="tabpanel">
 							<div class="row">
 								<div class="col-12">
 									<table class="table table-sm table-hover">
@@ -375,7 +357,7 @@
 
 						<!---------------------------------->
 
-						<div class="tab-pane fade" id="conditions" role="tabpanel">
+						<div class="tab-pane fade" th:classappend="${section.equals('conditions')} ? 'show active'" id="conditions" role="tabpanel">
 							<div class="row">
 								<div class="col-12">
 									<table class="table table-sm table-hover">
