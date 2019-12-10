@@ -36,6 +36,9 @@ public class HomeController {
 
     @GetMapping(path = "/account")
     public String showLotsPage(Model model) {
+        List<Lot> allLots = lotService.getAllLots();
+        List<UserDto> allUsers = userService.getAllUsers();
+        model.addAttribute("lots", allLots);
         return "account";
     }
 }
