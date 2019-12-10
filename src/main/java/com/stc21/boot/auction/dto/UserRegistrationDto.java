@@ -29,10 +29,8 @@ public class UserRegistrationDto {
     @ValidPhoneNumber
     private String phoneNumber;
 
-    @NotNull
     @Size(min=1, max=255)
     private String firstName;
-    @NotNull
     @Size(min=1, max=255)
     private String lastName;
 
