@@ -3,6 +3,8 @@ package com.stc21.boot.auction.dto;
 import com.stc21.boot.auction.dto.validators.annotations.EqualPasswords;
 import com.stc21.boot.auction.dto.validators.annotations.ValidEmail;
 import com.stc21.boot.auction.dto.validators.annotations.ValidPhoneNumber;
+import com.stc21.boot.auction.entity.City;
+import com.stc21.boot.auction.entity.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +28,14 @@ public class UserRegistrationDto {
     private String email;
     @ValidPhoneNumber
     private String phoneNumber;
+
+    @NotNull
+    @Size(min=1, max=255)
+    private String firstName;
+    @NotNull
+    @Size(min=1, max=255)
+    private String lastName;
+
+//    private Role role;
+    private City city;
 }
