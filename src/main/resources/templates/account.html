@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sample</title>
+</head>
+<body>
+
+<div th:switch="${#authorization.expr('isAuthenticated()')}">
+    <div th:case="${true}">
+        <span class="navbar-brand">Authenticated as </span>
+        <span class="navbar-brand" th:text="${#authorization.authentication.name}"></span>
+        <form method="POST" th:action="@{/logout}">
+            <button class="button btn-danger btn-block" type="submit">Logout</button>
+        </form>
+    </div>
+</div>
+<ul th:each="lot : ${lots}">
+    <li>
+        <p th:text="${'ID: ' + lot.id}"></p>
+        <p th:text="${'OWNER FIRST NAME: ' + lot.user.firstName}"></p>
+        <p th:text="${'OWNER LAST NAME: ' + lot.user.lastName}"></p>
+        <p th:text="${'CATEGORY: ' + lot.categoryId.name}"></p>
+        <p th:text="${'CONDITION: ' + lot.conditionId.name}"></p>
+        <br>
+    </li>
+</ul>
+</body>
+</html>

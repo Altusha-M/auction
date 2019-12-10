@@ -11,23 +11,37 @@
 	</head>
 	<body>
 		<nav th:fragment="navbar" class="navbar navbar-dark bg-dark justify-content-between navbar-expand-sm">
-			<a class="navbar-brand" href="#">Reducto</a>
+			<a class="navbar-brand" th:href="@{/}">Reducto</a>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
+
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
 					<a class="nav-item nav-link" href="#">Browse</a>
 					<a class="nav-item nav-link" href="#">Place a lot</a>
 				</div>
 				<hr>
-				<div class="navbar-nav ml-auto">
-					<a class="nav-item nav-link active" th:href="@{/login}">Login</a>
-					<span class="navbar-text">or</span>
-					<a class="nav-item nav-link active" th:href="@{/register}">Register</a>
+				<div th:switch="${#authorization.expr('isAuthenticated()')}">
+					<div class="navbar-nav ml-auto" th:case="${true}">
+						<span class="navbar-brand">Authenticated as</span>
+						<a th:href="@{/account}" class="username-acc-link">
+							<span class="navbar-brand" th:text="${#authorization.authentication.name}"></span>
+						</a>
+						<form method="POST" th:action="@{/logout}">
+							<button class="button btn-danger nav-item mt-1 p-1" type="submit">Logout</button>
+						</form>
+					</div>
+
+					<div class="navbar-nav ml-auto" th:case="${false}">
+						<a class="nav-item nav-link active" th:href="@{/login}">Login</a>
+						<span class="navbar-text">or</span>
+						<a class="nav-item nav-link active" th:href="@{/register}">Register</a>
+					</div>
 				</div>
 			</div>
+
 		</nav>
 		<div th:fragment="card" class="card mt-2" style="box-shadow: 3px 3px 5px LightGrey; height: 150px">
 			<div class="row no-gutters">

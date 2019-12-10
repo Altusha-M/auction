@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface LotService {
     List<Lot> getAllLots();
+    void updateAllLots(List<Lot> lots);
 }

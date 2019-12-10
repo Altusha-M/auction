@@ -24,3 +24,6 @@ public class City {
     private String name;
 
 }
+=======
+}
+>>>>>>> origin/main-page-lots-service
