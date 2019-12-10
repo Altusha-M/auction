@@ -27,7 +27,7 @@
         <div th:switch="${#authorization.expr('isAuthenticated()')}">
             <div class="navbar-nav ml-auto" th:case="${true}">
                 <span class="navbar-brand">Authenticated as</span>
-                <a th:href="@{/account}" class="username-acc-link">
+                <a class="username-acc-link" th:href="@{/account}">
                     <span class="navbar-brand" th:text="${#authorization.authentication.name}"></span>
                 </a>
                 <form method="POST" th:action="@{/logout}">
@@ -175,106 +175,63 @@
 
         <div class="col-12 col-md-9 col-lg-7" id="cards">
 
-            <div class="card mt-2" style="box-shadow: 3px 3px 5px LightGrey; height: 150px">
-                <div class="row no-gutters">
-                    <div class="col-4" style="max-height:150px">
-                        <a href="#">
-                            <img class="card-img h-100" style="object-fit: cover" th:src="@{placeholder/300x200}">
-                        </a>
-                    </div>
-                    <div class="col-8">
-                        <div class="card-body">
-                            <h5 class="card-title"><a
-                                    class="text-dark"
-                                    href="#">Card title</a></h5>
-                            <p class="card-text text-truncate">Some quick example text to build on the card title and
-                                make up the bulk of the card's content.</p>
-                            <h4><span class="badge badge-primary">100 p.</span></h4>
+            <th:block th:each="lot : ${lots}">
+                <div class="card mt-2" style="box-shadow: 3px 3px 5px LightGrey; height: 150px">
+                    <div class="row no-gutters">
+                        <div class="col-4" style="max-height:150px">
+                            <a href="#">
+                                <img class="card-img h-100"
+                                     src="https://media1.tenor.com/images/b9c59363e7dd35cb7c19d8736b102d99/tenor.gif?itemid=13730968"
+                                     style="object-fit: cover">
+                            </a>
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h5 class="card-title">
+                                                <a class="text-dark" href="#" th:text="${lot.name}">Card title</a>
+                                            </h5>
+                                        </div>
+                                        <div class="col-6">
+                                            <h5 class="card-title">
+                                                <a class="text-info" href="#"
+                                                   th:text="${lot.userDto.username}">Username</a>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class="card-text text-truncate" th:text="${lot.description}">
+                                    Some quick example text to build on the card title and
+                                    make up the bulk of the card's content.
+                                </p>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <span class="badge badge-primary" th:text="${lot.currentPrice} + ' р.'">100 p.</span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="badge badge-danger"
+                                                  th:text="${lot.categoryName}"> Category </span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="badge badge-info" th:text="${lot.creationTime}">Created at</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="card mt-2" style="box-shadow: 3px 3px 5px LightGrey; height: 150px">
-                <div class="row no-gutters">
-                    <div class="col-4" style="max-height:150px">
-                        <a href="#">
-                            <img class="card-img h-100" style="object-fit: cover" th:src="@{placeholder/250x200}">
-                        </a>
-                    </div>
-                    <div class="col-8">
-                        <div class="card-body">
-                            <h5 class="card-title"><a
-                                    class="text-dark"
-                                    href="#">Card title</a></h5>
-                            <p class="card-text text-truncate">Some quick example text to build on the card title and
-                                make up the bulk of the card's content.</p>
-                            <h4><span class="badge badge-primary">100 p.</span></h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card mt-2" style="box-shadow: 3px 3px 5px LightGrey; height: 150px">
-                <div class="row no-gutters">
-                    <div class="col-4" style="max-height:150px">
-                        <a href="#">
-                            <img class="card-img h-100" style="object-fit: cover" th:src="@{placeholder/200x200}">
-                        </a>
-                    </div>
-                    <div class="col-8">
-                        <div class="card-body">
-                            <h5 class="card-title"><a
-                                    class="text-dark"
-                                    href="#">Card title</a></h5>
-                            <p class="card-text text-truncate">Some quick example text to build on the card title and
-                                make up the bulk of the card's content.</p>
-                            <h4><span class="badge badge-primary">100 p.</span></h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card mt-2" style="box-shadow: 3px 3px 5px LightGrey; height: 150px">
-                <div class="row no-gutters">
-                    <div class="col-4" style="max-height:150px">
-                        <a href="#">
-                            <img class="card-img h-100" style="object-fit: cover" th:src="@{placeholder/200x250}">
-                        </a>
-                    </div>
-                    <div class="col-8">
-                        <div class="card-body">
-                            <h5 class="card-title"><a
-                                    class="text-dark"
-                                    href="#">Card title</a></h5>
-                            <p class="card-text text-truncate">Some quick example text to build on the card title and
-                                make up the bulk of the card's content.</p>
-                            <h4><span class="badge badge-primary">100 p.</span></h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card mt-2" style="box-shadow: 3px 3px 5px LightGrey; height: 150px">
-                <div class="row no-gutters">
-                    <div class="col-4" style="max-height:150px">
-                        <a href="#">
-                            <img class="card-img h-100" style="object-fit: cover" th:src="@{placeholder/200x300}">
-                        </a>
-                    </div>
-                    <div class="col-8">
-                        <div class="card-body">
-                            <h5 class="card-title"><a
-                                    class="text-dark"
-                                    href="#">Card title</a></h5>
-                            <p class="card-text text-truncate">Some quick example text to build on the card title and
-                                make up the bulk of the card's content.</p>
-                            <h4><span class="badge badge-primary">100 p.</span></h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            </th:block>
+                <ul class="pagination">
+                    <li class="page-item" th:each="page : ${#numbers.sequence(0,lots.totalPages - 1)}">
+                        <a th:href="@{/(page=${page})}" th:text="${page}">Page</a>
+                    </li>
+                </ul>
         </div>
 
         <!---------------------------------->

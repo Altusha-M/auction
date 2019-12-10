@@ -50,14 +50,18 @@ VALUES (nextval('message_id_seq'), 'Hello. I want to get my purchase.',
         (SELECT id FROM users WHERE username = 'username2'), (SELECT id FROM users WHERE username = 'username3'));
 
 INSERT INTO lot (id, category_id, condition_id, creation_time, last_mod_time, description,
-                  user_id, current_price, min_price, max_price, step_price, city_id)
+                  user_id, current_price, min_price, max_price, step_price, city_id, name)
 VALUES (nextval('lots_id_seq'), 1, 3, now(), now(), 'Simple car', (SELECT id FROM users WHERE username = 'username3'),
-        1000, 500, 1500, 75, 1),
+        1000, 500, 1500, 75, 1, 'Car 1'),
        (nextval('lots_id_seq'), 1, 3, now(), now(), 'Simple car', (SELECT id FROM users WHERE username = 'username3'),
-        1000, 500, 1500, 75, 1),
+        1000, 500, 1500, 75, 1, 'Car 2'),
        (nextval('lots_id_seq'), 1, 3, now(), now(), 'Simple phone', (SELECT id FROM users WHERE username = 'username2'),
-        1000, 500, 1500, 75, 1),
+        1000, 500, 1500, 75, 1, 'Phone 1'),
        (nextval('lots_id_seq'), 1, 3, now(), now(), 'Simple phone', (SELECT id FROM users WHERE username = 'username2'),
-        1000, 500, 1500, 75, 1),
+        1000, 500, 1500, 75, 1, 'Phone 2'),
        (nextval('lots_id_seq'), 1, 3, now(), now(), 'Simple car', (SELECT id FROM users WHERE username = 'username4'),
-        1000, 500, 1500, 75, 1);
+        1000, 500, 1500, 75, 1, 'Car 3'),
+       (nextval('lots_id_seq'), 2, 2, now(), now(), 'Simple car', (SELECT id FROM users WHERE username = 'username4'),
+        1000, 500, 1500, 75, 1, 'Car 4'),
+       (nextval('lots_id_seq'), 2, 2, now(), now(), 'Simple car', (SELECT id FROM users WHERE username = 'username4'),
+        1000, 500, 1500, 75, 1, 'Car 5');
