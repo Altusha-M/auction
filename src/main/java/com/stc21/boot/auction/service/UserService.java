@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface UserService {
     List<UserDto> getAllUsers();
+    UserDto findById(Long id);
     UserDto findByUsername(String username);
     UserDto findByEmail(String email);
     UserDto findByPhoneNumber(String phoneNumber);

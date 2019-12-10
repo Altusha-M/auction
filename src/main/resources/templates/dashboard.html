@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-	<head th:replace="base::head(title='Register')"></head>
+	<head th:replace="base::head(title='Dashboard')"></head>
 	<body>
 		<th:block th:replace="base::navbar" />
 
@@ -11,7 +11,7 @@
 				<!---------------------------------->
 
 				<div class="col-12 col-lg-10 mt-1" id="cards">
-				
+
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
 						<li class="nav-item">
 							<a class="nav-link active" id="lots-tab" data-toggle="tab" href="#lots" role="tab">Lots</a>
@@ -32,19 +32,21 @@
 							<a class="nav-link" id="Conditions-tab" data-toggle="tab" href="#conditions" role="tab">Conditions</a>
 						</li>
 					</ul>
-					
+
 					<div class="tab-content" id="tabContent">
-					
+
 						<!---------------------------------->
-					
+
 						<div class="tab-pane fade show active" id="lots" role="tabpanel">
 							<div class="row">
 								<div class="col-12">
 									<table class="table table-sm table-hover">
 										<thead>
 											<tr>
-												<th scope="col">#</th>
-												<th scope="col">Image</th>
+												<th scope="col">Id
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
 												<th scope="col">Title
 													<a href="#">▲</a>
 													<a href="#">▼</a>
@@ -88,66 +90,19 @@
 												<th scope="col">Actions</th>
 											</tr>
 										</thead>
-										<tbody>
+										<tbody th:each="lot : ${lots}">
 											<tr>
-												<th scope="row">1</th>
-												<td>
-													<img style="object-fit: cover; width: 50px; height: 50px" src="https://via.placeholder.com/200x100">
-												</td>
-												<td><a href="#">Card title</a></td>
-												<td ><span class="badge badge-primary">50 p.</span></td>
-												<td ><span class="badge badge-primary">100 p.</span></td>
-												<td ><span class="badge badge-primary">150 p.</span></td>
-												<td><a href="#">username1</a></td>
-												<td>01.01.01 00:01</td>
-												<td>02.02.02 00:02</td>
-												<td>Электроника</td>
-												<td>Отличное</td>
-												<td>city1</td>
-												<td>
-													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
-													<a class="btn btn-outline-primary p-1" href="#">Edit</a>
-													<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-												</td>
-											</tr>
-											
-											<tr>
-												<th scope="row">2</th>
-												<td>
-													<img style="object-fit: cover; width: 50px; height: 50px" src="https://via.placeholder.com/150x150">
-												</td>
-												<td><a href="#">Another card title</a></td>
-												<td ><span class="badge badge-primary">500 p.</span></td>
-												<td ><span class="badge badge-primary">1000 p.</span></td>
-												<td ><span class="badge badge-primary">1500 p.</span></td>
-												<td><a href="#">username2</a></td>
-												<td>01.01.01 00:01</td>
-												<td>02.02.02 00:02</td>
-												<td>Одежда</td>
-												<td>Хорошее</td>
-												<td>city2</td>
-												<td>
-													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
-													<a class="btn btn-outline-primary p-1" href="#">Edit</a>
-													<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-												</td>
-											</tr>
-											
-											<tr>
-												<th scope="row">3</th>
-												<td>
-													<img style="object-fit: cover; width: 50px; height: 50px" src="https://via.placeholder.com/100x200">
-												</td>
-												<td><a href="#">Really lengthy card title</a></td>
-												<td ><span class="badge badge-primary">5000 p.</span></td>
-												<td ><span class="badge badge-primary">10000 p.</span></td>
-												<td ><span class="badge badge-primary">15000 p.</span></td>
-												<td><a href="#">username3</a></td>
-												<td>01.01.01 00:01</td>
-												<td>02.02.02 00:02</td>
-												<td>Спорттовары</td>
-												<td>Среднее</td>
-												<td>city3</td>
+												<th scope="row" th:text="${lot.getId()}">1</th>
+												<td><a href="#" th:text="${lot.getTitle()}">Card title</a></td>
+												<td ><span class="badge badge-primary" th:text="${lot.getMinPrice()}">50 p.</span></td>
+												<td ><span class="badge badge-primary" th:text="${lot.getCurrentPrice()}">100 p.</span></td>
+												<td ><span class="badge badge-primary" th:text="${lot.getMaxPrice()}">150 p.</span></td>
+												<td><a href="#" th:text="${lot.getUser().getUsername()}">username1</a></td>
+												<td th:text="${#temporals.format(lot.getCreationTime(), 'yyyy-MM-dd HH:mm:ss')}">01.01.01 00:01</td>
+												<td th:text="${#temporals.format(lot.getTimeLastMod(), 'yyyy-MM-dd HH:mm:ss')}">02.02.02 00:02</td>
+												<td th:text="${lot.getCategory().getName()}">Электроника</td>
+												<td th:text="${lot.getCondition().getName()}">Отличное</td>
+												<td th:text="${lot.getCity().getName()}">city1</td>
 												<td>
 													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
 													<a class="btn btn-outline-primary p-1" href="#">Edit</a>
@@ -158,37 +113,42 @@
 									</table>
 								</div>
 							</div>
-							
+
+
 							<div class="row">
-								<div class="col-12 text-center">
-									<a class="btn btn-primary" href="#">1</a>
-									<a class="btn btn-primary" href="#">2</a>
-									
-									...
-								
-									<a class="btn btn-primary" href="#">4</a>
-									<a class="btn btn-primary" href="#">5</a>
-									<a class="btn btn-primary disabled" href="#">6</a>
-									<a class="btn btn-primary" href="#">7</a>
-									<a class="btn btn-primary" href="#">8</a>
-									
-									...
-									
-									<a class="btn btn-primary" href="#">11</a>
-									<a class="btn btn-primary" href="#">12</a>
-								</div>
+								<div class="col"></div>
+
+								<nav col="col-8">
+									<ul class="pagination">
+										<li class="page-item disabled">
+											<a class="page-link" href="#">Previous</a>
+										</li>
+										<li class="page-item"><a class="page-link" href="#">1</a></li>
+										<li class="page-item active"><a class="page-link" href="#">2</a></li>
+										<li class="page-item"><a class="page-link" href="#">3</a></li>
+										<li class="page-item">
+											<a class="page-link" href="#">Next</a>
+										</li>
+									</ul>
+								</nav>
+
+								<div class="col"></div>
 							</div>
+
 						</div>
-						
+
 						<!---------------------------------->
-						
+
 						<div class="tab-pane fade" id="users" role="tabpanel">
 							<div class="row">
 								<div class="col-12">
 									<table class="table table-sm table-hover">
 										<thead>
 											<tr>
-												<th scope="col">#</th>
+												<th scope="col">Id
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
 												<th scope="col">Username
 													<a href="#">▲</a>
 													<a href="#">▼</a>
@@ -214,48 +174,16 @@
 												<th scope="col">Actions</th>
 											</tr>
 										</thead>
-										<tbody>
+										<tbody th:each="user : ${users}">
 											<tr>
-												<th scope="row">1</th>
-												<td><a href="#">username1</a></td>
-												<td><a href="#">Carl</a></td>
-												<td><a href="#">Johnson</a></td>
-												<td>+7(123)456-78-90</td>
-												<td>email1@example.com</td>
-												<td>USER</td>
-												<td>city1</td>
-												<td>
-													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
-													<a class="btn btn-outline-primary p-1" href="#">Edit</a>
-													<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-												</td>
-											</tr>
-											
-											<tr>
-												<th scope="row">2</th>
-												<td><a href="#">username2</a></td>
-												<td><a href="#">Elon</a></td>
-												<td><a href="#">Musk</a></td>
-												<td>+7(987)654-32-10</td>
-												<td>email2@example.com</td>
-												<td>USER</td>
-												<td>city2</td>
-												<td>
-													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
-													<a class="btn btn-outline-primary p-1" href="#">Edit</a>
-													<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-												</td>
-											</tr>
-											
-											<tr>
-												<th scope="row">3</th>
-												<td><a href="#">username3</a></td>
-												<td><a href="#">David</a></td>
-												<td><a href="#">Bowie</a></td>
-												<td>+7(111)222-33-44</td>
-												<td>email3@example.com</td>
-												<td>USER</td>
-												<td>city4</td>
+												<th scope="row" th:text="${user.getId()}">1</th>
+												<td><a href="#" th:text="${user.getUsername()}">username1</a></td>
+												<td><a href="#" th:text="${user.getFirstName()}">Carl</a></td>
+												<td><a href="#" th:text="${user.getLastName()}">Johnson</a></td>
+												<td th:text="${user.getPhoneNumber()}">+7(123)456-78-90</td>
+												<td th:text="${user.getEmail()}">email1@example.com</td>
+												<td th:text="${user.getRole().getName()}">USER</td>
+												<td th:text="${user.getCity().getName()}">city1</td>
 												<td>
 													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
 													<a class="btn btn-outline-primary p-1" href="#">Edit</a>
@@ -266,37 +194,40 @@
 									</table>
 								</div>
 							</div>
-							
+
 							<div class="row">
-								<div class="col-12 text-center">
-									<a class="btn btn-primary" href="#">1</a>
-									<a class="btn btn-primary" href="#">2</a>
-									
-									...
-								
-									<a class="btn btn-primary" href="#">4</a>
-									<a class="btn btn-primary" href="#">5</a>
-									<a class="btn btn-primary disabled" href="#">6</a>
-									<a class="btn btn-primary" href="#">7</a>
-									<a class="btn btn-primary" href="#">8</a>
-									
-									...
-									
-									<a class="btn btn-primary" href="#">11</a>
-									<a class="btn btn-primary" href="#">12</a>
-								</div>
+								<div class="col"></div>
+
+								<nav col="col-8">
+									<ul class="pagination">
+										<li class="page-item disabled">
+											<a class="page-link" href="#">Previous</a>
+										</li>
+										<li class="page-item"><a class="page-link" href="#">1</a></li>
+										<li class="page-item active"><a class="page-link" href="#">2</a></li>
+										<li class="page-item"><a class="page-link" href="#">3</a></li>
+										<li class="page-item">
+											<a class="page-link" href="#">Next</a>
+										</li>
+									</ul>
+								</nav>
+
+								<div class="col"></div>
 							</div>
 						</div>
-						
+
 						<!---------------------------------->
-						
+
 						<div class="tab-pane fade" id="photos" role="tabpanel">
 							<div class="row">
 								<div class="col-12">
 									<table class="table table-sm table-hover">
 										<thead>
 											<tr>
-												<th scope="col">#</th>
+												<th scope="col">Id
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
 												<th scope="col">Image</th>
 												<th scope="col">Lot
 													<a href="#">▲</a>
@@ -310,43 +241,15 @@
 												<th scope="col">Actions</th>
 											</tr>
 										</thead>
-										<tbody>
+										<tbody th:each="photo : ${photos}">
 											<tr>
-												<th scope="row">1</th>
+												<th scope="row" th:text="${photo.getId()}">1</th>
 												<td>
-													<img style="object-fit: cover; width: 100px; height: 100px" src="https://via.placeholder.com/200x100">
+													<img style="object-fit: cover; width: 100px; height: 100px" th:src="${photo.getUrl()}">
 												</td>
-												<td><a href="#">Card title</a></td>
-												<td><a href="#">username1</a></td>
-												<td><a href="https://far.far/away.jpg" />http://far.far/away.jpg</td>
-												<td>
-													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
-													<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-												</td>
-											</tr>
-											
-											<tr>
-												<th scope="row">2</th>
-												<td>
-													<img style="object-fit: cover; width: 100px; height: 100px" src="https://via.placeholder.com/150x150">
-												</td>
-												<td><a href="#">Really lengthy card title</a></td>
-												<td><a href="#">username2</a></td>
-												<td><a href="https://far.far/away.jpg" />http://far.far/away.jpg</td>
-												<td>
-													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
-													<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-												</td>
-											</tr>
-											
-											<tr>
-												<th scope="row">3</th>
-												<td>
-													<img style="object-fit: cover; width: 100px; height: 100px" src="https://via.placeholder.com/100x200">
-												</td>
-												<td><a href="#">Another card title</a></td>
-												<td><a href="#">username3</a></td>
-												<td><a href="https://far.far/away.jpg" />http://far.far/away.jpg</td>
+												<td><a href="#" th:text="${photo.getLot().getTitle()}">Card title</a></td>
+												<td><a href="#" th:text="${photo.getLot().getUser().getUsername()}">username1</a></td>
+												<td><a target="_blank" th:href="${photo.getUrl()}" th:text="${photo.getUrl()}">http://far.far/away.jpg</a></td>
 												<td>
 													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
 													<a class="btn btn-outline-danger p-1" href="#">Remove</a>
@@ -356,216 +259,168 @@
 									</table>
 								</div>
 							</div>
-							
+
 							<div class="row">
-								<div class="col-12 text-center">
-									<a class="btn btn-primary" href="#">1</a>
-									<a class="btn btn-primary" href="#">2</a>
-									
-									...
-								
-									<a class="btn btn-primary" href="#">4</a>
-									<a class="btn btn-primary" href="#">5</a>
-									<a class="btn btn-primary disabled" href="#">6</a>
-									<a class="btn btn-primary" href="#">7</a>
-									<a class="btn btn-primary" href="#">8</a>
-									
-									...
-									
-									<a class="btn btn-primary" href="#">11</a>
-									<a class="btn btn-primary" href="#">12</a>
-								</div>
+								<div class="col"></div>
+
+								<nav col="col-8">
+									<ul class="pagination">
+										<li class="page-item disabled">
+											<a class="page-link" href="#">Previous</a>
+										</li>
+										<li class="page-item"><a class="page-link" href="#">1</a></li>
+										<li class="page-item active"><a class="page-link" href="#">2</a></li>
+										<li class="page-item"><a class="page-link" href="#">3</a></li>
+										<li class="page-item">
+											<a class="page-link" href="#">Next</a>
+										</li>
+									</ul>
+								</nav>
+
+								<div class="col"></div>
 							</div>
 						</div>
-						
+
 						<!---------------------------------->
-						
+
 						<div class="tab-pane fade" id="categories" role="tabpanel">
-							<table class="table table-sm table-hover">
-								<thead>
-									<tr>
-										<th scope="col">#</th>
-										<th scope="col">Name
-											<a href="#">▲</a>
-											<a href="#">▼</a>
-										</th>
-										<th scope="col">Actions</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<th scope="row">1</th>
-										<td>Одежда</td>
-										<td>
-											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-										</td>
-									</tr>
-									
-									<tr>
-										<th scope="row">2</th>
-										<td>Электроника</td>
-										<td>
-											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-										</td>
-									</tr>
-									
-									<tr>
-										<th scope="row">3</th>
-										<td>Спорттовары</td>
-										<td>
-											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-										</td>
-									</tr>
-									
-									<tr>
-										<th scope="row">4</th>
-										<td>Услуги</td>
-										<td>
-											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-										</td>
-									</tr>
-									
-									<tr>
-										<form>
-										<th scope="row">X</th>
-										<td>
-											<input class="form-control" placeholder="New category name" type="text">
-										</td>
-										<td>
-											<a class="btn btn-outline-primary p-1" href="#">Add</a>
-										</td>
-										</form>
-									</tr>
-								</tbody>
-							</table>
+							<div class="row">
+								<div class="col-12">
+									<table class="table table-sm table-hover">
+										<thead>
+											<tr>
+												<th scope="col">Id
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">Name
+													<a href="#">▲</a>
+													<a href="#">▼</a>
+												</th>
+												<th scope="col">Actions</th>
+											</tr>
+										</thead>
+										<tbody th:each="category : ${categories}">
+											<tr>
+												<th scope="row" th:text="${category.getId()}">1</th>
+												<td th:text="${category.getName()}">Одежда</td>
+												<td>
+													<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+												</td>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<hr>
+							<form>
+								<div class="form-row">
+									<div class="col-2">
+										<label for="newCategoryInput">New category:</label>
+									</div>
+									<div class="col-6">
+										<input id="newCategoryInput" class="form-control" placeholder="New category name" type="text">
+									</div>
+									<div class="col">
+										<a class="btn btn-outline-primary" href="#">Add</a>
+									</div>
+								</div>
+							</form>
 						</div>
-						
+
 						<!---------------------------------->
-						
+
 						<div class="tab-pane fade" id="cities" role="tabpanel">
-							<table class="table table-sm table-hover">
-								<thead>
-									<tr>
-										<th scope="col">#</th>
-										<th scope="col">Name
-											<a href="#">▲</a>
-											<a href="#">▼</a>
-										</th>
-										<th scope="col">Actions</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<th scope="row">1</th>
-										<td>city1</td>
-										<td>
-											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-										</td>
-									</tr>
-									
-									<tr>
-										<th scope="row">2</th>
-										<td>city2</td>
-										<td>
-											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-										</td>
-									</tr>
-									
-									<tr>
-										<th scope="row">3</th>
-										<td>city3</td>
-										<td>
-											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-										</td>
-									</tr>
-									
-									<tr>
-										<th scope="row">4</th>
-										<td>city4</td>
-										<td>
-											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-										</td>
-									</tr>
-									
-									<tr>
-										<form>
-										<th scope="row">X</th>
-										<td>
-											<input class="form-control" placeholder="New category name" type="text">
-										</td>
-										<td>
-											<a class="btn btn-outline-primary p-1" href="#">Add</a>
-										</td>
-										</form>
-									</tr>
-								</tbody>
-							</table>
+							<div class="row">
+								<div class="col-12">
+									<table class="table table-sm table-hover">
+										<thead>
+										<tr>
+											<th scope="col">Id
+												<a href="#">▲</a>
+												<a href="#">▼</a>
+											</th>
+											<th scope="col">Name
+												<a href="#">▲</a>
+												<a href="#">▼</a>
+											</th>
+											<th scope="col">Actions</th>
+										</tr>
+										</thead>
+										<tbody th:each="city : ${cities}">
+										<tr>
+											<th scope="row" th:text="${city.getId()}">1</th>
+											<td th:text="${city.getName()}">city1</td>
+											<td>
+												<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+											</td>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<hr>
+							<form>
+								<div class="form-row">
+									<div class="col-2">
+										<label for="newCityInput">New city:</label>
+									</div>
+									<div class="col-6">
+										<input id="newCityInput" class="form-control" placeholder="New city name" type="text">
+									</div>
+									<div class="col">
+										<a class="btn btn-outline-primary" href="#">Add</a>
+									</div>
+								</div>
+							</form>
 						</div>
-						
+
 						<!---------------------------------->
-						
+
 						<div class="tab-pane fade" id="conditions" role="tabpanel">
-							<table class="table table-sm table-hover">
-								<thead>
-									<tr>
-										<th scope="col">#</th>
-										<th scope="col">Name
-											<a href="#">▲</a>
-											<a href="#">▼</a>
-										</th>
-										<th scope="col">Actions</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<th scope="row">1</th>
-										<td>Идеальное</td>
-										<td>
-											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-										</td>
-									</tr>
-									
-									<tr>
-										<th scope="row">2</th>
-										<td>Хорошее</td>
-										<td>
-											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-										</td>
-									</tr>
-									
-									<tr>
-										<th scope="row">3</th>
-										<td>Среднее</td>
-										<td>
-											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-										</td>
-									</tr>
-									
-									<tr>
-										<th scope="row">4</th>
-										<td>Плохое</td>
-										<td>
-											<a class="btn btn-outline-danger p-1" href="#">Remove</a>
-										</td>
-									</tr>
-									
-									<tr>
-										<form>
-										<th scope="row">X</th>
-										<td>
-											<input class="form-control" placeholder="New category name" type="text">
-										</td>
-										<td>
-											<a class="btn btn-outline-primary p-1" href="#">Add</a>
-										</td>
-										</form>
-									</tr>
-								</tbody>
-							</table>
+							<div class="row">
+								<div class="col-12">
+									<table class="table table-sm table-hover">
+										<thead>
+										<tr>
+											<th scope="col">Id
+												<a href="#">▲</a>
+												<a href="#">▼</a>
+											</th>
+											<th scope="col">Name
+												<a href="#">▲</a>
+												<a href="#">▼</a>
+											</th>
+											<th scope="col">Actions</th>
+										</tr>
+										</thead>
+										<tbody th:each="condition : ${conditions}">
+										<tr>
+											<th scope="row" th:text="${condition.getId()}">1</th>
+											<td th:text="${condition.getName()}">Отличное</td>
+											<td>
+												<a class="btn btn-outline-danger p-1" href="#">Remove</a>
+											</td>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<hr>
+							<form>
+								<div class="form-row">
+									<div class="col-2">
+										<label for="newConditionInput">New condition:</label>
+									</div>
+									<div class="col-6">
+										<input id="newConditionInput" class="form-control" placeholder="New condition name" type="text">
+									</div>
+									<div class="col">
+										<a class="btn btn-outline-primary" href="#">Add</a>
+									</div>
+								</div>
+							</form>
 						</div>
-						
+
 						<!---------------------------------->
-						
+
 					</div>
 				</div>
 
@@ -573,8 +428,6 @@
 
 				<div class="col d-none d-lg-block">r</div>
 			</div>
-
-
 		</div>
 
 		<th:block th:insert="base::scripts" />

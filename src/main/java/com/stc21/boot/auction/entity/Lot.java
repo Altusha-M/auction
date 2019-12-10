@@ -28,7 +28,7 @@ public class Lot {
     private User user;
 
     @Column
-    private LocalDateTime name;
+    private String title;
 
     @Column(name = "creation_time")
     private LocalDateTime creationTime;
@@ -41,11 +41,11 @@ public class Lot {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "category_id", nullable = false)
-    private Category categoryId;
+    private Category category;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "condition_id", nullable = false)
-    private Condition conditionId;
+    private Condition condition;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "city_id", nullable = false)

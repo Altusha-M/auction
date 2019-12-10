@@ -4,23 +4,23 @@ import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.dto.UserRegistrationDto;
 import com.stc21.boot.auction.entity.User;
 import com.stc21.boot.auction.repository.UserRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final ModelMapper modelMapper;
+    private final CityService cityService;
+    private final RoleService roleService;
 
-    public UserServiceImpl(ModelMapper modelMapper, UserRepository userRepository) {
-        this.modelMapper = modelMapper;
+    public UserServiceImpl(UserRepository userRepository, CityService cityService, RoleService roleService) {
         this.userRepository = userRepository;
+        this.cityService = cityService;
+        this.roleService = roleService;
     }
 
     @Override
@@ -28,6 +28,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll().stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDto findById(Long id) {
+        return userRepository.findById(id)
+                .map(this::convertToDto)
+                .orElse(null);
     }
 
     @Override
@@ -55,7 +62,17 @@ public class UserServiceImpl implements UserService {
     public UserDto convertToDto(User user) {
         if (user == null) return null;
 
-        return modelMapper.map(user, UserDto.class);
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setUsername(user.getUsername());
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
+        userDto.setEmail(user.getEmail());
+        userDto.setPhoneNumber(user.getPhoneNumber());
+        userDto.setCity(cityService.convertToDto(user.getCity()));
+        userDto.setRole(roleService.convertToDto(user.getRole()));
+
+        return userDto;
     }
 
     @Override
