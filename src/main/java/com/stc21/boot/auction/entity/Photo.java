@@ -27,8 +27,7 @@ public class Photo {
     @Column
     private String url;
 
-    public Photo(Lot lot, String url) {
-        this.lot = lot;
+    public Photo(String url) {
         this.url = url;
     }
 }
