@@ -18,7 +18,7 @@ public class LotPriceScheduler {
         this.lotService = lotService;
     }
 
-    @Scheduled(cron = "0,30 * * * * *")
+    @Scheduled(cron = "0,30 5 * * * *")
     public void updateLots() {
         log.info("< update Lots");
         List<Lot> lots = lotService.getAllLots();

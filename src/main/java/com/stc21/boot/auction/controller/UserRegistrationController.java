@@ -1,6 +1,5 @@
 package com.stc21.boot.auction.controller;
 
-import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.dto.UserRegistrationDto;
 import com.stc21.boot.auction.service.UserService;
 import org.springframework.stereotype.Controller;

@@ -14,11 +14,11 @@ import javax.validation.constraints.Size;
 @EqualPasswords
 public class UserRegistrationDto {
     @NotNull
-    @Size(min=3, max=20)
+    @Size(min = 3, max = 20)
     private String username;
 
     @NotNull
-    @Size(min=3, max=20)
+    @Size(min = 3, max = 20)
     private String password;
     private String repeatPassword;
 
