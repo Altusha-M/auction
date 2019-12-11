@@ -55,7 +55,7 @@ public class UserRegistrationController {
         if (result.hasErrors()) {
             List<City> cities = cityService.getAllCities();
             model.addAttribute("cities", cities);
-            return "register";
+            return "redirect:/register?failure=true";
         }
 
         userService.save(userRegistrationDto);
