@@ -17,6 +17,12 @@ import java.io.*;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * The GoogleDrive instance of the storage class and the connection to it.
+ * The client_secret.json file must be in the root of the project in the folder
+ * ./src/main/resources or another one specified in the settings.
+ * The client_secret.json file is obtained when registering the OAuth 2.0 key for the account.
+ */
 public class GoogleDriveUtils {
 
     private static final String APPLICATION_NAME = "Google Drive API Java Quickstart";
@@ -41,6 +47,7 @@ public class GoogleDriveUtils {
         }
     }
 
+
     private static Credential getCredentials() throws IOException {
         File clientSecretFilePath = new File(CREDENTIALS_FOLDER, CLIENT_SECRET_FILE_NAME);
 
@@ -57,6 +64,13 @@ public class GoogleDriveUtils {
         return credential;
     }
 
+    /**
+     * Creating a new connection to GoogleDrive based on the received permissions from the client_secret.json file.
+     * If the connection is created, return the existing instance.
+     *
+     * @return - GoogleDrive connection instance.
+     * @throws IOException - Throws if it was not possible to connect to GoogleDrive.
+     */
     public static Drive getDriveService() throws IOException {
         if (driveServiceInstance != null) {
             return driveServiceInstance;
