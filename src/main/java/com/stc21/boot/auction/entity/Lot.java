@@ -34,18 +34,18 @@ public class Lot {
     private LocalDateTime creationTime;
 
     @Column(name = "last_mod_time")
-    private LocalDateTime timeLastMod;
+    private LocalDateTime lastModTime;
 
     @Column
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "category_id", nullable = false)
-    private Category categoryId;
+    private Category category;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "condition_id", nullable = false)
-    private Condition conditionId;
+    private Condition condition;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "city_id", nullable = false)

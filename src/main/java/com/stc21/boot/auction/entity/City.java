@@ -1,13 +1,15 @@
 package com.stc21.boot.auction.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
-@RequiredArgsConstructor
-@Entity
 @Data
+@Entity
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class City {
 
     @Id
@@ -20,4 +22,5 @@ public class City {
     private Long id;
 
     private String name;
+
 }

@@ -3,6 +3,8 @@ package com.stc21.boot.auction.service;
 import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.dto.UserRegistrationDto;
 import com.stc21.boot.auction.entity.User;
+import com.stc21.boot.auction.repository.CityRepository;
+import com.stc21.boot.auction.repository.RoleRepository;
 import com.stc21.boot.auction.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -16,11 +18,16 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final CityRepository cityRepository;
     private final ModelMapper modelMapper;
 
-    public UserServiceImpl(ModelMapper modelMapper, UserRepository userRepository) {
+
+    public UserServiceImpl(ModelMapper modelMapper, UserRepository userRepository, RoleRepository roleRepository, CityRepository cityRepository) {
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.cityRepository = cityRepository;
     }
 
     @Override
@@ -58,6 +65,12 @@ public class UserServiceImpl implements UserService {
         return modelMapper.map(user, UserDto.class);
     }
 
+
+    /**
+     * Опишите док, а то непонятно, что делает метод
+     * @param userRegistrationDto
+     * @return
+     */
     @Override
     public List<String> fieldsWithErrors(UserRegistrationDto userRegistrationDto) {
         List<String> result = new ArrayList<>();
@@ -88,7 +101,11 @@ public class UserServiceImpl implements UserService {
         user.setPassword(userRegistrationDto.getPassword()); // TODO: to hash
         user.setEmail(userRegistrationDto.getEmail().equals("") ? null : userRegistrationDto.getEmail());
         user.setPhoneNumber(userRegistrationDto.getPhoneNumber().equals("") ? null : userRegistrationDto.getPhoneNumber());
+        user.setFirstName(userRegistrationDto.getFirstName());
+        user.setLastName(userRegistrationDto.getLastName());
+        user.setRole(roleRepository.getOne(1L));
+        user.setCity(userRegistrationDto.getCity());
 
-        return userRepository.save(user);
+        return userRepository.saveAndFlush(user);
     }
 }
