@@ -4,6 +4,7 @@ import com.stc21.boot.auction.dto.CategoryDto;
 import com.stc21.boot.auction.entity.Category;
 import com.stc21.boot.auction.repository.CategoryRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +30,16 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public List<CategoryDto> getAllSorted(Sort sort) {
+        return categoryRepository.findAll(sort).stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public CategoryDto convertToDto(Category category) {
+        if (category == null) return null;
+
         return modelMapper.map(category, CategoryDto.class);
     }
 }

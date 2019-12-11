@@ -4,9 +4,11 @@ import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.dto.UserRegistrationDto;
 import com.stc21.boot.auction.entity.User;
 import com.stc21.boot.auction.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,11 +20,13 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
     private final CityService cityService;
     private final RoleService roleService;
 
-    public UserServiceImpl(UserRepository userRepository, CityService cityService, RoleService roleService) {
+    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, CityService cityService, RoleService roleService) {
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
         this.cityService = cityService;
         this.roleService = roleService;
     }
@@ -39,7 +43,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<UserDto> getPaginated(Pageable pageable) {
-        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
+        PageRequest pageRequest = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSortOr(Sort.unsorted()));
 
         return userRepository.findAll(pageRequest).map(this::convertToDto);
     }
@@ -76,13 +83,7 @@ public class UserServiceImpl implements UserService {
     public UserDto convertToDto(User user) {
         if (user == null) return null;
 
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setUsername(user.getUsername());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
-        userDto.setEmail(user.getEmail());
-        userDto.setPhoneNumber(user.getPhoneNumber());
+        UserDto userDto = modelMapper.map(user, UserDto.class);
         userDto.setCity(cityService.convertToDto(user.getCity()));
         userDto.setRole(roleService.convertToDto(user.getRole()));
 

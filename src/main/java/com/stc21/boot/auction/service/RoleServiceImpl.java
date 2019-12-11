@@ -29,6 +29,8 @@ public class RoleServiceImpl implements RoleService{
 
     @Override
     public RoleDto convertToDto(Role role) {
+        if (role == null) return null;
+
         return modelMapper.map(role, RoleDto.class);
     }
 

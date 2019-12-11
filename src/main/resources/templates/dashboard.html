@@ -20,7 +20,7 @@
 							<a class="nav-link" th:classappend="${section.equals('users')} ? 'active'" id="users-tab" data-toggle="tab" href="#users" role="tab">Users</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" th:classappend="${section.equals('photos')} ? 'active'" id="photos-tab" data-toggle="tab" href="#photos" role="tab">Images</a>
+							<a class="nav-link" th:classappend="${section.equals('photos')} ? 'active'" id="photos-tab" data-toggle="tab" href="#photos" role="tab">Photos</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" th:classappend="${section.equals('categories')} ? 'active'" id="categories-tab" data-toggle="tab" href="#categories" role="tab">Categories</a>
@@ -44,48 +44,48 @@
 										<thead>
 											<tr>
 												<th scope="col">Id
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='id')}">▲</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='id', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Title
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='title')}">▲</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='title', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Min price
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='minPrice')}">▲</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='minPrice', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Current price
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='currentPrice')}">▲</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='currentPrice', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Max price
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='maxPrice')}">▲</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='maxPrice', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Author
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='user_username')}">▲</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='user_username', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Created at
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='creationTime')}">▲</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='creationTime', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Modified at
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='timeLastMod')}">▲</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='timeLastMod', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Category
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='category_name')}">▲</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='category_name', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Condition
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='condition_name')}">▲</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='condition_name', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">City
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='city_name')}">▲</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='city_name', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Actions</th>
 											</tr>
@@ -121,7 +121,7 @@
 								<nav col="col-8">
 									<ul class="pagination">
 										<li class="page-item" th:each="pageNumber: ${#numbers.sequence(1, lots.totalPages)}" th:classappend="${pageNumber == lots.number+1} ? active">
-											<a class="page-link" th:href="@{/dashboard(section='lots', size=${lots.size}, page=${pageNumber})}" th:text="${pageNumber}">1</a>
+											<a class="page-link" th:href="@{/dashboard(section='lots', size=${lots.size}, page=${pageNumber} __${section=='lots' ? ', sortBy=${sortBy}, sortDir=${sortDir}' : ''}__)}" th:text="${pageNumber}">1</a>
 										</li>
 									</ul>
 								</nav>
@@ -140,30 +140,30 @@
 										<thead>
 											<tr>
 												<th scope="col">Id
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='users', sortBy='id')}">▲</a>
+													<a th:href="@{/dashboard(section='users', sortBy='id', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Username
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='users', sortBy='username')}">▲</a>
+													<a th:href="@{/dashboard(section='users', sortBy='username', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">First name
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='users', sortBy='firstName')}">▲</a>
+													<a th:href="@{/dashboard(section='users', sortBy='firstName', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Second name
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='users', sortBy='lastName')}">▲</a>
+													<a th:href="@{/dashboard(section='users', sortBy='lastName', sortDir='desc')}">▼</a>
 												</th>
 												<th>Phonenumber</th>
 												<th>Email</th>
 												<th scope="col">Role
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='users', sortBy='role_name')}">▲</a>
+													<a th:href="@{/dashboard(section='users', sortBy='role_name', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">City
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='users', sortBy='city_name')}">▲</a>
+													<a th:href="@{/dashboard(section='users', sortBy='city_name', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Actions</th>
 											</tr>
@@ -195,7 +195,7 @@
 								<nav col="col-8">
 									<ul class="pagination">
 										<li class="page-item" th:each="pageNumber: ${#numbers.sequence(1, users.totalPages)}" th:classappend="${pageNumber == users.number+1} ? active">
-											<a class="page-link" th:href="@{/dashboard(section='users', size=${users.size}, page=${pageNumber})}" th:text="${pageNumber}">1</a>
+											<a class="page-link" th:href="@{/dashboard(section='users', size=${users.size}, page=${pageNumber} __${section=='users' ? ', sortBy=${sortBy}, sortDir=${sortDir}' : ''}__)}" th:text="${pageNumber}">1</a>
 										</li>
 									</ul>
 								</nav>
@@ -213,17 +213,17 @@
 										<thead>
 											<tr>
 												<th scope="col">Id
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='photos', sortBy='id')}">▲</a>
+													<a th:href="@{/dashboard(section='photos', sortBy='id', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Image</th>
 												<th scope="col">Lot
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='photos', sortBy='lot_title')}">▲</a>
+													<a th:href="@{/dashboard(section='photos', sortBy='lot_title', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Username
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='photos', sortBy='lot_user_username')}">▲</a>
+													<a th:href="@{/dashboard(section='photos', sortBy='lot_user_username', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Url</th>
 												<th scope="col">Actions</th>
@@ -254,7 +254,7 @@
 								<nav col="col-8">
 									<ul class="pagination">
 										<li class="page-item" th:each="pageNumber: ${#numbers.sequence(1, photos.totalPages)}" th:classappend="${pageNumber == photos.number+1} ? active">
-											<a class="page-link" th:href="@{/dashboard(section='photos', size=${photos.size}, page=${pageNumber})}" th:text="${pageNumber}">1</a>
+											<a class="page-link" th:href="@{/dashboard(section='photos', size=${photos.size}, page=${pageNumber} __${section=='photos' ? ', sortBy=${sortBy}, sortDir=${sortDir}' : ''}__)}" th:text="${pageNumber}">1</a>
 										</li>
 									</ul>
 								</nav>
@@ -272,12 +272,12 @@
 										<thead>
 											<tr>
 												<th scope="col">Id
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='categories', sortBy='id')}">▲</a>
+													<a th:href="@{/dashboard(section='categories', sortBy='id', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Name
-													<a href="#">▲</a>
-													<a href="#">▼</a>
+													<a th:href="@{/dashboard(section='categories', sortBy='name')}">▲</a>
+													<a th:href="@{/dashboard(section='categories', sortBy='name', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Actions</th>
 											</tr>
@@ -318,12 +318,12 @@
 										<thead>
 										<tr>
 											<th scope="col">Id
-												<a href="#">▲</a>
-												<a href="#">▼</a>
+												<a th:href="@{/dashboard(section='cities', sortBy='id')}">▲</a>
+												<a th:href="@{/dashboard(section='cities', sortBy='id', sortDir='desc')}">▼</a>
 											</th>
 											<th scope="col">Name
-												<a href="#">▲</a>
-												<a href="#">▼</a>
+												<a th:href="@{/dashboard(section='cities', sortBy='name')}">▲</a>
+												<a th:href="@{/dashboard(section='cities', sortBy='name', sortDir='desc')}">▼</a>
 											</th>
 											<th scope="col">Actions</th>
 										</tr>
@@ -364,12 +364,12 @@
 										<thead>
 										<tr>
 											<th scope="col">Id
-												<a href="#">▲</a>
-												<a href="#">▼</a>
+												<a th:href="@{/dashboard(section='conditions', sortBy='id')}">▲</a>
+												<a th:href="@{/dashboard(section='conditions', sortBy='id', sortDir='desc')}">▼</a>
 											</th>
 											<th scope="col">Name
-												<a href="#">▲</a>
-												<a href="#">▼</a>
+												<a th:href="@{/dashboard(section='conditions', sortBy='name')}">▲</a>
+												<a th:href="@{/dashboard(section='conditions', sortBy='name', sortDir='desc')}">▼</a>
 											</th>
 											<th scope="col">Actions</th>
 										</tr>
