@@ -28,8 +28,8 @@ public class LotDto {
     @Size(min = 5, max = 150)
     private String description;
 
-    private Category categoryId;
-    private Condition conditionId;
+    private Category category;
+    private Condition condition;
     private City city;
 
     @NotNull

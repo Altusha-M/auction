@@ -1,6 +1,9 @@
 package com.stc21.boot.auction.controller;
 
 import com.stc21.boot.auction.dto.LotDto;
+import com.stc21.boot.auction.entity.Category;
+import com.stc21.boot.auction.entity.City;
+import com.stc21.boot.auction.entity.Condition;
 import com.stc21.boot.auction.service.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping(path = "/add")
@@ -30,13 +34,29 @@ public class AddLotController {
         this.userService = userService;
     }
 
+    @ModelAttribute(name = "categories")
+    public List<Category> categories() {
+        return categoryService.findAll();
+    }
+
+    @ModelAttribute(name = "cities")
+    public List<City> cities() {
+        return cityService.getAllCities();
+    }
+
+    @ModelAttribute(name = "conditions")
+    public List<Condition> conditions() {
+        return conditionService.findAll();
+    }
+    @ModelAttribute(name = "newLot")
+    public LotDto newLot() {
+        return new LotDto();
+    }
+
+
 
     @GetMapping(path = "/lot")
     public String showAddLotPage(Model model) {
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("cities", cityService.findAll());
-        model.addAttribute("conditions", conditionService.findAll());
-        model.addAttribute("newLot", new LotDto());
         return "addLot";
     }
 
@@ -47,9 +67,6 @@ public class AddLotController {
                                     @Valid @ModelAttribute(value = "newLot") LotDto newLot,
                                     Errors result) {
         if (result.hasErrors()) {
-            model.addAttribute("categories", categoryService.findAll());
-            model.addAttribute("cities", cityService.findAll());
-            model.addAttribute("conditions", conditionService.findAll());
             return "addLot";
         }
 

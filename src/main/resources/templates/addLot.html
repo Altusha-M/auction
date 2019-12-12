@@ -27,7 +27,7 @@
 					<div class="form-row mb-4">
 						<div class="col-4">
 							<label for="lotCondition">Condition</label>
-							<select id="lotCondition" th:field="*{conditionId}" class="form-control">
+							<select id="lotCondition" th:field="*{condition}" class="form-control">
 								<option th:each="condition : ${conditions}"
 										th:selected="${condition.id == 1}"
 										th:value="${condition.id}"
@@ -37,7 +37,7 @@
 						</div>
 						<div class="col-8">
 							<label for="lotCategory">Select lot category</label>
-							<select id="lotCategory" th:field="*{categoryId}" class="form-control">
+							<select id="lotCategory" th:field="*{category}" class="form-control">
 								<option th:each="category : ${categories}"
 										th:selected="${category.id == 1}"
 										th:value="${category.id}"
