@@ -1,5 +1,6 @@
 package com.stc21.boot.auction.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -9,6 +10,7 @@ import java.io.Serializable;
 @Data
 @Entity
 @Table(name = "roles")
+@AllArgsConstructor
 @RequiredArgsConstructor
 public class Role implements Serializable {
 
@@ -23,4 +25,5 @@ public class Role implements Serializable {
 
     @Column(nullable = false)
     private String name;
+
 }
