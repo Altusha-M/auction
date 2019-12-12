@@ -3,10 +3,8 @@ package com.stc21.boot.auction.controller;
 import com.stc21.boot.auction.dto.LotDto;
 import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.entity.Lot;
-import com.stc21.boot.auction.service.HomePageLotService;
 import com.stc21.boot.auction.service.LotService;
 import com.stc21.boot.auction.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,19 +19,19 @@ import java.util.List;
 @RequestMapping(path = "/")
 public class HomeController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private LotService lotService;
+    private final LotService lotService;
 
-    @Autowired
-    private HomePageLotService homePageLotService;
+    public HomeController(UserService userService, LotService lotService) {
+        this.userService = userService;
+        this.lotService = lotService;
+    }
 
     // возвращает результат постранично
     @GetMapping(path = "/")
-    public String showWelcomePage(Model model, @RequestParam(defaultValue = "0") int page) {
-        Page<LotDto> pagedHomePageLots = homePageLotService.getPageHomePageLots(page);
+    public String showHomePage(Model model, @RequestParam(defaultValue = "0") int page) {
+        Page<LotDto> pagedHomePageLots = lotService.getPageOfHomePageLots(page);
         model.addAttribute("lots", pagedHomePageLots);
         return "home";
     }
