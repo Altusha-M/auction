@@ -2,22 +2,22 @@ package com.stc21.boot.auction.controller;
 
 import com.stc21.boot.auction.service.*;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.websocket.server.PathParam;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.Set;
 
 @Controller
 @RequestMapping("/dashboard")
 public class DashboardController {
+
+    private static int ENTRIES_PER_PAGE = 5;
 
     private final LotService lotService;
     private final UserService userService;
@@ -50,7 +50,7 @@ public class DashboardController {
 
         String currentSection = section != null && possibleSections.contains(section) ? section : "lots";
         int currentPage = Math.max(page.orElse(1), 1);
-        int pageSize = Math.max(size.orElse(5), 1);
+        int pageSize = Math.max(size.orElse(ENTRIES_PER_PAGE), 1);
         String sortField = sortBy != null ? sortBy : "id";
         Sort.Direction sortDirection = sortDir != null && sortDir.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
 
