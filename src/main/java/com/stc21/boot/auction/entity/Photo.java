@@ -1,10 +1,12 @@
 package com.stc21.boot.auction.entity;
 
 import lombok.Data;
-import javax.persistence.*;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
-@RequiredArgsConstructor
+import javax.persistence.*;
+
+
+@NoArgsConstructor
 @Entity
 @Data
 public class Photo {
@@ -24,4 +26,8 @@ public class Photo {
 
     @Column
     private String url;
+
+    public Photo(String url) {
+        this.url = url;
+    }
 }
