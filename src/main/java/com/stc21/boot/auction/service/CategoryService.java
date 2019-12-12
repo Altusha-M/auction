@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 
 public interface CategoryService {
+    List<Category> findAll();
     List<CategoryDto> getAllCategories();
     List<CategoryDto> getAllSorted(Sort sort);
     CategoryDto convertToDto(Category category);

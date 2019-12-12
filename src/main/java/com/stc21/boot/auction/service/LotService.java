@@ -4,11 +4,19 @@ import com.stc21.boot.auction.dto.LotDto;
 import com.stc21.boot.auction.entity.Lot;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
 public interface LotService {
-    List<LotDto> getAllLots();
+    List<Lot> getAllLots();
+
+    void updateAllLots(List<Lot> lots);
+
+    Page<LotDto> getPageOfHomePageLots(int page);
+
+    Lot saveNewLot(LotDto lot, Authentication token);
+
     Page<LotDto> getPaginated(Pageable pageable);
     LotDto convertToDto(Lot lot);
 }

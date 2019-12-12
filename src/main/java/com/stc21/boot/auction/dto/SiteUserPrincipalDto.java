@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 // необходим для аутентификации/авторизации через базу данных в Spring Security
 // используется в security.SiteUserDetailsService

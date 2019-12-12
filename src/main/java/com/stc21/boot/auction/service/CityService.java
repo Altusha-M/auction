@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 
 public interface CityService {
-    List<CityDto> getAllCities();
     List<CityDto> getAllSorted(Sort sort);
     CityDto convertToDto(City city);
+    List<City> getAllCities();
 }

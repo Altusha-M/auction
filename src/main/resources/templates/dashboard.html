@@ -48,8 +48,8 @@
 													<a th:href="@{/dashboard(section='lots', sortBy='id', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Title
-													<a th:href="@{/dashboard(section='lots', sortBy='title', sortDir='asc')}">▲</a>
-													<a th:href="@{/dashboard(section='lots', sortBy='title', sortDir='desc')}">▼</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='name', sortDir='asc')}">▲</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='name', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Min price
 													<a th:href="@{/dashboard(section='lots', sortBy='minPrice', sortDir='asc')}">▲</a>
@@ -64,16 +64,16 @@
 													<a th:href="@{/dashboard(section='lots', sortBy='maxPrice', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Author
-													<a th:href="@{/dashboard(section='lots', sortBy='user_username', sortDir='asc')}">▲</a>
-													<a th:href="@{/dashboard(section='lots', sortBy='user_username', sortDir='desc')}">▼</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='userDto_username', sortDir='asc')}">▲</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='userDto_username', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Created at
 													<a th:href="@{/dashboard(section='lots', sortBy='creationTime', sortDir='asc')}">▲</a>
 													<a th:href="@{/dashboard(section='lots', sortBy='creationTime', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Modified at
-													<a th:href="@{/dashboard(section='lots', sortBy='timeLastMod', sortDir='asc')}">▲</a>
-													<a th:href="@{/dashboard(section='lots', sortBy='timeLastMod', sortDir='desc')}">▼</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='lastModTime', sortDir='asc')}">▲</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='lastModTime', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Category
 													<a th:href="@{/dashboard(section='lots', sortBy='category_name', sortDir='asc')}">▲</a>
@@ -93,13 +93,13 @@
 										<tbody th:each="lot : ${lots}">
 											<tr>
 												<th scope="row" th:text="${lot.id}">1</th>
-												<td><a href="#" th:text="${lot.title}">Card title</a></td>
+												<td><a href="#" th:text="${lot.name}">Card title</a></td>
 												<td ><span class="badge badge-primary" th:text="${lot.minPrice}">50 p.</span></td>
 												<td ><span class="badge badge-primary" th:text="${lot.currentPrice}">100 p.</span></td>
 												<td ><span class="badge badge-primary" th:text="${lot.maxPrice}">150 p.</span></td>
-												<td><a href="#" th:text="${lot.user.username}">username1</a></td>
+												<td><a href="#" th:text="${lot.userDto.username}">username1</a></td>
 												<td th:text="${#temporals.format(lot.creationTime, 'yyyy-MM-dd HH:mm:ss')}">01.01.01 00:01</td>
-												<td th:text="${#temporals.format(lot.timeLastMod, 'yyyy-MM-dd HH:mm:ss')}">02.02.02 00:02</td>
+												<td th:text="${#temporals.format(lot.lastModTime, 'yyyy-MM-dd HH:mm:ss')}">02.02.02 00:02</td>
 												<td th:text="${lot.category.name}">Электроника</td>
 												<td th:text="${lot.city.name}">city1</td>
 												<td th:text="${lot.condition.name}">Отличное</td>
@@ -218,12 +218,12 @@
 												</th>
 												<th scope="col">Image</th>
 												<th scope="col">Lot
-													<a th:href="@{/dashboard(section='photos', sortBy='lot_title', sortDir='asc')}">▲</a>
-													<a th:href="@{/dashboard(section='photos', sortBy='lot_title', sortDir='desc')}">▼</a>
+													<a th:href="@{/dashboard(section='photos', sortBy='lot_name', sortDir='asc')}">▲</a>
+													<a th:href="@{/dashboard(section='photos', sortBy='lot_name', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Username
-													<a th:href="@{/dashboard(section='photos', sortBy='lot_user_username', sortDir='asc')}">▲</a>
-													<a th:href="@{/dashboard(section='photos', sortBy='lot_user_username', sortDir='desc')}">▼</a>
+													<a th:href="@{/dashboard(section='photos', sortBy='lot_userDto_username', sortDir='asc')}">▲</a>
+													<a th:href="@{/dashboard(section='photos', sortBy='lot_userDto_username', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Url</th>
 												<th scope="col">Actions</th>
@@ -235,8 +235,8 @@
 												<td>
 													<img style="object-fit: cover; width: 100px; height: 100px" th:src="${photo.getUrl()}">
 												</td>
-												<td><a href="#" th:text="${photo.lot.title}">Card title</a></td>
-												<td><a href="#" th:text="${photo.lot.user.username}">username1</a></td>
+												<td><a href="#" th:text="${photo.lot.name}">Card title</a></td>
+												<td><a href="#" th:text="${photo.lot.userDto.username}">username1</a></td>
 												<td><a target="_blank" th:href="${photo.url}" th:text="${photo.url}">http://far.far/away.jpg</a></td>
 												<td>
 													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->

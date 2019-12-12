@@ -8,7 +8,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,5 +40,10 @@ public class CategoryServiceImpl implements CategoryService {
         if (category == null) return null;
 
         return modelMapper.map(category, CategoryDto.class);
+    }
+
+    @Override
+    public List<Category> findAll() {
+        return categoryRepository.findAll();
     }
 }

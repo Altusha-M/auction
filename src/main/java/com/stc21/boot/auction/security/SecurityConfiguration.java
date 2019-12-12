@@ -1,6 +1,5 @@
 package com.stc21.boot.auction.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,18 +38,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/dashboard**").hasAuthority("admin")
                 .antMatchers("/account").authenticated()
+                .antMatchers("/add/lot").authenticated()
                 .antMatchers("/*").permitAll()
-                    .and()
+                .and()
                 .formLogin()
                 .loginPage("/login")
                 .permitAll()
                 .successForwardUrl("/login?success=true")
                 .failureForwardUrl("/login?success=false")
-                    .and()
+                .and()
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/")
-                    .and()
+                .and()
                 .rememberMe()
                 .tokenValiditySeconds(2419200)
                 .key("auction");

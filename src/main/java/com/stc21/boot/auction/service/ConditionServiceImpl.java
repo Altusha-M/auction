@@ -41,4 +41,9 @@ public class ConditionServiceImpl implements ConditionService {
 
         return modelMapper.map(condition, ConditionDto.class);
     }
+
+    @Override
+    public List<Condition> findAll() {
+        return conditionRepository.findAll();
+    }
 }

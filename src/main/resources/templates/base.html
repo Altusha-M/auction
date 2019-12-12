@@ -7,8 +7,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<title th:text="${title}"></title>
 
-		<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
-		<link rel="stylesheet" th:href="@{css/style.css}">
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" crossorigin="anonymous">
+
 	</head>
 	<body>
 		<nav th:fragment="navbar" class="navbar navbar-dark bg-dark justify-content-between navbar-expand-sm">
@@ -21,7 +23,7 @@
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
 					<a class="nav-item nav-link" href="#">Browse</a>
-					<a class="nav-item nav-link" href="#">Place a lot</a>
+					<a class="nav-item nav-link" th:href="@{/add/lot}">Place a lot</a>
 					<div sec:authorize="hasAuthority('admin')">
 						<a class="nav-item nav-link" th:href="@{/dashboard}">Dashboard</a>
 					</div>
@@ -63,16 +65,16 @@
 				</div>
 			</div>
 		</div>
-		<div th:fragment="scripts">
-			<script th:src="@{js/jquery-3.2.1.slim.min.js}"></script>
-			<script th:src="@{js/popper.min.js}"></script>
-			<script th:src="@{js/bootstrap.min.js}"></script>
-			<script th:src="@{js/dist/jquery.inputmask.js}"></script>
+		<th:block th:fragment="scripts">
+			<script src="/js/jquery-3.2.1.slim.min.js" type="text/javascript"></script>
+			<script src="/js/popper.min.js" type="text/javascript"></script>
+			<script src="/js/bootstrap.min.js" type="text/javascript"></script>
+			<script src="/js/dist/jquery.inputmask.js" type="text/javascript"></script>
 			<script type="text/javascript">
 				$(document).ready(function(){
 					$(":input").inputmask();
 				});
 			</script>
-		</div>
+		</th:block>
 	</body>
 </html>

@@ -10,4 +10,5 @@ public interface ConditionService {
     List<ConditionDto> getAllConditions();
     List<ConditionDto> getAllSorted(Sort sort);
     ConditionDto convertToDto(Condition condition);
+    List<Condition> findAll();
 }

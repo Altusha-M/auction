@@ -1,17 +1,17 @@
 package com.stc21.boot.auction.controller;
 
-import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.dto.UserRegistrationDto;
+import com.stc21.boot.auction.entity.City;
+import com.stc21.boot.auction.service.CityService;
 import com.stc21.boot.auction.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/register")
@@ -28,13 +28,19 @@ public class UserRegistrationController {
         return new UserRegistrationDto();
     }
 
+    @Autowired
+    private CityService cityService;
+
     @GetMapping
     public String showRegistrationForm(Model model) {
+        List<City> cities = cityService.getAllCities();
+        model.addAttribute("cities", cities);
         return "register";
     }
 
     @PostMapping
     public String registerUserAccount(
+            Model model,
             @ModelAttribute("user") @Valid UserRegistrationDto userRegistrationDto,
             BindingResult result) {
 
@@ -44,10 +50,12 @@ public class UserRegistrationController {
                         fieldName->result.rejectValue(
                                 fieldName,
                                 null,
-                                "Username with this "+fieldName+" already exist. Pick another one."));
+                                "Username with this" + fieldName + " already exist. Pick another one."));
 
         if (result.hasErrors()) {
-            return "register";
+            List<City> cities = cityService.getAllCities();
+            model.addAttribute("cities", cities);
+            return "redirect:/register?failure=true";
         }
 
         userService.save(userRegistrationDto);

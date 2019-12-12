@@ -28,13 +28,13 @@ public class Lot {
     private User user;
 
     @Column
-    private String title;
+    private String name;
 
     @Column(name = "creation_time")
     private LocalDateTime creationTime;
 
     @Column(name = "last_mod_time")
-    private LocalDateTime timeLastMod;
+    private LocalDateTime lastModTime;
 
     @Column
     private String description;

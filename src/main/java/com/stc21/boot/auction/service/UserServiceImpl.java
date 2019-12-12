@@ -3,6 +3,8 @@ package com.stc21.boot.auction.service;
 import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.dto.UserRegistrationDto;
 import com.stc21.boot.auction.entity.User;
+import com.stc21.boot.auction.repository.CityRepository;
+import com.stc21.boot.auction.repository.RoleRepository;
 import com.stc21.boot.auction.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -12,7 +14,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,22 +21,19 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final CityRepository cityRepository;
     private final ModelMapper modelMapper;
-    private final CityService cityService;
-    private final RoleService roleService;
 
-    public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, CityService cityService, RoleService roleService) {
-        this.userRepository = userRepository;
+    public UserServiceImpl(ModelMapper modelMapper, UserRepository userRepository, RoleRepository roleRepository, CityRepository cityRepository) {
         this.modelMapper = modelMapper;
-        this.cityService = cityService;
-        this.roleService = roleService;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.cityRepository = cityRepository;
     }
 
     @Override
     public List<UserDto> getAllUsers() {
-        LinkedList<String> linkedList = new LinkedList<>();
-
-
         return userRepository.findAll().stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
@@ -83,13 +81,15 @@ public class UserServiceImpl implements UserService {
     public UserDto convertToDto(User user) {
         if (user == null) return null;
 
-        UserDto userDto = modelMapper.map(user, UserDto.class);
-        userDto.setCity(cityService.convertToDto(user.getCity()));
-        userDto.setRole(roleService.convertToDto(user.getRole()));
-
-        return userDto;
+        return modelMapper.map(user, UserDto.class);
     }
 
+
+    /**
+     * Опишите док, а то непонятно, что делает метод
+     * @param userRegistrationDto
+     * @return
+     */
     @Override
     public List<String> fieldsWithErrors(UserRegistrationDto userRegistrationDto) {
         List<String> result = new ArrayList<>();
@@ -120,7 +120,11 @@ public class UserServiceImpl implements UserService {
         user.setPassword(userRegistrationDto.getPassword()); // TODO: to hash
         user.setEmail(userRegistrationDto.getEmail().equals("") ? null : userRegistrationDto.getEmail());
         user.setPhoneNumber(userRegistrationDto.getPhoneNumber().equals("") ? null : userRegistrationDto.getPhoneNumber());
+        user.setFirstName(userRegistrationDto.getFirstName());
+        user.setLastName(userRegistrationDto.getLastName());
+        user.setRole(roleRepository.getOne(1L));
+        user.setCity(userRegistrationDto.getCity());
 
-        return userRepository.save(user);
+        return userRepository.saveAndFlush(user);
     }
 }
