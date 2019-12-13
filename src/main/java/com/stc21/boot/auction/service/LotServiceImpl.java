@@ -1,7 +1,6 @@
 package com.stc21.boot.auction.service;
 
 import com.stc21.boot.auction.dto.LotDto;
-import com.stc21.boot.auction.dto.LotDto;
 import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.entity.Lot;
 import com.stc21.boot.auction.entity.Photo;
@@ -9,26 +8,37 @@ import com.stc21.boot.auction.repository.LotRepository;
 import com.stc21.boot.auction.repository.PhotoRepository;
 import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.Authentication;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 @Service
 public class LotServiceImpl implements LotService {
+
+    // число карточек на странице
+    public static final int SIZE = 5;
+    private final ModelMapper modelMapper;
+    private final LotRepository lotRepository;
+    private final UserService userService;
+    private final GoogleDriveService googleDriveService;
+    private final PhotoRepository photoRepository;
+    public LotServiceImpl(ModelMapper modelMapper, LotRepository lotRepository, UserService userService, GoogleDriveService googleDriveService, PhotoRepository photoRepository) {
+        this.modelMapper = modelMapper;
+        this.lotRepository = lotRepository;
+        this.userService = userService;
+        this.googleDriveService = googleDriveService;
+        this.photoRepository = photoRepository;
+    }
 
     @Override
     public Page<LotDto> getPaginated(Pageable pageable) {
@@ -48,36 +58,6 @@ public class LotServiceImpl implements LotService {
                 pageable.getSortOr(Sort.unsorted()));
 
         return lotRepository.findAll(pageRequest).map(this::convertToDto);
-    }
-
-    @Override
-    public LotDto convertToDto(Lot lot) {
-        if (lot == null) return null;
-
-        LotDto lotDto = modelMapper.map(lot, LotDto.class);
-
-        lotDto.setUserDto(userService.convertToDto(lot.getUser()));
-        lotDto.setCategory(lot.getCategory());
-        lotDto.setCity(lot.getCity());
-        lotDto.setCondition(lot.getCondition());
-
-        return lotDto;
-    }
-    // число карточек на странице
-    public static final int SIZE = 5;
-
-    private final ModelMapper modelMapper;
-    private final LotRepository lotRepository;
-    private final UserService userService;
-    private final GoogleDriveService googleDriveService;
-    private final PhotoRepository photoRepository;
-
-    public LotServiceImpl(ModelMapper modelMapper, LotRepository lotRepository, UserService userService, GoogleDriveService googleDriveService, PhotoRepository photoRepository) {
-        this.modelMapper = modelMapper;
-        this.lotRepository = lotRepository;
-        this.userService = userService;
-        this.googleDriveService = googleDriveService;
-        this.photoRepository = photoRepository;
     }
 
     @Override
@@ -111,9 +91,10 @@ public class LotServiceImpl implements LotService {
         lotDto.setTimeLastMod(nowDateTime);
 
         Lot insertedLot = lotRepository.save(convertToEntity(lotDto));
-        List<Photo> uploadPhotos= googleDriveService.uploadLotMedia(insertedLot.getId(), images);
+        List<Photo> uploadPhotos = googleDriveService.uploadLotMedia(insertedLot.getId(), images);
         uploadPhotos.forEach(photo -> {
             photo.setLot(insertedLot);
+            photo.setDeleted(false);
             photoRepository.save(photo);
         });
         return lotRepository.getOne(insertedLot.getId());
@@ -134,15 +115,29 @@ public class LotServiceImpl implements LotService {
         UserDto userDto = modelMapper.map(lot.getUser(), UserDto.class);
         lotDto.setUserDto(userDto);
 
-        Iterator<Photo> firstPhoto = lot.getPhotos().iterator();
-        if (firstPhoto.hasNext())
-            lotDto.setPhotoUrl(firstPhoto.next().getUrl());
-        else {
-            lotDto.setPhotoUrl(null);
+        for (Photo photo : lot.getPhotos()) {
+            if (false == photo.getDeleted()) {
+                lotDto.setPhotoUrl(photo.getUrl());
+                break;
+            }
         }
         return lotDto;
     }
 
+
+    @Override
+    public LotDto convertToDto(Lot lot) {
+        if (lot == null) return null;
+
+        LotDto lotDto = modelMapper.map(lot, LotDto.class);
+
+        lotDto.setUserDto(userService.convertToDto(lot.getUser()));
+        lotDto.setCategory(lot.getCategory());
+        lotDto.setCity(lot.getCity());
+        lotDto.setCondition(lot.getCondition());
+
+        return lotDto;
+    }
 
     private Lot convertToEntity(LotDto lotDto) {
         return modelMapper.map(lotDto, Lot.class);

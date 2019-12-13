@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import static java.util.Set.*;
 
 @Controller
 @RequestMapping("/dashboard")
@@ -49,9 +51,13 @@ public class DashboardController {
             @RequestParam(required = false) String sortBy,
             @RequestParam(required = false) String sortDir) {
 
-        Set<String> possibleSections = Set.of(
-                "lots", "users", "photos", "categories", "cities", "conditions"
-        );
+        Set<String> possibleSections = new HashSet<>();
+        possibleSections.add("lots");
+        possibleSections.add("users");
+        possibleSections.add("photos");
+        possibleSections.add("categories");
+        possibleSections.add("cities");
+        possibleSections.add("conditions");
 
         String currentSection = section != null && possibleSections.contains(section) ? section : "lots";
         int currentPage = Math.max(page.orElse(1), 1);

@@ -103,7 +103,7 @@
 												<td ><span class="badge badge-primary" th:text="${lot.maxPrice}">150 p.</span></td>
 												<td><a href="#" th:text="${lot.userDto.username}">username1</a></td>
 												<td th:text="${#temporals.format(lot.creationTime, 'yyyy-MM-dd HH:mm:ss')}">01.01.01 00:01</td>
-												<td th:text="${#temporals.format(lot.lastModTime, 'yyyy-MM-dd HH:mm:ss')}">02.02.02 00:02</td>
+												<td th:text="${#temporals.format(lot.timeLastMod, 'yyyy-MM-dd HH:mm:ss')}">02.02.02 00:02</td>
 												<td th:text="${lot.category.name}">Электроника</td>
 												<td th:text="${lot.city.name}">city1</td>
 												<td th:text="${lot.condition.name}">Отличное</td>

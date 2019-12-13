@@ -47,11 +47,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto convertToDto(Category category) {
         if (category == null) return null;
-
         return modelMapper.map(category, CategoryDto.class);
-
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
     }
 
     @Override
