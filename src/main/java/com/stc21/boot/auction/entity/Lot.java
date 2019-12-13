@@ -52,14 +52,14 @@ public class Lot {
     private City city;
 
     @Column(name = "current_price")
-    private Double currentPrice;
+    private Long currentPrice;
 
     @Column(name = "max_price")
-    private Double maxPrice;
+    private Long maxPrice;
 
     @Column(name = "min_price")
-    private Double minPrice;
+    private Long minPrice;
 
     @Column(name = "step_price")
-    private Double stepPrice;
+    private Long stepPrice;
 }

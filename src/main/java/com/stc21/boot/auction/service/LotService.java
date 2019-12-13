@@ -10,6 +10,8 @@ import java.util.List;
 public interface LotService {
     List<Lot> getAllLots();
 
+    List<Lot> getAllLotsByUsername(Authentication token);
+
     void updateAllLots(List<Lot> lots);
 
     Page<LotDto> getPageOfHomePageLots(int page);

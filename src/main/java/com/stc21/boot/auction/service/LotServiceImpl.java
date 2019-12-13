@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 
@@ -39,6 +40,12 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
+    public List<Lot> getAllLotsByUsername(Authentication token) {
+        UserDto user = userService.findByUsername(token.getName());
+        return lotRepository.findAllByUserUsername(user.getUsername());
+    }
+
+    @Override
     @Transactional
     public void updateAllLots(List<Lot> lots) {
         lots.forEach(lot -> {
@@ -59,18 +66,18 @@ public class LotServiceImpl implements LotService {
         lotDto.setUserDto(authed);
         LocalDateTime nowDateTime = LocalDateTime.now();
         lotDto.setCreationTime(nowDateTime);
-        lotDto.setTimeLastMod(nowDateTime);
+        lotDto.setLastModTime(nowDateTime);
 
         Lot lot = convertToEntity(lotDto);
 
         return lotRepository.save(lot);
     }
 
-    private Double calcCurrentPrice(Lot lot) {
+    private Long calcCurrentPrice(Lot lot) {
         Random random = new Random();
-        Double max = lot.getMaxPrice();
-        Double min = lot.getMinPrice();
-        double randomValue = min + (max - min) * random.nextDouble();
+        Long max = lot.getMaxPrice();
+        Long min = lot.getMinPrice();
+        long randomValue = min + (max - min) * Long.parseLong(String.valueOf(random.nextDouble()));
         return randomValue;
     }
 
