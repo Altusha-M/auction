@@ -7,7 +7,12 @@ import com.stc21.boot.auction.repository.CityRepository;
 import com.stc21.boot.auction.repository.RoleRepository;
 import com.stc21.boot.auction.repository.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +26,6 @@ public class UserServiceImpl implements UserService {
     private final CityRepository cityRepository;
     private final ModelMapper modelMapper;
 
-
     public UserServiceImpl(ModelMapper modelMapper, UserRepository userRepository, RoleRepository roleRepository, CityRepository cityRepository) {
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
@@ -34,6 +38,33 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll().stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<UserDto> getPaginated(Pageable pageable) {
+        PageRequest pageRequest = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSortOr(Sort.unsorted()));
+
+        return userRepository.findByDeletedFalse(pageRequest).map(this::convertToDto);
+    }
+    @Override
+    public Page<UserDto> getPaginatedEvenDeleted(Pageable pageable) {
+        PageRequest pageRequest = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSortOr(Sort.unsorted()));
+
+        return userRepository.findAll(pageRequest).map(this::convertToDto);
+    }
+
+
+    @Override
+    public UserDto findById(Long id) {
+        return userRepository.findById(id)
+                .map(this::convertToDto)
+                .orElse(null);
     }
 
     @Override
@@ -106,5 +137,11 @@ public class UserServiceImpl implements UserService {
         user.setCity(userRegistrationDto.getCity());
 
         return userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    @Transactional
+    public void setDeletedTo(long id, boolean newValue) {
+        userRepository.updateDeletedTo(id, newValue);
     }
 }

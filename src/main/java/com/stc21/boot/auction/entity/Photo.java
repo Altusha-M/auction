@@ -20,7 +20,7 @@ public class Photo {
             allocationSize = 1)
     private long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lot_id", nullable = false)
     private Lot lot;
 
@@ -30,4 +30,7 @@ public class Photo {
     public Photo(String url) {
         this.url = url;
     }
+
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private Boolean deleted;
 }

@@ -5,12 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CityDto {
+public class RoleDto {
     private Long id;
     private String name;
-    private Boolean deleted;
-
-    public CityDto(String name) {
-        this.name = name;
-    }
 }
