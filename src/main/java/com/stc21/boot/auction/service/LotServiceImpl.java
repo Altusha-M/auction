@@ -1,6 +1,7 @@
 package com.stc21.boot.auction.service;
 
 import com.stc21.boot.auction.dto.LotDto;
+import com.stc21.boot.auction.dto.LotDto;
 import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.entity.Lot;
 import com.stc21.boot.auction.entity.Photo;
@@ -8,7 +9,12 @@ import com.stc21.boot.auction.repository.LotRepository;
 import com.stc21.boot.auction.repository.PhotoRepository;
 import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
@@ -24,6 +30,39 @@ import java.util.*;
 @Service
 public class LotServiceImpl implements LotService {
 
+    @Override
+    public Page<LotDto> getPaginated(Pageable pageable) {
+        PageRequest pageRequest = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSortOr(Sort.unsorted()));
+
+        return lotRepository.findByDeletedFalse(pageRequest).map(this::convertToDto);
+    }
+
+    @Override
+    public Page<LotDto> getPaginatedEvenDeleted(Pageable pageable) {
+        PageRequest pageRequest = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSortOr(Sort.unsorted()));
+
+        return lotRepository.findAll(pageRequest).map(this::convertToDto);
+    }
+
+    @Override
+    public LotDto convertToDto(Lot lot) {
+        if (lot == null) return null;
+
+        LotDto lotDto = modelMapper.map(lot, LotDto.class);
+
+        lotDto.setUserDto(userService.convertToDto(lot.getUser()));
+        lotDto.setCategory(lot.getCategory());
+        lotDto.setCity(lot.getCity());
+        lotDto.setCondition(lot.getCondition());
+
+        return lotDto;
+    }
     // число карточек на странице
     public static final int SIZE = 5;
 
@@ -57,7 +96,7 @@ public class LotServiceImpl implements LotService {
     @Override
     public Page<LotDto> getPageOfHomePageLots(int page) {
         PageRequest pageRequest = PageRequest.of(page, SIZE);
-        Page<Lot> lots = lotRepository.findAll(pageRequest);
+        Page<Lot> lots = lotRepository.findByDeletedFalse(pageRequest);
         return lots.map(this::convertToLotDto);
     }
 
@@ -107,5 +146,11 @@ public class LotServiceImpl implements LotService {
 
     private Lot convertToEntity(LotDto lotDto) {
         return modelMapper.map(lotDto, Lot.class);
+    }
+
+    @Override
+    @Transactional
+    public void setDeletedTo(long id, boolean newValue) {
+        lotRepository.updateDeletedTo(id, newValue);
     }
 }

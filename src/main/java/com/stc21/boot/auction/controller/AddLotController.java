@@ -5,6 +5,10 @@ import com.stc21.boot.auction.entity.*;
 import com.stc21.boot.auction.service.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import com.stc21.boot.auction.entity.Category;
+import com.stc21.boot.auction.entity.City;
+import com.stc21.boot.auction.entity.Condition;
+import com.stc21.boot.auction.service.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -56,6 +60,7 @@ public class AddLotController {
     public LotDto newLot() {
         return new LotDto();
     }
+
 
 
     @GetMapping(path = "/lot")

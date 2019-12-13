@@ -66,6 +66,9 @@ public class Lot {
     @Column(name = "step_price")
     private Double stepPrice;
 
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private Boolean deleted;
+
     @OneToMany(mappedBy = "lot",
             cascade = CascadeType.ALL,
             orphanRemoval = true)

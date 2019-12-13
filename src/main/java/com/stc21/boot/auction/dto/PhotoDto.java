@@ -5,12 +5,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CityDto {
+public class PhotoDto {
     private Long id;
-    private String name;
+    private LotDto lot;
+    private String url;
     private Boolean deleted;
-
-    public CityDto(String name) {
-        this.name = name;
-    }
 }

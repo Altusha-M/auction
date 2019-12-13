@@ -21,4 +21,7 @@ public class Category {
 
     @Column(nullable = false)
     private String name;
+
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private boolean deleted;
 }
