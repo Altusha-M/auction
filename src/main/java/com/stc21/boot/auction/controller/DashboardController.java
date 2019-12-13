@@ -1,5 +1,8 @@
 package com.stc21.boot.auction.controller;
 
+import com.stc21.boot.auction.dto.CategoryDto;
+import com.stc21.boot.auction.dto.CityDto;
+import com.stc21.boot.auction.dto.ConditionDto;
 import com.stc21.boot.auction.service.*;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -106,5 +109,19 @@ public class DashboardController {
             case     "cities":      cityService.setDeletedTo(id, newValue); break;
             case "conditions": conditionService.setDeletedTo(id, newValue); break;
         }
+    }
+
+    @PostMapping(params = "action=add")
+    private String addAThing(
+            @RequestParam String type,
+            @RequestParam String name) {
+
+        switch (type) {
+            case "categories":  categoryService.save(new CategoryDto(name));
+            case     "cities":      cityService.save(new CityDto(name));
+            case "conditions": conditionService.save(new ConditionDto(name));
+        }
+
+        return "redirect:dashboard?section="+type;
     }
 }

@@ -9,4 +9,8 @@ public class CategoryDto {
     private Long id;
     private String name;
     private Boolean deleted;
+
+    public CategoryDto(String name) {
+        this.name = name;
+    }
 }

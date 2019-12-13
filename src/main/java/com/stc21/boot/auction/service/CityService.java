@@ -13,4 +13,5 @@ public interface CityService {
     List<City> getAllCities();
 
     void setDeletedTo(long id, boolean newValue);
+    City save(CityDto cityDto);
 }

@@ -9,4 +9,8 @@ public class ConditionDto {
     private Long id;
     private String name;
     private Boolean deleted;
+
+    public ConditionDto(String name) {
+        this.name = name;
+    }
 }

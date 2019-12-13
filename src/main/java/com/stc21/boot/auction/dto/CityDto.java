@@ -9,4 +9,8 @@ public class CityDto {
     private Long id;
     private String name;
     private Boolean deleted;
+
+    public CityDto(String name) {
+        this.name = name;
+    }
 }

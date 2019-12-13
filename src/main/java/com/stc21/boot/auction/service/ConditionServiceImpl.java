@@ -60,4 +60,13 @@ public class ConditionServiceImpl implements ConditionService {
     public void setDeletedTo(long id, boolean newValue) {
         conditionRepository.updateDeletedTo(id, newValue);
     }
+
+    @Override
+    public Condition save(ConditionDto conditionDto) {
+        if (conditionDto == null)
+            throw new NullPointerException("No conditionDto to save");
+
+        Condition condition = modelMapper.map(conditionDto, Condition.class);
+        return conditionRepository.saveAndFlush(condition);
+    }
 }

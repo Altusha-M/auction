@@ -335,16 +335,17 @@
 								</div>
 							</div>
 							<hr>
-							<form>
+							<form th:action="@{/dashboard}" method="post">
 								<div class="form-row">
 									<div class="col-2">
-										<label for="newCategoryInput">New category:</label>
+										<label for="newCategoryInput">New condition:</label>
 									</div>
 									<div class="col-6">
-										<input id="newCategoryInput" class="form-control" placeholder="New category name" type="text" disabled>
+										<input type="hidden" name="type" th:value="categories" />
+										<input name="name" id="newCategoryInput" class="form-control" placeholder="New category name" type="text" required>
 									</div>
 									<div class="col">
-										<a class="btn btn-outline-primary disabled" href="#">Add</a>
+										<button type="submit" class="btn btn-primary" name="action" value="add">Add</button>
 									</div>
 								</div>
 							</form>
@@ -391,16 +392,17 @@
 								</div>
 							</div>
 							<hr>
-							<form>
+							<form th:action="@{/dashboard}" method="post">
 								<div class="form-row">
 									<div class="col-2">
-										<label for="newCityInput">New city:</label>
+										<label for="newCityInput">New condition:</label>
 									</div>
 									<div class="col-6">
-										<input id="newCityInput" class="form-control" placeholder="New city name" type="text" disabled>
+										<input type="hidden" name="type" th:value="cities" />
+										<input name="name" id="newCityInput" class="form-control" placeholder="New city name" type="text" required>
 									</div>
 									<div class="col">
-										<a class="btn btn-outline-primary disabled" href="#">Add</a>
+										<button type="submit" class="btn btn-primary" name="action" value="add">Add</button>
 									</div>
 								</div>
 							</form>
@@ -447,16 +449,17 @@
 								</div>
 							</div>
 							<hr>
-							<form>
+							<form th:action="@{/dashboard}" method="post">
 								<div class="form-row">
 									<div class="col-2">
 										<label for="newConditionInput">New condition:</label>
 									</div>
 									<div class="col-6">
-										<input id="newConditionInput" class="form-control" placeholder="New condition name" type="text" disabled>
+										<input type="hidden" name="type" th:value="conditions" />
+										<input name="name" id="newConditionInput" class="form-control" placeholder="New condition name" type="text" required>
 									</div>
 									<div class="col">
-										<a class="btn btn-outline-primary disabled" href="#">Add</a>
+										<button type="submit" class="btn btn-primary" name="action" value="add">Add</button>
 									</div>
 								</div>
 							</form>

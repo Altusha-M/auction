@@ -22,5 +22,5 @@ public class Condition {
     private String name;
 
     @Column(columnDefinition = "boolean default false", nullable = false)
-    private Boolean deleted;
+    private boolean deleted;
 }

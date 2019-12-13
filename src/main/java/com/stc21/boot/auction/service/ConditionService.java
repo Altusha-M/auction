@@ -14,4 +14,5 @@ public interface ConditionService {
     List<Condition> findAll();
 
     void setDeletedTo(long id, boolean newValue);
+    Condition save(ConditionDto conditionDto);
 }

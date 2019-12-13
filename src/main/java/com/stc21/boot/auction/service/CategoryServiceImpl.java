@@ -61,4 +61,13 @@ public class CategoryServiceImpl implements CategoryService {
     public void setDeletedTo(long id, boolean newValue) {
         categoryRepository.updateDeletedTo(id, newValue);
     }
+
+    @Override
+    public Category save(CategoryDto categoryDto) {
+        if (categoryDto == null)
+            throw  new NullPointerException("No categoryDto to save");
+
+        Category category = modelMapper.map(categoryDto, Category.class);
+        return categoryRepository.saveAndFlush(category);
+    }
 }

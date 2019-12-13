@@ -14,4 +14,5 @@ public interface CategoryService {
     CategoryDto convertToDto(Category category);
 
     void setDeletedTo(long id, boolean newValue);
+    Category save(CategoryDto categoryDto);
 }

@@ -53,4 +53,13 @@ public class CityServiceImpl implements CityService {
     public void setDeletedTo(long id, boolean newValue) {
         cityRepository.updateDeletedTo(id, newValue);
     }
+
+    @Override
+    public City save(CityDto cityDto) {
+        if (cityDto == null)
+            throw new NullPointerException("No cityDto to save");
+
+        City city = modelMapper.map(cityDto, City.class);
+        return cityRepository.saveAndFlush(city);
+    }
 }
