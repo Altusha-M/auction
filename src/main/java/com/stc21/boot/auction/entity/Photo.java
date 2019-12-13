@@ -30,4 +30,7 @@ public class Photo {
     public Photo(String url) {
         this.url = url;
     }
+
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private Boolean deleted;
 }

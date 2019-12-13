@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:th="http://www.thymeleaf.org">
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	<head th:fragment="head(title)">
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,6 +24,9 @@
 				<div class="navbar-nav">
 					<a class="nav-item nav-link" href="#">Browse</a>
 					<a class="nav-item nav-link" th:href="@{/add/lot}">Place a lot</a>
+					<div sec:authorize="hasAuthority('admin')">
+						<a class="nav-item nav-link" th:href="@{/dashboard}">Dashboard</a>
+					</div>
 				</div>
 				<hr>
 				<div th:switch="${#authorization.expr('isAuthenticated()')}">

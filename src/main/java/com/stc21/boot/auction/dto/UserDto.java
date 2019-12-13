@@ -1,5 +1,6 @@
 package com.stc21.boot.auction.dto;
 
+import com.stc21.boot.auction.entity.Role;
 import com.stc21.boot.auction.entity.City;
 import com.stc21.boot.auction.entity.User;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,9 @@ public class UserDto {
     private String lastName;
     private String email;
     private String phoneNumber;
+    private Role role;
     private City city;
+    private Boolean deleted;
 
     public UserDto(User user) {
         this.username = user.getUsername();
@@ -26,5 +29,7 @@ public class UserDto {
         this.email = user.getEmail();
         this.phoneNumber = user.getPhoneNumber();
         this.city = user.getCity();
+        this.role = user.getRole();
+        this.deleted = user.getDeleted();
     }
 }

@@ -77,4 +77,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private Boolean deleted;
 }

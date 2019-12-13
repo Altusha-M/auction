@@ -1,16 +1,19 @@
 package com.stc21.boot.auction.service;
 
 import com.stc21.boot.auction.dto.LotDto;
+import com.stc21.boot.auction.dto.LotDto;
 import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.entity.Lot;
 import com.stc21.boot.auction.repository.LotRepository;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
@@ -18,19 +21,50 @@ import java.util.Random;
 @Service
 public class LotServiceImpl implements LotService {
 
-    // число карточек на странице
     public static final int SIZE = 5;
 
-    private final ModelMapper modelMapper;
-
     private final LotRepository lotRepository;
-
+    private final ModelMapper modelMapper;
     private final UserService userService;
 
-    public LotServiceImpl(ModelMapper modelMapper, LotRepository lotRepository, UserService userService) {
-        this.modelMapper = modelMapper;
+    public LotServiceImpl(LotRepository lotRepository, ModelMapper modelMapper, UserService userService) {
         this.lotRepository = lotRepository;
+        this.modelMapper = modelMapper;
         this.userService = userService;
+    }
+
+    @Override
+    public Page<LotDto> getPaginated(Pageable pageable) {
+        PageRequest pageRequest = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSortOr(Sort.unsorted()));
+
+        return lotRepository.findByDeletedFalse(pageRequest).map(this::convertToDto);
+    }
+
+    @Override
+    public Page<LotDto> getPaginatedEvenDeleted(Pageable pageable) {
+        PageRequest pageRequest = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSortOr(Sort.unsorted()));
+
+        return lotRepository.findAll(pageRequest).map(this::convertToDto);
+    }
+
+    @Override
+    public LotDto convertToDto(Lot lot) {
+        if (lot == null) return null;
+
+        LotDto lotDto = modelMapper.map(lot, LotDto.class);
+
+        lotDto.setUserDto(userService.convertToDto(lot.getUser()));
+        lotDto.setCategory(lot.getCategory());
+        lotDto.setCity(lot.getCity());
+        lotDto.setCondition(lot.getCondition());
+
+        return lotDto;
     }
 
     @Override
@@ -49,7 +83,7 @@ public class LotServiceImpl implements LotService {
     @Override
     public Page<LotDto> getPageOfHomePageLots(int page) {
         PageRequest pageRequest = PageRequest.of(page, SIZE);
-        Page<Lot> lots = lotRepository.findAll(pageRequest);
+        Page<Lot> lots = lotRepository.findByDeletedFalse(pageRequest);
         return lots.map(this::convertToLotDto);
     }
 
@@ -59,7 +93,7 @@ public class LotServiceImpl implements LotService {
         lotDto.setUserDto(authed);
         LocalDateTime nowDateTime = LocalDateTime.now();
         lotDto.setCreationTime(nowDateTime);
-        lotDto.setTimeLastMod(nowDateTime);
+        lotDto.setLastModTime(nowDateTime);
 
         Lot lot = convertToEntity(lotDto);
 
@@ -82,8 +116,13 @@ public class LotServiceImpl implements LotService {
         return lotDto;
     }
 
-
     private Lot convertToEntity(LotDto lotDto) {
         return modelMapper.map(lotDto, Lot.class);
+    }
+
+    @Override
+    @Transactional
+    public void setDeletedTo(long id, boolean newValue) {
+        lotRepository.updateDeletedTo(id, newValue);
     }
 }
