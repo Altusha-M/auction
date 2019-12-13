@@ -18,9 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class LotServiceImpl implements LotService {
@@ -91,6 +89,11 @@ public class LotServiceImpl implements LotService {
         lotDto.setTimeLastMod(nowDateTime);
 
         Lot insertedLot = lotRepository.save(convertToEntity(lotDto));
+
+        if ((images.length == 1) && images[0].getOriginalFilename().equals("")) {
+            return lotRepository.getOne(insertedLot.getId());
+        }
+
         List<Photo> uploadPhotos = googleDriveService.uploadLotMedia(insertedLot.getId(), images);
         uploadPhotos.forEach(photo -> {
             photo.setLot(insertedLot);
