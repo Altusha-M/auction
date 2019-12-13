@@ -13,5 +13,7 @@ public interface PhotoService {
     Page<PhotoDto> getPaginatedEvenDeleted(Pageable pageable);
     PhotoDto convertToDto(Photo photo);
 
+    void insertPhoto(Photo photo);
+
     void setDeletedTo(long id, boolean newValue);
 }

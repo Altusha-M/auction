@@ -55,6 +55,11 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
+    public void insertPhoto(Photo photo) {
+        photoRepository.save(photo);
+    }
+
+    @Override
     public PhotoDto convertToDto(Photo photo) {
         if (photo == null) return null;
 
