@@ -8,4 +8,5 @@ import lombok.NoArgsConstructor;
 public class CityDto {
     private Long id;
     private String name;
+    private Boolean deleted;
 }

@@ -12,11 +12,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.Random;
 
 @Service
@@ -36,6 +35,16 @@ public class LotServiceImpl implements LotService {
 
     @Override
     public Page<LotDto> getPaginated(Pageable pageable) {
+        PageRequest pageRequest = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSortOr(Sort.unsorted()));
+
+        return lotRepository.findByDeletedFalse(pageRequest).map(this::convertToDto);
+    }
+
+    @Override
+    public Page<LotDto> getPaginatedEvenDeleted(Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(
                 pageable.getPageNumber(),
                 pageable.getPageSize(),
@@ -74,7 +83,7 @@ public class LotServiceImpl implements LotService {
     @Override
     public Page<LotDto> getPageOfHomePageLots(int page) {
         PageRequest pageRequest = PageRequest.of(page, SIZE);
-        Page<Lot> lots = lotRepository.findAll(pageRequest);
+        Page<Lot> lots = lotRepository.findByDeletedFalse(pageRequest);
         return lots.map(this::convertToLotDto);
     }
 
@@ -107,8 +116,13 @@ public class LotServiceImpl implements LotService {
         return lotDto;
     }
 
-
     private Lot convertToEntity(LotDto lotDto) {
         return modelMapper.map(lotDto, Lot.class);
+    }
+
+    @Override
+    @Transactional
+    public void setDeletedTo(long id, boolean newValue) {
+        lotRepository.updateDeletedTo(id, newValue);
     }
 }

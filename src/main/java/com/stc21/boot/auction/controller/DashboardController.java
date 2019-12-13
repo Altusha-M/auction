@@ -4,8 +4,10 @@ import com.stc21.boot.auction.service.*;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -62,13 +64,47 @@ public class DashboardController {
         model.addAttribute("sortBy", sortField);
         model.addAttribute("sortDir", sortDirection == Sort.Direction.ASC ? "asc" : "desc");
 
-        model.addAttribute(      "lots",       lotService.getPaginated(currentSection.equals(      "lots") ? specificPageable : defaultPageable));
-        model.addAttribute(     "users",      userService.getPaginated(currentSection.equals(     "users") ? specificPageable : defaultPageable));
-        model.addAttribute(    "photos",     photoService.getPaginated(currentSection.equals(    "photos") ? specificPageable : defaultPageable));
-        model.addAttribute("categories",  categoryService.getAllSorted(currentSection.equals("categories") ? sort             : Sort.unsorted()));
-        model.addAttribute(    "cities",      cityService.getAllSorted(currentSection.equals(    "cities") ? sort             : Sort.unsorted()));
-        model.addAttribute("conditions", conditionService.getAllSorted(currentSection.equals("conditions") ? sort             : Sort.unsorted()));
+        model.addAttribute(      "lots",       lotService.getPaginatedEvenDeleted(currentSection.equals(      "lots") ? specificPageable : defaultPageable));
+        model.addAttribute(     "users",      userService.getPaginatedEvenDeleted(currentSection.equals(     "users") ? specificPageable : defaultPageable));
+        model.addAttribute(    "photos",     photoService.getPaginatedEvenDeleted(currentSection.equals(    "photos") ? specificPageable : defaultPageable));
+        model.addAttribute("categories",  categoryService.getAllSortedEvenDeleted(currentSection.equals("categories") ? sort             : Sort.unsorted()));
+        model.addAttribute(    "cities",      cityService.getAllSortedEvenDeleted(currentSection.equals(    "cities") ? sort             : Sort.unsorted()));
+        model.addAttribute("conditions", conditionService.getAllSortedEvenDeleted(currentSection.equals("conditions") ? sort             : Sort.unsorted()));
 
         return "dashboard";
+    }
+
+    /**
+     * Методы дублируются для уверенности, что несколько POST-запросов не будут переключать состояние как тумблер
+     */
+    @PostMapping(params = "action=delete")
+    public String deleteAThing(
+            @RequestParam String type,
+            @RequestParam long id) {
+
+        changeDeletedToFor(true, type, id);
+
+        return "redirect:dashboard?section="+type;
+    }
+
+    @PostMapping(params = "action=return")
+    public String returnAThing(
+            @RequestParam String type,
+            @RequestParam long id) {
+
+        changeDeletedToFor(false, type, id);
+
+        return "redirect:dashboard?section="+type;
+    }
+
+    private void changeDeletedToFor(boolean newValue, String type, long id) {
+        switch (type) {
+            case       "lots":       lotService.setDeletedTo(id, newValue); break;
+            case      "users":      userService.setDeletedTo(id, newValue); break;
+            case     "photos":     photoService.setDeletedTo(id, newValue); break;
+            case "categories":  categoryService.setDeletedTo(id, newValue); break;
+            case     "cities":      cityService.setDeletedTo(id, newValue); break;
+            case "conditions": conditionService.setDeletedTo(id, newValue); break;
+        }
     }
 }

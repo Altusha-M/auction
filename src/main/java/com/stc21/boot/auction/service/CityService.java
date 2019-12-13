@@ -8,6 +8,9 @@ import java.util.List;
 
 public interface CityService {
     List<CityDto> getAllSorted(Sort sort);
+    List<CityDto> getAllSortedEvenDeleted(Sort sort);
     CityDto convertToDto(City city);
     List<City> getAllCities();
+
+    void setDeletedTo(long id, boolean newValue);
 }

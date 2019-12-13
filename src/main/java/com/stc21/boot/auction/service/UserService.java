@@ -11,6 +11,7 @@ import java.util.List;
 public interface UserService {
     List<UserDto> getAllUsers();
     Page<UserDto> getPaginated(Pageable pageable);
+    Page<UserDto> getPaginatedEvenDeleted(Pageable pageable);
     UserDto findById(Long id);
     UserDto findByUsername(String username);
     UserDto findByEmail(String email);
@@ -19,4 +20,6 @@ public interface UserService {
 
     List<String> fieldsWithErrors(UserRegistrationDto userRegistrationDto);
     User save(UserRegistrationDto userRegistrationDto);
+
+    void setDeletedTo(long id, boolean newValue);
 }

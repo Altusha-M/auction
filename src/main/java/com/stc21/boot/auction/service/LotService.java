@@ -18,5 +18,8 @@ public interface LotService {
     Lot saveNewLot(LotDto lot, Authentication token);
 
     Page<LotDto> getPaginated(Pageable pageable);
+    Page<LotDto> getPaginatedEvenDeleted(Pageable pageable);
     LotDto convertToDto(Lot lot);
+
+    void setDeletedTo(long id, boolean newValue);
 }

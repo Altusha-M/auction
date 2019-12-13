@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +47,18 @@ public class UserServiceImpl implements UserService {
                 pageable.getPageSize(),
                 pageable.getSortOr(Sort.unsorted()));
 
+        return userRepository.findByDeletedFalse(pageRequest).map(this::convertToDto);
+    }
+    @Override
+    public Page<UserDto> getPaginatedEvenDeleted(Pageable pageable) {
+        PageRequest pageRequest = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSortOr(Sort.unsorted()));
+
         return userRepository.findAll(pageRequest).map(this::convertToDto);
     }
+
 
     @Override
     public UserDto findById(Long id) {
@@ -126,5 +137,11 @@ public class UserServiceImpl implements UserService {
         user.setCity(userRegistrationDto.getCity());
 
         return userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    @Transactional
+    public void setDeletedTo(long id, boolean newValue) {
+        userRepository.updateDeletedTo(id, newValue);
     }
 }

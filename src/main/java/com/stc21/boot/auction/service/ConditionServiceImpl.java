@@ -6,6 +6,7 @@ import com.stc21.boot.auction.repository.ConditionRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,13 @@ public class ConditionServiceImpl implements ConditionService {
 
     @Override
     public List<ConditionDto> getAllSorted(Sort sort) {
+        return conditionRepository.findByDeletedFalse(sort).stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ConditionDto> getAllSortedEvenDeleted(Sort sort) {
         return conditionRepository.findAll(sort).stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
@@ -45,5 +53,11 @@ public class ConditionServiceImpl implements ConditionService {
     @Override
     public List<Condition> findAll() {
         return conditionRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public void setDeletedTo(long id, boolean newValue) {
+        conditionRepository.updateDeletedTo(id, newValue);
     }
 }

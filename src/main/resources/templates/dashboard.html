@@ -64,8 +64,8 @@
 													<a th:href="@{/dashboard(section='lots', sortBy='maxPrice', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Author
-													<a th:href="@{/dashboard(section='lots', sortBy='userDto_username', sortDir='asc')}">▲</a>
-													<a th:href="@{/dashboard(section='lots', sortBy='userDto_username', sortDir='desc')}">▼</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='user_username', sortDir='asc')}">▲</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='user_username', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Created at
 													<a th:href="@{/dashboard(section='lots', sortBy='creationTime', sortDir='asc')}">▲</a>
@@ -87,6 +87,10 @@
 													<a th:href="@{/dashboard(section='lots', sortBy='condition_name', sortDir='asc')}">▲</a>
 													<a th:href="@{/dashboard(section='lots', sortBy='condition_name', sortDir='desc')}">▼</a>
 												</th>
+												<th scope="col">Is deleted
+													<a th:href="@{/dashboard(section='lots', sortBy='deleted', sortDir='asc')}">▲</a>
+													<a th:href="@{/dashboard(section='lots', sortBy='deleted', sortDir='desc')}">▼</a>
+												</th>
 												<th scope="col">Actions</th>
 											</tr>
 										</thead>
@@ -103,10 +107,16 @@
 												<td th:text="${lot.category.name}">Электроника</td>
 												<td th:text="${lot.city.name}">city1</td>
 												<td th:text="${lot.condition.name}">Отличное</td>
+												<td th:text="${lot.deleted} ? YES : NO">NO</td>
 												<td>
 													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
 													<a class="btn btn-outline-primary p-1 disabled" href="#">Edit</a>
-													<a class="btn btn-outline-danger p-1 disabled" href="#">Remove</a>
+													<form th:action="@{/dashboard}" method="post">
+														<input type="hidden" name="type" th:value="lots" />
+														<input type="hidden" name="id" th:value="${lot.id}" />
+														<button type="submit" th:if="${lot.deleted}" class="btn btn-outline-warning p-1" name="action" value="return">Return</button>
+														<button type="submit" th:unless="${lot.deleted}" class="btn btn-outline-danger p-1" name="action" value="delete">Delete</button>
+													</form>
 												</td>
 											</tr>
 										</tbody>
@@ -165,6 +175,10 @@
 													<a th:href="@{/dashboard(section='users', sortBy='city_name', sortDir='asc')}">▲</a>
 													<a th:href="@{/dashboard(section='users', sortBy='city_name', sortDir='desc')}">▼</a>
 												</th>
+												<th scope="col">Is deleted
+													<a th:href="@{/dashboard(section='users', sortBy='deleted', sortDir='asc')}">▲</a>
+													<a th:href="@{/dashboard(section='users', sortBy='deleted', sortDir='desc')}">▼</a>
+												</th>
 												<th scope="col">Actions</th>
 											</tr>
 										</thead>
@@ -178,10 +192,17 @@
 												<td th:text="${user.email}">email1@example.com</td>
 												<td th:text="${user.role.name}">USER</td>
 												<td th:text="${user.city.name}">city1</td>
+												<td th:text="${user.deleted} ? YES : NO">NO</td>
 												<td>
 													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
 													<a class="btn btn-outline-primary p-1 disabled" href="#">Edit</a>
-													<a class="btn btn-outline-danger p-1 disabled" href="#">Remove</a>
+
+													<form th:action="@{/dashboard}" method="post">
+														<input type="hidden" name="type" th:value="users" />
+														<input type="hidden" name="id" th:value="${user.id}" />
+														<button type="submit" th:if="${user.deleted}" class="btn btn-outline-warning p-1" name="action" value="return">Return</button>
+														<button type="submit" th:unless="${user.deleted}" class="btn btn-outline-danger p-1" name="action" value="delete">Delete</button>
+													</form>
 												</td>
 											</tr>
 										</tbody>
@@ -222,10 +243,14 @@
 													<a th:href="@{/dashboard(section='photos', sortBy='lot_name', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Username
-													<a th:href="@{/dashboard(section='photos', sortBy='lot_userDto_username', sortDir='asc')}">▲</a>
-													<a th:href="@{/dashboard(section='photos', sortBy='lot_userDto_username', sortDir='desc')}">▼</a>
+													<a th:href="@{/dashboard(section='photos', sortBy='lot_user_username', sortDir='asc')}">▲</a>
+													<a th:href="@{/dashboard(section='photos', sortBy='lot_user_username', sortDir='desc')}">▼</a>
 												</th>
 												<th scope="col">Url</th>
+												<th scope="col">Is deleted
+													<a th:href="@{/dashboard(section='photos', sortBy='deleted', sortDir='asc')}">▲</a>
+													<a th:href="@{/dashboard(section='photos', sortBy='deleted', sortDir='desc')}">▼</a>
+												</th>
 												<th scope="col">Actions</th>
 											</tr>
 										</thead>
@@ -238,9 +263,15 @@
 												<td><a href="#" th:text="${photo.lot.name}">Card title</a></td>
 												<td><a href="#" th:text="${photo.lot.userDto.username}">username1</a></td>
 												<td><a target="_blank" th:href="${photo.url}" th:text="${photo.url}">http://far.far/away.jpg</a></td>
+												<td th:text="${photo.deleted} ? YES : NO">NO</td>
 												<td>
 													<!-- <a class="btn btn-outline-primary p-1" href="#">Message</a> -->
-													<a class="btn btn-outline-danger p-1 disabled" href="#">Remove</a>
+													<form th:action="@{/dashboard}" method="post">
+														<input type="hidden" name="type" th:value="photos" />
+														<input type="hidden" name="id" th:value="${photo.id}" />
+														<button type="submit" th:if="${photo.deleted}" class="btn btn-outline-warning p-1" name="action" value="return">Return</button>
+														<button type="submit" th:unless="${photo.deleted}" class="btn btn-outline-danger p-1" name="action" value="delete">Delete</button>
+													</form>
 												</td>
 											</tr>
 										</tbody>
@@ -279,6 +310,10 @@
 													<a th:href="@{/dashboard(section='categories', sortBy='name', sortDir='asc')}">▲</a>
 													<a th:href="@{/dashboard(section='categories', sortBy='name', sortDir='desc')}">▼</a>
 												</th>
+												<th scope="col">Is deleted
+													<a th:href="@{/dashboard(section='categories', sortBy='deleted', sortDir='asc')}">▲</a>
+													<a th:href="@{/dashboard(section='categories', sortBy='deleted', sortDir='desc')}">▼</a>
+												</th>
 												<th scope="col">Actions</th>
 											</tr>
 										</thead>
@@ -286,8 +321,14 @@
 											<tr>
 												<th scope="row" th:text="${category.id}">1</th>
 												<td th:text="${category.name}">Одежда</td>
+												<td th:text="${category.deleted} ? YES : NO">NO</td>
 												<td>
-													<a class="btn btn-outline-danger p-1 disabled" href="#">Remove</a>
+													<form th:action="@{/dashboard}" method="post">
+														<input type="hidden" name="type" th:value="categories" />
+														<input type="hidden" name="id" th:value="${category.id}" />
+														<button type="submit" th:if="${category.deleted}" class="btn btn-outline-warning p-1" name="action" value="return">Return</button>
+														<button type="submit" th:unless="${category.deleted}" class="btn btn-outline-danger p-1" name="action" value="delete">Delete</button>
+													</form>
 												</td>
 										</tbody>
 									</table>
@@ -325,6 +366,10 @@
 												<a th:href="@{/dashboard(section='cities', sortBy='name', sortDir='asc')}">▲</a>
 												<a th:href="@{/dashboard(section='cities', sortBy='name', sortDir='desc')}">▼</a>
 											</th>
+											<th scope="col">Is deleted
+												<a th:href="@{/dashboard(section='cities', sortBy='deleted', sortDir='asc')}">▲</a>
+												<a th:href="@{/dashboard(section='cities', sortBy='deleted', sortDir='desc')}">▼</a>
+											</th>
 											<th scope="col">Actions</th>
 										</tr>
 										</thead>
@@ -332,8 +377,14 @@
 										<tr>
 											<th scope="row" th:text="${city.id}">1</th>
 											<td th:text="${city.name}">city1</td>
+											<td th:text="${city.deleted} ? YES : NO">NO</td>
 											<td>
-												<a class="btn btn-outline-danger p-1 disabled" href="#">Remove</a>
+												<form th:action="@{/dashboard}" method="post">
+													<input type="hidden" name="type" th:value="cities" />
+													<input type="hidden" name="id" th:value="${city.id}" />
+													<button type="submit" th:if="${city.deleted}" class="btn btn-outline-warning p-1" name="action" value="return">Return</button>
+													<button type="submit" th:unless="${city.deleted}" class="btn btn-outline-danger p-1" name="action" value="delete">Delete</button>
+												</form>
 											</td>
 										</tbody>
 									</table>
@@ -371,6 +422,10 @@
 												<a th:href="@{/dashboard(section='conditions', sortBy='name', sortDir='asc')}">▲</a>
 												<a th:href="@{/dashboard(section='conditions', sortBy='name', sortDir='desc')}">▼</a>
 											</th>
+											<th scope="col">Is deleted
+												<a th:href="@{/dashboard(section='conditions', sortBy='deleted', sortDir='asc')}">▲</a>
+												<a th:href="@{/dashboard(section='conditions', sortBy='deleted', sortDir='desc')}">▼</a>
+											</th>
 											<th scope="col">Actions</th>
 										</tr>
 										</thead>
@@ -378,8 +433,14 @@
 										<tr>
 											<th scope="row" th:text="${condition.id}">1</th>
 											<td th:text="${condition.name}">Отличное</td>
+											<td th:text="${condition.deleted} ? YES : NO">NO</td>
 											<td>
-												<a class="btn btn-outline-danger p-1 disabled" href="#">Remove</a>
+												<form th:action="@{/dashboard}" method="post">
+													<input type="hidden" name="type" th:value="conditions" />
+													<input type="hidden" name="id" th:value="${condition.id}" />
+													<button type="submit" th:if="${condition.deleted}" class="btn btn-outline-warning p-1" name="action" value="return">Return</button>
+													<button type="submit" th:unless="${condition.deleted}" class="btn btn-outline-danger p-1" name="action" value="delete">Delete</button>
+												</form>
 											</td>
 										</tbody>
 									</table>

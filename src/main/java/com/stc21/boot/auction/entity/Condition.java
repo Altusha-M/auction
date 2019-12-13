@@ -20,4 +20,7 @@ public class Condition {
 
     @Column
     private String name;
+
+    @Column(columnDefinition = "boolean default false", nullable = false)
+    private Boolean deleted;
 }

@@ -6,6 +6,7 @@ import com.stc21.boot.auction.repository.CityRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +29,13 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public List<CityDto> getAllSorted(Sort sort) {
+        return cityRepository.findByDeletedFalse(sort).stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CityDto> getAllSortedEvenDeleted(Sort sort) {
         return cityRepository.findAll(sort).stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
@@ -38,5 +46,11 @@ public class CityServiceImpl implements CityService {
         if (city == null) return null;
 
         return modelMapper.map(city, CityDto.class);
+    }
+
+    @Override
+    @Transactional
+    public void setDeletedTo(long id, boolean newValue) {
+        cityRepository.updateDeletedTo(id, newValue);
     }
 }

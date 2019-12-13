@@ -9,6 +9,9 @@ import java.util.List;
 public interface ConditionService {
     List<ConditionDto> getAllConditions();
     List<ConditionDto> getAllSorted(Sort sort);
+    List<ConditionDto> getAllSortedEvenDeleted(Sort sort);
     ConditionDto convertToDto(Condition condition);
     List<Condition> findAll();
+
+    void setDeletedTo(long id, boolean newValue);
 }

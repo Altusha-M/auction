@@ -10,5 +10,8 @@ public interface CategoryService {
     List<Category> findAll();
     List<CategoryDto> getAllCategories();
     List<CategoryDto> getAllSorted(Sort sort);
+    List<CategoryDto> getAllSortedEvenDeleted(Sort sort);
     CategoryDto convertToDto(Category category);
+
+    void setDeletedTo(long id, boolean newValue);
 }

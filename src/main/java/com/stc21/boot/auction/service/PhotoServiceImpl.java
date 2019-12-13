@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +41,16 @@ public class PhotoServiceImpl implements PhotoService {
                 pageable.getPageSize(),
                 pageable.getSortOr(Sort.unsorted()));
 
+        return photoRepository.findByDeletedFalse(pageRequest).map(this::convertToDto);
+    }
+
+    @Override
+    public Page<PhotoDto> getPaginatedEvenDeleted(Pageable pageable) {
+        PageRequest pageRequest = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSortOr(Sort.unsorted()));
+
         return photoRepository.findAll(pageRequest).map(this::convertToDto);
     }
 
@@ -51,5 +62,11 @@ public class PhotoServiceImpl implements PhotoService {
         photoDto.setLot(lotService.convertToDto(photo.getLot()));
 
         return photoDto;
+    }
+
+    @Override
+    @Transactional
+    public void setDeletedTo(long id, boolean newValue) {
+        photoRepository.updateDeletedTo(id, newValue);
     }
 }

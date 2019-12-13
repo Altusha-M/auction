@@ -8,4 +8,5 @@ import lombok.NoArgsConstructor;
 public class CategoryDto {
     private Long id;
     private String name;
+    private Boolean deleted;
 }

@@ -20,6 +20,7 @@ public class UserDto {
     private String phoneNumber;
     private Role role;
     private City city;
+    private Boolean deleted;
 
     public UserDto(User user) {
         this.username = user.getUsername();
@@ -29,5 +30,6 @@ public class UserDto {
         this.phoneNumber = user.getPhoneNumber();
         this.city = user.getCity();
         this.role = user.getRole();
+        this.deleted = user.getDeleted();
     }
 }

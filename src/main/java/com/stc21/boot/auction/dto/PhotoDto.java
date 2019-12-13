@@ -9,4 +9,5 @@ public class PhotoDto {
     private Long id;
     private LotDto lot;
     private String url;
+    private Boolean deleted;
 }

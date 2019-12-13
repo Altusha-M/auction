@@ -10,5 +10,8 @@ import java.util.List;
 public interface PhotoService {
     List<PhotoDto> getAllPhotos();
     Page<PhotoDto> getPaginated(Pageable pageable);
+    Page<PhotoDto> getPaginatedEvenDeleted(Pageable pageable);
     PhotoDto convertToDto(Photo photo);
+
+    void setDeletedTo(long id, boolean newValue);
 }

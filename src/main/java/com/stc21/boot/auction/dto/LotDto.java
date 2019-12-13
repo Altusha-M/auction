@@ -48,4 +48,5 @@ public class LotDto {
     private Double stepPrice;
 
     private UserDto userDto;
+    private Boolean deleted;
 }
