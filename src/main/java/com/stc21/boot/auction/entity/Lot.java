@@ -7,6 +7,9 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Entity
@@ -62,4 +65,9 @@ public class Lot {
 
     @Column(name = "step_price")
     private Double stepPrice;
+
+    @OneToMany(mappedBy = "lot",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Photo> photos;
 }

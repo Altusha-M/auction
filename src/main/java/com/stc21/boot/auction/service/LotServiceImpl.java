@@ -3,17 +3,23 @@ package com.stc21.boot.auction.service;
 import com.stc21.boot.auction.dto.LotDto;
 import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.entity.Lot;
+import com.stc21.boot.auction.entity.Photo;
 import com.stc21.boot.auction.repository.LotRepository;
+import com.stc21.boot.auction.repository.PhotoRepository;
+import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class LotServiceImpl implements LotService {
@@ -22,15 +28,17 @@ public class LotServiceImpl implements LotService {
     public static final int SIZE = 5;
 
     private final ModelMapper modelMapper;
-
     private final LotRepository lotRepository;
-
     private final UserService userService;
+    private final GoogleDriveService googleDriveService;
+    private final PhotoRepository photoRepository;
 
-    public LotServiceImpl(ModelMapper modelMapper, LotRepository lotRepository, UserService userService) {
+    public LotServiceImpl(ModelMapper modelMapper, LotRepository lotRepository, UserService userService, GoogleDriveService googleDriveService, PhotoRepository photoRepository) {
         this.modelMapper = modelMapper;
         this.lotRepository = lotRepository;
         this.userService = userService;
+        this.googleDriveService = googleDriveService;
+        this.photoRepository = photoRepository;
     }
 
     @Override
@@ -53,17 +61,23 @@ public class LotServiceImpl implements LotService {
         return lots.map(this::convertToLotDto);
     }
 
+
+    @SneakyThrows
     @Override
-    public Lot saveNewLot(LotDto lotDto, Authentication token) {
+    public Lot saveNewLot(LotDto lotDto, Authentication token, MultipartFile[] images) {
         UserDto authed = userService.findByUsername(token.getName());
         lotDto.setUserDto(authed);
         LocalDateTime nowDateTime = LocalDateTime.now();
         lotDto.setCreationTime(nowDateTime);
         lotDto.setTimeLastMod(nowDateTime);
 
-        Lot lot = convertToEntity(lotDto);
-
-        return lotRepository.save(lot);
+        Lot insertedLot = lotRepository.save(convertToEntity(lotDto));
+        List<Photo> uploadPhotos= googleDriveService.uploadLotMedia(insertedLot.getId(), images);
+        uploadPhotos.forEach(photo -> {
+            photo.setLot(insertedLot);
+            photoRepository.save(photo);
+        });
+        return lotRepository.getOne(insertedLot.getId());
     }
 
     private Double calcCurrentPrice(Lot lot) {
@@ -77,8 +91,16 @@ public class LotServiceImpl implements LotService {
     // через мапер преобразуем в DTO. Руками устанавливаем DTO пользователя
     private LotDto convertToLotDto(Lot lot) {
         LotDto lotDto = modelMapper.map(lot, LotDto.class);
+
         UserDto userDto = modelMapper.map(lot.getUser(), UserDto.class);
         lotDto.setUserDto(userDto);
+
+        Iterator<Photo> firstPhoto = lot.getPhotos().iterator();
+        if (firstPhoto.hasNext())
+            lotDto.setPhotoUrl(firstPhoto.next().getUrl());
+        else {
+            lotDto.setPhotoUrl(null);
+        }
         return lotDto;
     }
 
