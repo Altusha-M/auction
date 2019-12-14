@@ -28,7 +28,7 @@ public class UserRegistrationDto {
     @ValidEmail
     private String email;
     @ValidPhoneNumber
-    @Pattern(regexp = "" , message = "")
+//    @Pattern(regexp = "" , message = "")
     private String phoneNumber;
 
     @Size(min=0, max=255)
@@ -38,4 +38,5 @@ public class UserRegistrationDto {
 
 //    private Role role;
     private City city;
+    private Boolean deleted = false;
 }

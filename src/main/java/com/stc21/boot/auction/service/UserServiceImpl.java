@@ -135,6 +135,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userRegistrationDto.getLastName());
         user.setRole(roleRepository.getOne(1L));
         user.setCity(userRegistrationDto.getCity());
+        user.setDeleted(false);
 
         return userRepository.saveAndFlush(user);
     }

@@ -16,14 +16,13 @@ import java.util.List;
 public interface LotRepository extends JpaRepository<Lot, Long> {
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Lot l SET l.currentPrice = :currentPrice WHERE l.id = :lotId")
-    int updateCurrentPrice(@Param("currentPrice") Double currentPrice, @Param("lotId") long lotId);
+    int updateCurrentPrice(@Param("currentPrice") Long currentPrice, @Param("lotId") long lotId);
 
     Page<Lot> findByDeletedFalse(Pageable pageable);
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Lot l SET l.deleted = :isDeleted WHERE l.id = :lotId")
     int updateDeletedTo(@Param("lotId") Long lotId, @Param("isDeleted") boolean isDeleted);
-    int updateCurrentPrice(@Param("currentPrice") Long currentPrice, @Param("lotId") long lotId);
 
     List<Lot> findAllByUserUsername(String username);
 }
