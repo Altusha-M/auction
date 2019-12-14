@@ -94,7 +94,7 @@ public class LotServiceImpl implements LotService {
         lotDto.setUserDto(authed);
         LocalDateTime nowDateTime = LocalDateTime.now();
         lotDto.setCreationTime(nowDateTime);
-        lotDto.setTimeLastMod(nowDateTime);
+        lotDto.setLastModTime(nowDateTime);
 
         Lot insertedLot = lotRepository.save(convertToEntity(lotDto));
 
