@@ -98,6 +98,11 @@ public class LotServiceImpl implements LotService {
         lotDto.setLastModTime(nowDateTime);
 
         Lot insertedLot = lotRepository.save(convertToEntity(lotDto));
+
+        if ((images.length == 1) && images[0].getOriginalFilename().equals("")) {
+            return lotRepository.getOne(insertedLot.getId());
+        }
+
         List<Photo> uploadPhotos = googleDriveService.uploadLotMedia(insertedLot.getId(), images);
         uploadPhotos.forEach(photo -> {
             photo.setLot(insertedLot);

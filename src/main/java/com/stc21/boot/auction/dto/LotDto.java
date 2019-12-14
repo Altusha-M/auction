@@ -23,7 +23,7 @@ public class LotDto {
     private String name;
 
     private LocalDateTime creationTime;
-    private LocalDateTime lastModTime;
+    private LocalDateTime timeLastMod;
 
     @NotNull
     @Size(min = 5, max = 150)

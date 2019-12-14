@@ -15,7 +15,6 @@ public interface LotService {
     List<Lot> getAllLotsByUsername(Authentication token);
 
     void updateAllLots(List<Lot> lots);
-
     Page<LotDto> getPageOfHomePageLots(int page);
     Page<LotDto> getPaginated(Pageable pageable);
     Page<LotDto> getPaginatedEvenDeleted(Pageable pageable);
