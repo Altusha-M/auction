@@ -17,7 +17,7 @@ import java.util.List;
 public interface LotRepository extends JpaRepository<Lot, Long> {
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Lot l SET l.currentPrice = :currentPrice WHERE l.id = :lotId")
-    int updateCurrentPrice(@Param("currentPrice") Double currentPrice, @Param("lotId") long lotId);
+    int updateCurrentPrice(@Param("currentPrice") Long currentPrice, @Param("lotId") long lotId);
 
     Page<Lot> findByDeletedFalse(Pageable pageable);
 

@@ -97,7 +97,7 @@ public class AddLotController {
         return "redirect:/";
     }
 
-    private Map<String, String> checkPriceValues(Double current, Double max, Double min) {
+    private Map<String, String> checkPriceValues(Long current, Long max, Long min) {
         Map<String, String> errors = new HashMap<>();
         if (min > current || min > max)
             errors.put("minPrice", "Должна быть меньше текущей и максимальной");

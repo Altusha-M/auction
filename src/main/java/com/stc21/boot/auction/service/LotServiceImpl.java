@@ -124,7 +124,7 @@ public class LotServiceImpl implements LotService {
         Random random = new Random();
         Long max = lot.getMaxPrice();
         Long min = lot.getMinPrice();
-        long randomValue = min + (max - min) * Long.parseLong(String.valueOf(random.nextDouble()));
+        long randomValue = min + random.nextInt((int) (max - min));
         return randomValue;
     }
 
