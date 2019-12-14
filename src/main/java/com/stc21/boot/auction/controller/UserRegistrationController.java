@@ -33,7 +33,7 @@ public class UserRegistrationController {
 
     @GetMapping
     public String showRegistrationForm(Model model) {
-        List<City> cities = cityService.getAllCities();
+        List<City> cities = cityService.findAll();
         model.addAttribute("cities", cities);
         return "register";
     }
@@ -53,7 +53,7 @@ public class UserRegistrationController {
                                 "Username with this" + fieldName + " already exist. Pick another one."));
 
         if (result.hasErrors()) {
-            List<City> cities = cityService.getAllCities();
+            List<City> cities = cityService.findAll();
             model.addAttribute("cities", cities);
             return "redirect:/register?failure=true";
         }

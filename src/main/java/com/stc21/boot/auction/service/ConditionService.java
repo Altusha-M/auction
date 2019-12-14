@@ -12,6 +12,7 @@ public interface ConditionService {
     List<ConditionDto> getAllSortedEvenDeleted(Sort sort);
     ConditionDto convertToDto(Condition condition);
     List<Condition> findAll();
+    Condition getById(long id);
 
     void setDeletedTo(long id, boolean newValue);
     Condition save(ConditionDto conditionDto);

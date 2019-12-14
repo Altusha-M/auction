@@ -2,6 +2,7 @@ package com.stc21.boot.auction.service;
 
 import com.stc21.boot.auction.dto.LotDto;
 import com.stc21.boot.auction.entity.Lot;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ public interface LotService {
     void updateAllLots(List<Lot> lots);
     Page<LotDto> getPageOfHomePageLots(int page);
     Page<LotDto> getPaginated(Pageable pageable);
+    Page<LotDto> getPaginated(Lot exampleLot, Pageable pageable);
     Page<LotDto> getPaginatedEvenDeleted(Pageable pageable);
     LotDto convertToDto(Lot lot);
     void setDeletedTo(long id, boolean newValue);

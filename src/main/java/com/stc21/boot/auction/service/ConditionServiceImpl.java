@@ -23,6 +23,11 @@ public class ConditionServiceImpl implements ConditionService {
     }
 
     @Override
+    public Condition getById(long id) {
+        return conditionRepository.getOne(id);
+    }
+
+    @Override
     public List<ConditionDto> getAllConditions() {
         return conditionRepository.findAll().stream()
                 .map(this::convertToDto)

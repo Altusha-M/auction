@@ -48,7 +48,7 @@ public class AddLotController {
 
     @ModelAttribute(name = "cities")
     public List<City> cities() {
-        return cityService.getAllCities();
+        return cityService.findAll();
     }
 
     @ModelAttribute(name = "conditions")

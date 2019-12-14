@@ -7,10 +7,12 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 
 public interface CityService {
+    List<City> findAll();
     List<CityDto> getAllSorted(Sort sort);
     List<CityDto> getAllSortedEvenDeleted(Sort sort);
     CityDto convertToDto(City city);
-    List<City> getAllCities();
+    List<CityDto> getAllCities();
+    City getById(long id);
 
     void setDeletedTo(long id, boolean newValue);
     City save(CityDto cityDto);

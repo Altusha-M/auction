@@ -6,192 +6,238 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col">
-            <h1>Hello, World</h1>
-        </div>
-    </div>
-
-
-    <div class="row">
         <div class="col d-none d-lg-block">l</div>
 
         <!---------------------------------->
 
-        <div class="col-12 col-md-3" id="filters">
-            <button aria-controls="collapseExample" aria-expanded="false" class="btn btn-primary btn-block d-md-none"
-                    data-target="#collapseFilter" data-toggle="collapse" type="button">
-                Filter lots
-            </button>
-
-            <div class="collapse" id="collapseFilter">
-                <form>
-                    <div class="form-group" id="formGroupPrice">
-                        <div class="form-row">
-                            <div class="col">
-                                <label for="formGroupPrice">Price label</label>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="col">
-                                <input class="form-control is-invalid" placeholder="min" type="text">
-                                <div class="invalid-tooltip">
-                                    Min is less than 0
-                                </div>
-                            </div>
-                            <div class="col">
-                                <input class="form-control is-invalid" placeholder="max" type="text">
-                                <div class="invalid-tooltip">
-                                    Max is less than min
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group" id="formGroupSelect">
-                        <label for="formGroupSelect">Select label</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="cityGroupSelect">City</label>
-                            </div>
-                            <select class="custom-select" id="cityGroupSelect">
-                                <option selected="" value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="form-group" id="formGroupCheckBox">
-                        <label for="formGroupCheckBox">Checkbox label</label>
-
-                        <div class="form-check">
-                            <input class="form-check-input" id="defaultCheck1" type="checkbox" value="">
-                            <label class="form-check-label" for="defaultCheck1">
-                                Default checkbox
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" disabled="" id="defaultCheck2" type="checkbox" value="">
-                            <label class="form-check-label" for="defaultCheck2">
-                                Disabled checkbox
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" id="defaultCheck3" type="checkbox" value="">
-                            <label class="form-check-label" for="defaultCheck3">
-                                Default checkbox
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" id="defaultCheck4" type="checkbox" value="">
-                            <label class="form-check-label" for="defaultCheck4">
-                                Default checkbox
-                            </label>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="form-group" id="formGroupRadioBox">
-                        <label for="formGroupRadioBox">Radio label</label>
-                        <div class="form-check">
-                            <input checked="" class="form-check-input" id="exampleRadios1" name="exampleRadios"
-                                   type="radio" value="option1">
-                            <label class="form-check-label" for="exampleRadios1">
-                                Default radio
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" id="exampleRadios2" name="exampleRadios" type="radio"
-                                   value="option2">
-                            <label class="form-check-label" for="exampleRadios2">
-                                Second default radio
-                            </label>
-                        </div>
-                        <div class="form-check disabled">
-                            <input class="form-check-input" disabled="" id="exampleRadios3" name="exampleRadios"
-                                   type="radio" value="option3">
-                            <label class="form-check-label" for="exampleRadios3">
-                                Disabled radio
-                            </label>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <button class="btn btn-primary btn-block" type="submit">Filter</button>
-                </form>
+        <div class="col-12 col-lg-10">
+            <div class="row">
+                <div class="col">
+                    <h1>Hello, World!</h1>
+                </div>
             </div>
 
-            <hr>
-        </div>
+            <div class="row">
+                <div class="col-12 col-md-3" id="filters">
+                    <button aria-controls="collapseExample" aria-expanded="false" class="btn btn-primary btn-block d-md-none"
+                            data-target="#collapseFilter" data-toggle="collapse" type="button">
+                        Filter lots
+                    </button>
 
-        <!---------------------------------->
-
-        <div class="col-12 col-md-9 col-lg-7" id="cards">
-
-            <th:block th:each="lot : ${lots}">
-                <div class="card mt-2" style="box-shadow: 3px 3px 5px LightGrey; height: 150px">
-                    <div class="row no-gutters">
-                        <div class="col-4" style="max-height:150px">
-                            <a href="#">
-                                <img class="card-img h-100"
-                                     th:src="${lot.photoUrl} ?: '/images/no-image-icon.png'"
-                                     style="object-fit: cover">
-
-                            </a>
-                        </div>
-                        <div class="col-8">
-                            <div class="card-body">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <h5 class="card-title">
-                                                <a class="text-dark" href="#" th:text="${lot.name}">Card title</a>
-                                            </h5>
-                                        </div>
-                                        <div class="col-6">
-                                            <h5 class="card-title">
-                                                <a class="text-info" href="#"
-                                                   th:text="${lot.userDto.username}">Username</a>
-                                            </h5>
-                                        </div>
+                    <div class="collapse" id="collapseFilter">
+                        <form id="filterParameters" th:action="@{/}" method="get">
+                            <!--
+                            <div class="form-group" id="formGroupPrice">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="formGroupPrice">Price label</label>
                                     </div>
                                 </div>
 
-                                <p class="card-text text-truncate" th:text="${lot.description}">
-                                    Some quick example text to build on the card title and
-                                    make up the bulk of the card's content.
-                                </p>
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <span class="badge badge-primary" th:text="${lot.currentPrice} + ' р.'">100 p.</span>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <input class="form-control is-invalid" placeholder="min" type="text">
+                                        <div class="invalid-tooltip">
+                                            Min is less than 0
                                         </div>
-                                        <div class="col-4">
-                                            <span class="badge badge-danger"
-                                                  th:text="${lot.category.name}"> Category </span>
-                                        </div>
-                                        <div class="col-4">
-                                            <span class="badge badge-info" th:text="${lot.creationTime}">Created at</span>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-control is-invalid" placeholder="max" type="text">
+                                        <div class="invalid-tooltip">
+                                            Max is less than min
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            -->
+                            <label for="filterParameters"><h4>Filter</h4></label>
 
+                            <div class="form-group" id="categoryFilterSelect">
+                                <label for="categoryFilterSelect">Select category</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="categoryGroupSelect">City</label>
+                                    </div>
+                                    <select class="custom-select" id="categoryGroupSelect" name="categoryFilter">
+                                        <option th:selected="${categoryFilterId==-1}" value="-1">Any category</option>
+                                        <option th:each="category : ${categories}" th:text="${category.name}" th:selected="${categoryFilterId==category.id}" th:value="${category.id}">One</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="cityFilterSelect">
+                                <label for="cityFilterSelect">Select city</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="cityGroupSelect">City</label>
+                                    </div>
+                                    <select class="custom-select" id="cityGroupSelect" name="cityFilter">
+                                        <option th:selected="${cityFilterId==-1}" value="-1">Any city</option>
+                                        <option th:each="city : ${cities}" th:text="${city.name}" th:selected="${cityFilterId==city.id}" th:value="${city.id}">One</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="conditionFilterSelect">
+                                <label for="conditionFilterSelect">Select condition</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="conditionGroupSelect">City</label>
+                                    </div>
+                                    <select class="custom-select" id="conditionGroupSelect" name="conditionFilter">
+                                        <option th:selected="${conditionFilterId==-1}" value="-1">Any condition</option>
+                                        <option th:each="condition : ${conditions}" th:text="${condition.name}" th:selected="${conditionFilterId==condition.id}" th:value="${condition.id}">One</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <hr>
+
+                            <!--
+                            <div class="form-group" id="formGroupCheckBox">
+                                <label for="formGroupCheckBox">Checkbox label</label>
+
+                                <div class="form-check">
+                                    <input class="form-check-input" id="defaultCheck1" type="checkbox" value="">
+                                    <label class="form-check-label" for="defaultCheck1">
+                                        Default checkbox
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" disabled="" id="defaultCheck2" type="checkbox" value="">
+                                    <label class="form-check-label" for="defaultCheck2">
+                                        Disabled checkbox
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" id="defaultCheck3" type="checkbox" value="">
+                                    <label class="form-check-label" for="defaultCheck3">
+                                        Default checkbox
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" id="defaultCheck4" type="checkbox" value="">
+                                    <label class="form-check-label" for="defaultCheck4">
+                                        Default checkbox
+                                    </label>
+                                </div>
+                            </div>
+
+                            <hr>
+                            -->
+
+                            <!--
+                            <div class="form-group" id="formGroupRadioBox">
+                                <label for="formGroupRadioBox">Radio label</label>
+                                <div class="form-check">
+                                    <input checked="" class="form-check-input" id="exampleRadios1" name="exampleRadios"
+                                           type="radio" value="option1">
+                                    <label class="form-check-label" for="exampleRadios1">
+                                        Default radio
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" id="exampleRadios2" name="exampleRadios" type="radio"
+                                           value="option2">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                        Second default radio
+                                    </label>
+                                </div>
+                                <div class="form-check disabled">
+                                    <input class="form-check-input" disabled="" id="exampleRadios3" name="exampleRadios"
+                                           type="radio" value="option3">
+                                    <label class="form-check-label" for="exampleRadios3">
+                                        Disabled radio
+                                    </label>
+                                </div>
+                            </div>
+
+                            <hr>
+                            -->
+
+                            <button class="btn btn-primary btn-block" type="submit">Filter</button>
+                        </form>
+                    </div>
+
+                    <hr>
+                </div>
+
+                <!---------------------------------->
+
+                <div class="col-12 col-md-9" id="cards">
+
+                    <th:block th:each="lot : ${lots}">
+                        <div class="card mt-2" style="box-shadow: 3px 3px 5px LightGrey; height: 150px">
+                            <div class="row no-gutters">
+                                <div class="col-4" style="max-height: 150px">
+                                    <a href="#">
+                                        <img class="card-img h-100"
+                                             th:src="${lot.photoUrl} ?: '/images/no-image-icon.png'"
+                                             style="object-fit: cover">
+
+                                    </a>
+                                </div>
+                                <div class="col-8">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h2 class="card-title">
+                                                    <a class="text-dark" href="#" th:text="${lot.name}">Card title</a>
+                                                </h2>
+                                            </div>
+                                        </div>
+
+                                        <div class="row text-center">
+                                            <div class="col border-right">
+                                                <h3>
+                                                    <span class="badge badge-primary" th:text="${lot.currentPrice} + ' р.'">100 p.</span>
+                                                </h3>
+                                            </div>
+                                            <div class="col">
+                                                <h6 th:text="${#temporals.format(lot.creationTime, 'dd.MM.yyyy HH:mm')}">01.01.2001 20.01.01</h6>
+                                            </div>
+                                            <div class="col border-left">
+                                                <i class="far fa-user"></i>
+                                                <a class="text-info" href="#" th:text="${lot.userDto.username}">Username</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="row text-center">
+                                            <div class="col border-right">
+                                                <h6 th:text="${lot.category.name}"> Category </h6>
+                                            </div>
+                                            <div class="col">
+                                                <h6 th:text="${lot.city.name}"> City </h6>
+                                            </div>
+                                            <div class="col border-left">
+                                                <h6 th:text="${lot.condition.name}"> Condition </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </th:block>
+
+                    <hr class="my-3">
+
+                    <div class="row" th:if="${lots.totalPages > 1}">
+                        <div class="col"></div>
+
+                        <nav col="col-8">
+                            <ul class="pagination">
+                                <li class="page-item" th:each="pageNumber: ${#numbers.sequence(1, lots.totalPages)}" th:classappend="${pageNumber == lots.number+1} ? active">
+                                    <a class="page-link" th:href="@{/(page=${pageNumber})}" th:text="${pageNumber}">1</a>
+                                </li>
+                            </ul>
+                        </nav>
+
+                        <div class="col"></div>
                     </div>
                 </div>
-            </th:block>
-            <ul class="pagination">
-                <li class="page-item" th:each="page : ${#numbers.sequence(0,lots.totalPages - 1)}">
-                    <a th:href="@{/(page=${page})}" th:text="${page}">Page</a>
-                </li>
-            </ul>
+
+            </div>
         </div>
 
         <!---------------------------------->

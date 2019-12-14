@@ -8,10 +8,7 @@ import com.stc21.boot.auction.repository.LotRepository;
 import com.stc21.boot.auction.repository.PhotoRepository;
 import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +46,24 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
+    public Page<LotDto> getPaginated(Lot exampleLot, Pageable pageable) {
+        if (exampleLot == null)
+            throw new NullPointerException("Example is null");
+
+        PageRequest pageRequest = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                pageable.getSortOr(Sort.unsorted()));
+
+        ExampleMatcher exampleMatcher = ExampleMatcher.matching()
+                .withIgnorePaths("id");
+
+        Example<Lot> example = Example.of(exampleLot, exampleMatcher);
+
+        return lotRepository.findAll(example, pageRequest).map(this::convertToDto);
+    }
+
+    @Override
     public Page<LotDto> getPaginatedEvenDeleted(Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(
                 pageable.getPageNumber(),
@@ -77,6 +92,7 @@ public class LotServiceImpl implements LotService {
         Page<Lot> lots = lotRepository.findByDeletedFalse(pageRequest);
         return lots.map(this::convertToLotDto);
     }
+
 
 
     @SneakyThrows

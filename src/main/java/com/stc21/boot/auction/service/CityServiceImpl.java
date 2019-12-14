@@ -23,8 +23,20 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public List<City> getAllCities() {
+    public City getById(long id) {
+        return cityRepository.getOne(id);
+    }
+
+    @Override
+    public List<City> findAll() {
         return cityRepository.findAll();
+    }
+
+    @Override
+    public List<CityDto> getAllCities() {
+        return cityRepository.findAll().stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
