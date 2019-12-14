@@ -36,17 +36,17 @@ public class LotDto {
     @NotNull
     @Min(value = 0)
     @Max(value = 50000)
-    private Double currentPrice;
+    private Long currentPrice;
     @NotNull
     @Min(value = 0)
     @Max(value = 50000)
-    private Double maxPrice;
+    private Long maxPrice;
     @NotNull
     @Min(value = 0)
     @Max(value = 50000)
-    private Double minPrice;
+    private Long minPrice;
 
-    private Double stepPrice;
+    private Long stepPrice;
 
     private UserDto userDto;
 

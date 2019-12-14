@@ -18,7 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.time.temporal.ChronoUnit;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 @Service
 public class LotServiceImpl implements LotService {
@@ -64,6 +67,12 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
+    public List<Lot> getAllLotsByUsername(Authentication token) {
+        UserDto user = userService.findByUsername(token.getName());
+        return lotRepository.findAllByUserUsername(user.getUsername());
+    }
+
+    @Override
     @Transactional
     public void updateAllLots(List<Lot> lots) {
         lots.forEach(lot -> {
@@ -86,7 +95,7 @@ public class LotServiceImpl implements LotService {
         lotDto.setUserDto(authed);
         LocalDateTime nowDateTime = LocalDateTime.now();
         lotDto.setCreationTime(nowDateTime);
-        lotDto.setTimeLastMod(nowDateTime);
+        lotDto.setLastModTime(nowDateTime);
 
         Lot insertedLot = lotRepository.save(convertToEntity(lotDto));
 
@@ -103,11 +112,11 @@ public class LotServiceImpl implements LotService {
         return lotRepository.getOne(insertedLot.getId());
     }
 
-    private Double calcCurrentPrice(Lot lot) {
+    private Long calcCurrentPrice(Lot lot) {
         Random random = new Random();
-        Double max = lot.getMaxPrice();
-        Double min = lot.getMinPrice();
-        double randomValue = min + (max - min) * random.nextDouble();
+        Long max = lot.getMaxPrice();
+        Long min = lot.getMinPrice();
+        long randomValue = min + (max - min) * Long.parseLong(String.valueOf(random.nextDouble()));
         return randomValue;
     }
 

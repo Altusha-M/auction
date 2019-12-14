@@ -10,6 +10,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface LotRepository extends JpaRepository<Lot, Long> {
     @Modifying(clearAutomatically = true)
@@ -21,4 +23,7 @@ public interface LotRepository extends JpaRepository<Lot, Long> {
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Lot l SET l.deleted = :isDeleted WHERE l.id = :lotId")
     int updateDeletedTo(@Param("lotId") Long lotId, @Param("isDeleted") boolean isDeleted);
+    int updateCurrentPrice(@Param("currentPrice") Long currentPrice, @Param("lotId") long lotId);
+
+    List<Lot> findAllByUserUsername(String username);
 }
