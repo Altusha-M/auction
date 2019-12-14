@@ -18,4 +18,5 @@ public interface LotService {
     LotDto convertToDto(Lot lot);
     void setDeletedTo(long id, boolean newValue);
     Lot saveNewLot(LotDto lotDto, Authentication token, MultipartFile[] images);
+    LotDto findById(long id);
 }

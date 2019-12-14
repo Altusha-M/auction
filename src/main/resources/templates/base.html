@@ -14,7 +14,7 @@
 	</head>
 	<body>
 		<nav th:fragment="navbar" class="navbar navbar-dark bg-dark justify-content-between navbar-expand-sm">
-			<a class="navbar-brand" th:href="@{/}">Reducto</a>
+			<a class="navbar-brand" th:href="@{/}">Randomzione</a>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -22,28 +22,54 @@
 
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
-					<a class="nav-item nav-link" href="#">Browse</a>
-					<a class="nav-item nav-link" th:href="@{/add/lot}">Place a lot</a>
+<!--					<a class="nav-item nav-link" href="#">Browse</a>-->
+					<a class="nav-item nav-link" th:href="@{/add/lot}">Создать лот</a>
 					<div sec:authorize="hasAuthority('admin')">
-						<a class="nav-item nav-link" th:href="@{/dashboard}">Dashboard</a>
+						<a class="nav-item nav-link" th:href="@{/dashboard}">Страница администратора</a>
 					</div>
 				</div>
 				<hr>
 				<div th:switch="${#authorization.expr('isAuthenticated()')}">
 					<div class="navbar-nav ml-auto" th:case="${true}">
-						<span class="navbar-brand">Authenticated as</span>
+						<span class="navbar-text mr-2">Вы вошли как:</span>
 						<a th:href="@{/account}" class="username-acc-link">
-							<span class="navbar-brand" th:text="${#authorization.authentication.name}"></span>
+							<span class="navbar-brand mb-1" th:text="${#authorization.authentication.name}"></span>
 						</a>
-						<form method="POST" th:action="@{/logout}">
-							<button class="button btn-danger nav-item mt-1 p-1" type="submit">Logout</button>
-						</form>
+
+
+						<!-- Button trigger modal -->
+						<button class="btn btn-danger nav-item btn-rounded py-1 pl-3" data-toggle="modal" data-target="#exampleModalCenter" type="button" onclick="this.blur();">
+							Выйти
+							<i class="fas fa-door-open text-white rounded-circle bg-danger" style="padding: 7px 6px;"></i>
+						</button>
+						<!-- Modal -->
+						<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLongTitle">Подтверждение выхода</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										Вы уверены что хотите выйти?&#9785;
+									</div>
+									<div class="modal-footer">
+										<form method="POST" th:action="@{/logout}">
+											<button type="submit" class="btn btn-secondary">Да</button>
+										</form>
+										<button type="button" class="btn btn-danger" data-dismiss="modal">Нет</button>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 
 					<div class="navbar-nav ml-auto" th:case="${false}">
-						<a class="nav-item nav-link active" th:href="@{/login}">Login</a>
-						<span class="navbar-text">or</span>
-						<a class="nav-item nav-link active" th:href="@{/register}">Register</a>
+						<a class="btn-primary btn-rounded px-3 pt-2 mr-2"  th:href="@{/login}">Login</a>
+						<span class="navbar-text navbar-light mr-2">or</span>
+						<a class="btn-warning btn-rounded px-3 pt-2" th:href="@{/register}">Register</a>
 					</div>
 				</div>
 			</div>

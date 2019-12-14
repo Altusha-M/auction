@@ -9,6 +9,7 @@ import com.stc21.boot.auction.entity.Category;
 import com.stc21.boot.auction.entity.City;
 import com.stc21.boot.auction.entity.Condition;
 import com.stc21.boot.auction.service.*;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -18,12 +19,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
 @RequestMapping(path = "/add")
+@Scope
 public class AddLotController {
+
+    public static final  String defaultMessage = "Минимальная цена должна быть меньше текущей, а текущая - меньше максимальной.";
 
     private final ConditionService conditionService;
     private final CityService cityService;
@@ -79,9 +85,26 @@ public class AddLotController {
             return "addLot";
         }
 
+        Map<String, String > errors = checkPriceValues(newLot.getCurrentPrice(), newLot.getMaxPrice(), newLot.getMinPrice());
+        if (false == errors.isEmpty()) {
+            errors.forEach((field, message) -> result.rejectValue(field, "100", message));
+            return "addLot";
+        }
+
         Lot savedLot = lotService.saveNewLot(newLot, token, lotImages);
         log.info("Lot saved: " + savedLot.toString());
 
         return "redirect:/";
+    }
+
+    private Map<String, String> checkPriceValues(Double current, Double max, Double min) {
+        Map<String, String> errors = new HashMap<>();
+        if (min > current || min > max)
+            errors.put("minPrice", "Должна быть меньше текущей и максимальной");
+        if (current < min || current > max)
+            errors.put("currentPrice", "Должна быть больше минимальной и меньше максимальной");
+        if (max < min || max < current)
+            errors.put("maxPrice", "Должна быть больше минимальной и больше текущей");
+        return errors;
     }
 }

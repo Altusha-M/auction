@@ -103,6 +103,15 @@ public class LotServiceImpl implements LotService {
         return lotRepository.getOne(insertedLot.getId());
     }
 
+    @Override
+    public LotDto findById(long id) {
+        Optional<Lot> lot = lotRepository.findById(id);
+        LotDto lotDto = null;
+        if (lot.isPresent())
+            lotDto = convertToLotDto(lot.get());
+        return lotDto;
+    }
+
     private Double calcCurrentPrice(Lot lot) {
         Random random = new Random();
         Double max = lot.getMaxPrice();
@@ -120,8 +129,7 @@ public class LotServiceImpl implements LotService {
 
         for (Photo photo : lot.getPhotos()) {
             if (false == photo.getDeleted()) {
-                lotDto.setPhotoUrl(photo.getUrl());
-                break;
+                lotDto.getPhotoUrls().add(photo.getUrl());
             }
         }
         return lotDto;
