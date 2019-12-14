@@ -38,15 +38,15 @@ public class LotDto {
 
     @NotNull
     @Range(min = 0, max = 50000)
-    private Double currentPrice;
+    private Long currentPrice;
     @NotNull
     @Range(min = 0, max = 50000)
-    private Double maxPrice;
+    private Long maxPrice;
     @NotNull
     @Range(min = 0, max = 50000)
-    private Double minPrice;
+    private Long minPrice;
 
-    private Double stepPrice;
+    private Long stepPrice;
 
     private UserDto userDto;
 

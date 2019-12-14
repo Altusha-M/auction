@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Random;
 import java.util.*;
 
 @Service
@@ -61,6 +63,12 @@ public class LotServiceImpl implements LotService {
     @Override
     public List<Lot> getAllLots() {
         return lotRepository.findAll();
+    }
+
+    @Override
+    public List<Lot> getAllLotsByUsername(Authentication token) {
+        UserDto user = userService.findByUsername(token.getName());
+        return lotRepository.findAllByUserUsername(user.getUsername());
     }
 
     @Override
@@ -112,11 +120,11 @@ public class LotServiceImpl implements LotService {
         return lotDto;
     }
 
-    private Double calcCurrentPrice(Lot lot) {
+    private Long calcCurrentPrice(Lot lot) {
         Random random = new Random();
-        Double max = lot.getMaxPrice();
-        Double min = lot.getMinPrice();
-        double randomValue = min + (max - min) * random.nextDouble();
+        Long max = lot.getMaxPrice();
+        Long min = lot.getMinPrice();
+        long randomValue = min + (max - min) * Long.parseLong(String.valueOf(random.nextDouble()));
         return randomValue;
     }
 
