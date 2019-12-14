@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,8 +24,8 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public City getById(long id) {
-        return cityRepository.getOne(id);
+    public Optional<City> getById(long id) {
+        return cityRepository.findById(id);
     }
 
     @Override

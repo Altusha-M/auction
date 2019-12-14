@@ -5,6 +5,7 @@ import com.stc21.boot.auction.entity.Category;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CategoryService {
     List<Category> findAll();
@@ -12,7 +13,7 @@ public interface CategoryService {
     List<CategoryDto> getAllSorted(Sort sort);
     List<CategoryDto> getAllSortedEvenDeleted(Sort sort);
     CategoryDto convertToDto(Category category);
-    Category getById(long id);
+    Optional<Category> getById(long id);
 
     void setDeletedTo(long id, boolean newValue);
     Category save(CategoryDto categoryDto);

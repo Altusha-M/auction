@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,8 +25,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getById(long id) {
-        return categoryRepository.getOne(id);
+    public Optional<Category> getById(long id) {
+        return categoryRepository.findById(id);
     }
 
     @Override

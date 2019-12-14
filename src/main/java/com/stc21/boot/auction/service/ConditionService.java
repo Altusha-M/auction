@@ -5,6 +5,7 @@ import com.stc21.boot.auction.entity.Condition;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ConditionService {
     List<ConditionDto> getAllConditions();
@@ -12,7 +13,7 @@ public interface ConditionService {
     List<ConditionDto> getAllSortedEvenDeleted(Sort sort);
     ConditionDto convertToDto(Condition condition);
     List<Condition> findAll();
-    Condition getById(long id);
+    Optional<Condition> getById(long id);
 
     void setDeletedTo(long id, boolean newValue);
     Condition save(ConditionDto conditionDto);

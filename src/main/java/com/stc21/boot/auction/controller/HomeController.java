@@ -7,22 +7,21 @@ import com.stc21.boot.auction.entity.City;
 import com.stc21.boot.auction.entity.Condition;
 import com.stc21.boot.auction.entity.Lot;
 import com.stc21.boot.auction.service.*;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 
 @Controller
 @RequestMapping(path = "/")
+@SessionAttributes("queryParams")
 public class HomeController {
 
     private final UserService userService;
@@ -39,32 +38,48 @@ public class HomeController {
         this.conditionService = conditionService;
     }
 
+    @ModelAttribute("queryParams")
+    Map<String, String> queryParams() {
+        return new HashMap<String, String>() {{
+            put("page", "1");
+            put("sortBy", "creationTime");
+            put("sortDir", "asc");
+            put("categoryFilter", "-1");
+            put("cityFilter", "-1");
+            put("conditionFilter", "-1");
+        }};
+    }
+
     // возвращает результат постранично
     @GetMapping(path = "/")
     public String showHomePage(
             Model model,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "-1") int categoryFilter,
-            @RequestParam(defaultValue = "-1") int cityFilter,
-            @RequestParam(defaultValue = "-1") int conditionFilter) {
+            @ModelAttribute("queryParams") Map<String, String> queryParams,
+            @RequestParam Map<String, String> allParams) {
+        queryParams.putAll(allParams);
+
+        /* ----- */
 
         Lot exampleLot = new Lot();
-        exampleLot .setCategory(  categoryFilter == -1 ? null :  categoryService.getById( categoryFilter));
-        exampleLot     .setCity(      cityFilter == -1 ? null :      cityService.getById(    cityFilter));
-        exampleLot.setCondition(conditionFilter == -1 ? null : conditionService.getById(conditionFilter));
+        exampleLot .setCategory( categoryService.getById(Integer.parseInt(queryParams.get( "categoryFilter"))).orElse(null));
+        exampleLot     .setCity(     cityService.getById(Integer.parseInt(queryParams.get(     "cityFilter"))).orElse(null));
+        exampleLot.setCondition(conditionService.getById(Integer.parseInt(queryParams.get("conditionFilter"))).orElse(null));
 
-        PageRequest pageRequest = PageRequest.of(page - 1, 5);
+        Sort sort = Sort.by(queryParams.get("sortDir").equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, queryParams.get("sortBy"));
+        PageRequest pageRequest = PageRequest.of(Integer.parseInt(queryParams.get("page")) - 1, 5, sort);
+
+        Page<LotDto> pagedHomePageLots = lotService.getPaginated(exampleLot, pageRequest);
+        model.addAttribute("lots", pagedHomePageLots);
+
+        /* ----- */
 
         model.addAttribute("categories",  categoryService.findAll());
         model.addAttribute(    "cities",      cityService.findAll());
         model.addAttribute("conditions", conditionService.findAll());
 
-        Page<LotDto> pagedHomePageLots = lotService.getPaginated(exampleLot, pageRequest);
-        model.addAttribute("lots", pagedHomePageLots);
-
-        model.addAttribute("categoryFilterId", categoryFilter);
-        model.addAttribute("cityFilterId", cityFilter);
-        model.addAttribute("conditionFilterId", conditionFilter);
+        model.addAttribute( "categoryFilterId", Integer.parseInt(queryParams.get( "categoryFilter")));
+        model.addAttribute(     "cityFilterId", Integer.parseInt(queryParams.get(     "cityFilter")));
+        model.addAttribute("conditionFilterId", Integer.parseInt(queryParams.get("conditionFilter")));
 
         return "home";
     }
