@@ -18,10 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.*;
 
 @Service
 public class LotServiceImpl implements LotService {
@@ -95,7 +94,7 @@ public class LotServiceImpl implements LotService {
         lotDto.setUserDto(authed);
         LocalDateTime nowDateTime = LocalDateTime.now();
         lotDto.setCreationTime(nowDateTime);
-        lotDto.setLastModTime(nowDateTime);
+        lotDto.setTimeLastMod(nowDateTime);
 
         Lot insertedLot = lotRepository.save(convertToEntity(lotDto));
 
@@ -112,11 +111,20 @@ public class LotServiceImpl implements LotService {
         return lotRepository.getOne(insertedLot.getId());
     }
 
+    @Override
+    public LotDto findById(long id) {
+        Optional<Lot> lot = lotRepository.findById(id);
+        LotDto lotDto = null;
+        if (lot.isPresent())
+            lotDto = convertToLotDto(lot.get());
+        return lotDto;
+    }
+
     private Long calcCurrentPrice(Lot lot) {
         Random random = new Random();
         Long max = lot.getMaxPrice();
         Long min = lot.getMinPrice();
-        long randomValue = min + (max - min) * Long.parseLong(String.valueOf(random.nextDouble()));
+        long randomValue = min + random.nextInt((int) (max - min));
         return randomValue;
     }
 
@@ -129,8 +137,7 @@ public class LotServiceImpl implements LotService {
 
         for (Photo photo : lot.getPhotos()) {
             if (false == photo.getDeleted()) {
-                lotDto.setPhotoUrl(photo.getUrl());
-                break;
+                lotDto.getPhotoUrls().add(photo.getUrl());
             }
         }
         return lotDto;
