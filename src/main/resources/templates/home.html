@@ -7,13 +7,13 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col">
-            <h1>Hello, World</h1>
+<!--            <h1>Hello, World</h1>-->
         </div>
     </div>
 
 
     <div class="row">
-        <div class="col d-none d-lg-block">l</div>
+        <div class="col d-none d-lg-block"></div>
 
         <!---------------------------------->
 
@@ -187,16 +187,20 @@
                     </div>
                 </div>
             </th:block>
-            <ul class="pagination">
-                <li class="page-item" th:each="page : ${#numbers.sequence(0,lots.totalPages - 1)}">
-                    <a th:href="@{/(page=${page})}" th:text="${page}">Page</a>
-                </li>
-            </ul>
+            <div class="row">
+                <div class="col">
+                    <ul class="pagination mt-2">
+                        <li class="page-item" th:each="page : ${#numbers.sequence(0,lots.totalPages - 1)}" th:classappend="${page == lots.number} ? active">
+                            <a class="page-link" th:href="@{/(page=${page})}" th:text="${page + 1}">Page</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <!---------------------------------->
 
-        <div class="col d-none d-lg-block">r</div>
+        <div class="col d-none d-lg-block"></div>
     </div>
 
 

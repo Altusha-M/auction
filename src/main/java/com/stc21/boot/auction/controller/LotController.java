@@ -2,6 +2,7 @@ package com.stc21.boot.auction.controller;
 
 import com.stc21.boot.auction.dto.LotDto;
 import com.stc21.boot.auction.exception.NotEnoughMoneyException;
+import com.stc21.boot.auction.exception.PageNotFoundException;
 import com.stc21.boot.auction.repository.UserRepository;
 import com.stc21.boot.auction.service.LotService;
 import com.stc21.boot.auction.service.UserService;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping(path = "lot")
+@RequestMapping(path = "/lot")
 public class LotController {
 
     @Autowired
@@ -30,16 +31,20 @@ public class LotController {
     public String showLotPage(Model model,
                               @RequestParam(name = "id") Long id) {
         LotDto lotDto = lotService.findById(id);
-        model.addAttribute("lot", lotDto);
-        return "lot";
+        if (lotDto == null)
+            throw new PageNotFoundException();
+        else {
+            model.addAttribute("lot", lotDto);
+            return "lot";
+        }
     }
 
-    @PostMapping(path = "/{lotId}")
+/*    @PostMapping(path = "/{lotId}")
     public String showLotPage(Model model, @RequestParam(defaultValue = "1") long lotId) {
         LotDto currLot = lotService.findByLotId(lotId);
         model.addAttribute("currentLot", currLot);
         return "lot";
-    }
+    }*/
 
     @PostMapping(path = "/buy")
     public String buyLot(Model model,
