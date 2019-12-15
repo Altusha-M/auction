@@ -80,4 +80,7 @@ public class User implements UserDetails {
 
     @Column(columnDefinition = "boolean default false", nullable = false)
     private Boolean deleted;
+
+    @Column(columnDefinition = "bigint default 50000")
+    private Long wallet;
 }

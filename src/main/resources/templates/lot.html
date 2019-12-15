@@ -71,7 +71,8 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
-                                        <form method="POST" th:action="@{/}">
+                                        <form method="POST" th:action="@{/lot/buy}">
+                                            <input type="hidden" name="lotId" th:value="${lot.id}">
                                             <button type="submit" class="btn btn-primary">Да</button>
                                         </form>
                                     </div>

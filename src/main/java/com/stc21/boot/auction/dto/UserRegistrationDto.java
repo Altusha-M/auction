@@ -37,6 +37,7 @@ public class UserRegistrationDto {
     private String lastName;
 
 //    private Role role;
+    private Long wallet;
     private City city;
     private Boolean deleted = false;
 }

@@ -18,6 +18,7 @@ public interface UserService {
     UserDto findByEmail(String email);
     UserDto findByPhoneNumber(String phoneNumber);
     UserDto convertToDto(User user);
+    User convertToEntity(UserDto userDto);
 
     List<String> fieldsWithErrors(UserRegistrationDto userRegistrationDto);
     User save(UserRegistrationDto userRegistrationDto);

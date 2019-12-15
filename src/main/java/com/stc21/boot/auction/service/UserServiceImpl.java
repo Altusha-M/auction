@@ -2,6 +2,7 @@ package com.stc21.boot.auction.service;
 
 import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.dto.UserRegistrationDto;
+import com.stc21.boot.auction.entity.Lot;
 import com.stc21.boot.auction.entity.User;
 import com.stc21.boot.auction.repository.CityRepository;
 import com.stc21.boot.auction.repository.RoleRepository;
@@ -91,8 +92,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto convertToDto(User user) {
         if (user == null) return null;
-
         return modelMapper.map(user, UserDto.class);
+    }
+
+    @Override
+    public User convertToEntity(UserDto userDto) {
+        return modelMapper.map(userDto, User.class);
     }
 
 
@@ -135,6 +140,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userRegistrationDto.getLastName());
         user.setRole(roleRepository.getOne(1L));
         user.setCity(userRegistrationDto.getCity());
+        user.setWallet(100_000L);
         user.setDeleted(false);
 
         return userRepository.saveAndFlush(user);

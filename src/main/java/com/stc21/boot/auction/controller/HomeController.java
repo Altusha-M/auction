@@ -6,6 +6,7 @@ import com.stc21.boot.auction.entity.Lot;
 import com.stc21.boot.auction.service.LotService;
 import com.stc21.boot.auction.service.UserService;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +31,13 @@ public class HomeController {
 
     // возвращает результат постранично
     @GetMapping(path = "/")
-    public String showHomePage(Model model, @RequestParam(defaultValue = "0") int page) {
-        Page<LotDto> pagedHomePageLots = lotService.getPageOfHomePageLots(page);
+    public String showHomePage(Model model, @RequestParam(defaultValue = "0") int page, Authentication token) {
+        Page<LotDto> pagedHomePageLots;
+        if (token == null) {
+            pagedHomePageLots = lotService.getPageOfHomePageLots(page);
+        } else {
+            pagedHomePageLots = lotService.getPageOfHomePageLots(page, token);
+        }
         model.addAttribute("lots", pagedHomePageLots);
         return "home";
     }

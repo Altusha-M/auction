@@ -106,11 +106,24 @@
                             <div class="text-info" th:text="${user.getLastName()}">Last name</div>
                         </h5>
                     </div>
+                    <div class="row-6">
+                        <h5 class="card-title">
+                            <div class="text-info" th:text="${user.getWallet()}">Last name</div>
+                        </h5>
+                    </div>
 
                 </div>
             </div>
         </div>
     </div>
+
+        <div class="row" th:each="purchase : ${purchases}">
+            <p>purchase.id:<span th:text="${purchase.id}"></span></p>
+            <p>purchase.buyer:<span th:text="${purchase.buyer.toString()}"></span></p>
+            <p>purchase.item:<span th:text="${purchase.item.toString()}"></span></p>
+            <p>purchase.purchaseTime:<span th:text="${purchase.purchaseTime.toString()}"></span></p>
+        </div>
+
 
     <div class="col d-none d-lg-block">R</div>
 </div>

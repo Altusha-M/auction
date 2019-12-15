@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 
-@NoArgsConstructor
-@Entity
 @Data
+@Entity
+@NoArgsConstructor
 public class Photo {
 
     @Id

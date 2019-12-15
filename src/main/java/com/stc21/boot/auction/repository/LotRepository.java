@@ -22,6 +22,9 @@ public interface LotRepository extends JpaRepository<Lot, Long> {
 
     Page<Lot> findByDeletedFalse(Pageable pageable);
 
+    @Query("from Lot l WHERE l.deleted = false and l.user.username not in (:username)")
+    Page<Lot> getByDeletedFalseWhereUserUsernameNotEquals(Pageable pageable, @Param("username") String username);
+
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Lot l SET l.deleted = :isDeleted WHERE l.id = :lotId")
     int updateDeletedTo(@Param("lotId") Long lotId, @Param("isDeleted") boolean isDeleted);
