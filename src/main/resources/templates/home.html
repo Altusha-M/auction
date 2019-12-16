@@ -33,8 +33,8 @@
                                 <label for="categoryFilterSelect">Select category</label>
                                 <div class="input-group mb-3">
                                     <select class="custom-select" id="categoryGroupSelect" name="categoryFilter">
-                                        <option th:selected="${categoryFilterId==-1}" value="-1">Any category</option>
-                                        <option th:each="category : ${categories}" th:text="${category.name}" th:selected="${categoryFilterId==category.id}" th:value="${category.id}">One</option>
+                                        <option th:selected="${categoryFilter==-1}" value="-1">Any category</option>
+                                        <option th:each="category : ${categories}" th:text="${category.name}" th:selected="${categoryFilter==category.id}" th:value="${category.id}">One</option>
                                     </select>
                                 </div>
                             </div>
@@ -43,8 +43,8 @@
                                 <label for="cityFilterSelect">Select city</label>
                                 <div class="input-group mb-3">
                                     <select class="custom-select" id="cityGroupSelect" name="cityFilter">
-                                        <option th:selected="${cityFilterId==-1}" value="-1">Any city</option>
-                                        <option th:each="city : ${cities}" th:text="${city.name}" th:selected="${cityFilterId==city.id}" th:value="${city.id}">One</option>
+                                        <option th:selected="${cityFilter==-1}" value="-1">Any city</option>
+                                        <option th:each="city : ${cities}" th:text="${city.name}" th:selected="${cityFilter==city.id}" th:value="${city.id}">One</option>
                                     </select>
                                 </div>
                             </div>
@@ -53,8 +53,8 @@
                                 <label for="conditionFilterSelect">Select condition</label>
                                 <div class="input-group mb-3">
                                     <select class="custom-select" id="conditionGroupSelect" name="conditionFilter">
-                                        <option th:selected="${conditionFilterId==-1}" value="-1">Any condition</option>
-                                        <option th:each="condition : ${conditions}" th:text="${condition.name}" th:selected="${conditionFilterId==condition.id}" th:value="${condition.id}">One</option>
+                                        <option th:selected="${conditionFilter==-1}" value="-1">Any condition</option>
+                                        <option th:each="condition : ${conditions}" th:text="${condition.name}" th:selected="${conditionFilter==condition.id}" th:value="${condition.id}">One</option>
                                     </select>
                                 </div>
                             </div>
@@ -99,11 +99,11 @@
                     <hr>
 
                     <div class="row">
-                        <div class="col">
+                        <div class="col-12 col-md-6">
                             Found <span th:text="${lots.totalElements}">X</span>
                             <span th:text="${lots.totalElements>1} ? lots : lot">lots</span>
                         </div>
-                        <div class="col text-right">
+                        <div class="col-12 col-md-6 text-right">
                             <h6>
                                 <span class="pr-3">Sort by:</span>
                                 price
@@ -136,7 +136,7 @@
                                                 <div class="row">
                                                     <div class="col">
                                                         <h2 class="card-title">
-                                                            <a class="text-dark" href="#" th:text="${lot.name}">Card title</a>
+                                                            <a class="text-dark" th:href="@{/lot(id=${lot.id})}" th:text="${lot.name}">Card title</a>
                                                         </h2>
                                                     </div>
                                                 </div>

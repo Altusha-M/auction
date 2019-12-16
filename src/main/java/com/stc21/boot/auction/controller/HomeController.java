@@ -43,7 +43,7 @@ public class HomeController {
         return new HashMap<>() {{
             put("page", "1");
             put("sortBy", "creationTime");
-            put("sortDir", "asc");
+            put("sortDir", "desc");
             put("categoryFilter", "-1");
             put("cityFilter", "-1");
             put("conditionFilter", "-1");
@@ -91,11 +91,11 @@ public class HomeController {
         model.addAttribute(    "cities",      cityService.findAll());
         model.addAttribute("conditions", conditionService.findAll());
 
-        model.addAttribute( "categoryFilterId", Integer.parseInt(queryParams.get( "categoryFilter")));
-        model.addAttribute(     "cityFilterId", Integer.parseInt(queryParams.get(     "cityFilter")));
-        model.addAttribute("conditionFilterId", Integer.parseInt(queryParams.get("conditionFilter")));
-        model.addAttribute(       "searchText",                  queryParams.get(     "searchText"));
-        model.addAttribute(     "selectOption",                  queryParams.get(   "selectOption"));
+        model.addAttribute( "categoryFilter", Integer.parseInt(queryParams.get( "categoryFilter")));
+        model.addAttribute(     "cityFilter", Integer.parseInt(queryParams.get(     "cityFilter")));
+        model.addAttribute("conditionFilter", Integer.parseInt(queryParams.get("conditionFilter")));
+        model.addAttribute(     "searchText",                  queryParams.get(     "searchText"));
+        model.addAttribute(   "selectOption",                  queryParams.get(   "selectOption"));
 
         return "home";
     }
