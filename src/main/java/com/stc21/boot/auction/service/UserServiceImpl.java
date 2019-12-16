@@ -151,4 +151,10 @@ public class UserServiceImpl implements UserService {
     public void setDeletedTo(long id, boolean newValue) {
         userRepository.updateDeletedTo(id, newValue);
     }
+
+    @Override
+    @Transactional
+    public void updateWalletTo(Long userId, Long newAmount) {
+        userRepository.updateWalletTo(userId, newAmount);
+    }
 }

@@ -12,8 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,17 +32,40 @@ public class AccountController {
         this.userService = userService;
     }
 
+    @ModelAttribute(name = "lots")
+    public List<Lot> userLots(@AuthenticationPrincipal Authentication token)  {
+        return lotService.getAllLotsByUsername(token);
+    }
+
+    @ModelAttribute(name = "user")
+    public UserDto currentUser(@AuthenticationPrincipal Authentication token)  {
+        return userService.findByUsername(token.getName());
+    }
+
+    @ModelAttribute(name = "purchases")
+    public List<Purchase> allByBuyer(@AuthenticationPrincipal Authentication token)  {
+        return purchaseRepository.findAllByBuyer(userService.convertToEntity(userService.findByUsername(token.getName())));
+    }
+
     @GetMapping()
-    public String showLotsPage(Model model,
+    public String showAccountPage(Model model,
                                @AuthenticationPrincipal Authentication token) {
-        List<Lot> userLots = lotService.getAllLotsByUsername(token);
-        List<Lot> allLots = lotService.getAllLots();
-        List<UserDto> allUsers = userService.getAllUsers();
-        UserDto currentUser = userService.findByUsername(token.getName());
-        List<Purchase> allByBuyer = purchaseRepository.findAllByBuyer(userService.convertToEntity(currentUser));
-        model.addAttribute("lots", userLots);
-        model.addAttribute("user", currentUser);
-        model.addAttribute("purchases", allByBuyer);
+//        List<Lot> userLots = lotService.getAllLotsByUsername(token);
+//        List<Lot> allLots = lotService.getAllLots();
+//        List<UserDto> allUsers = userService.getAllUsers();
+//        UserDto currentUser = userService.findByUsername(token.getName());
+//        List<Purchase> allByBuyer = purchaseRepository.findAllByBuyer(userService.convertToEntity(currentUser));
+//        model.addAttribute("lots", userLots);
+//        model.addAttribute("user", currentUser);
+//        model.addAttribute("purchases", allByBuyer);
         return "account";
+    }
+
+    @PostMapping
+    public String processAccountPage(@RequestParam(name = "money") Long money,
+                                     @AuthenticationPrincipal Authentication token) {
+        UserDto user = userService.findByUsername(token.getName());
+        userService.updateWalletTo(user.getId(), user.getWallet() + money);
+        return "redirect:/account";
     }
 }
