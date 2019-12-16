@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+>
 <head th:replace="base::head(title='Lot')"></head>
 <body>
 <th:block th:replace="base::navbar" />
@@ -14,8 +14,15 @@
                 <div class="col my-auto">
                     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
-                            <div th:class="${iter.index} == 0 ? 'carousel-item active' : 'carousel-item'" th:each="photo, iter : ${lot.photoUrls}">
-                                <img class="d-block w-100 h-100" th:src="${photo}" th:alt="${iter.index} + ' картинка'">
+                            <div th:if="${lot.photoUrls.isEmpty()}">
+                                <div class="carousel-item active">
+                                    <img class="d-block w-100 h-100" th:src="'/images/no-image-icon.png'" th:alt="'Нет картинки'">
+                                </div>
+                            </div>
+                            <div th:unless="${lot.photoUrls.isEmpty()}">
+                                <div th:class="${iter.index} == 0 ? 'carousel-item active' : 'carousel-item'" th:each="photo, iter : ${lot.photoUrls}">
+                                    <img class="d-block w-100 h-100" th:src="${photo}" th:alt="${iter.index} + ' картинка'">
+                                </div>
                             </div>
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -51,11 +58,22 @@
                         <p class="lead font-weight-bold">Описание</p>
                         <p th:text="${lot.description}">Desc
                         </p>
-                        						<!-- Button trigger modal -->
-						<button class="btn btn-primary btn-rounded p-2" data-toggle="modal" data-target="#modalBuyLot" type="button" onclick="this.blur();">
+                        <!-- Button trigger modal -->
+
+                        <div th:if="${#authorization.authentication.name.equals(lot.userDto.username)}">
+                            <form action="/account" method="GET">
+                                <button class="btn btn-warning btn-rounded p-2" type="submit">
+                                    В аккаунт
+                                    <i class="fas fa-user-astronaut ml-1"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <div th:unless="${#authorization.authentication.name.equals(lot.userDto.username)}">
+                            <button class="btn btn-primary btn-rounded p-2" data-toggle="modal" data-target="#modalBuyLot" type="button" onclick="this.blur();">
                                 Купить
                                 <i class="fas fa-shopping-cart ml-1"></i>
-                        </button>
+                            </button>
+                        </div>
                         <!-- Modal -->
                         <div class="modal fade" id="modalBuyLot" tabindex="-1" role="dialog" aria-labelledby="modalBuyLotTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">

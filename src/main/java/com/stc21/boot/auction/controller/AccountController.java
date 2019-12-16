@@ -33,7 +33,7 @@ public class AccountController {
         this.userService = userService;
     }
 
-    @GetMapping(path = "")
+    @GetMapping()
     public String showLotsPage(Model model,
                                @AuthenticationPrincipal Authentication token) {
         List<Lot> userLots = lotService.getAllLotsByUsername(token);

@@ -33,11 +33,14 @@ public class HomeController {
     @GetMapping(path = "/")
     public String showHomePage(Model model, @RequestParam(defaultValue = "0") int page, Authentication token) {
         Page<LotDto> pagedHomePageLots;
+/*
         if (token == null) {
             pagedHomePageLots = lotService.getPageOfHomePageLots(page);
         } else {
             pagedHomePageLots = lotService.getPageOfHomePageLots(page, token);
         }
+*/
+        pagedHomePageLots = lotService.getPageOfHomePageLots(page);
         model.addAttribute("lots", pagedHomePageLots);
         return "home";
     }
