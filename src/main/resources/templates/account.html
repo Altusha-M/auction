@@ -5,114 +5,191 @@
 
 <body>
 <th:block th:replace="base::navbar"/>
-
-<div class="row">
-    <div class="col d-none d-lg-block">L</div>
-
-    <div class="col-12 col-md-5" id="cards">
-        <th:block th:each="lot : ${lots}">
-            <div class="card mt-2" style="box-shadow: 3px 3px 5px LightGrey; height: 150px">
-                <div class="row no-gutters">
-                    <div class="col-4" style="max-height:150px">
-                        <a href="#">
-                            <img class="card-img h-100"
-                                 src="https://media1.tenor.com/images/b9c59363e7dd35cb7c19d8736b102d99/tenor.gif?itemid=13730968"
-                                 style="object-fit: cover">
-                        </a>
-                    </div>
-                    <div class="col-8">
-                        <div class="card-body">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <h5 class="card-title">
-                                            <a class="text-dark" href="#" th:text="${lot.name}">Card title</a>
-                                        </h5>
-                                    </div>
-                                    <div class="col-6">
-                                        <h5 class="card-title">
-                                            <a class="text-info" href="#"
-                                               th:text="${lot.getUser().getUsername()}">Username</a>
-                                        </h5>
-                                    </div>
+<style>
+    html, body {
+        height: 100%;
+    }
+</style>
+<div class="row h-100">
+    <div class="col-8">
+        <ul class="nav nav-tabs mx-3 my-1" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a aria-controls="myLots" aria-selected="false" class="nav-link active" data-toggle="tab" href="#myLots"
+                   id="myLots-tab"
+                   role="tab">Мои лоты</a>
+            </li>
+            <li class="nav-item">
+                <a aria-controls="boughtLots" aria-selected="false" class="nav-link" data-toggle="tab"
+                   href="#boughtLots" id="boughtLots-tab"
+                   role="tab">Купленные лоты</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div aria-labelledby="myLots-tab" class="tab-pane fade show active" id="myLots" role="tabpanel">
+                <div class="container-fluid" id="cards">
+                    <th:block th:each="lot : ${lots}">
+                        <div class="card mt-2" style="box-shadow: 3px 3px 5px LightGrey; height: 150px">
+                            <div class="row no-gutters">
+                                <div class="col-4" style="max-height:150px">
+                                    <a href="#">
+                                        <img class="card-img h-100"
+                                             src="https://media1.tenor.com/images/b9c59363e7dd35cb7c19d8736b102d99/tenor.gif?itemid=13730968"
+                                             style="object-fit: cover">
+                                    </a>
                                 </div>
-                            </div>
+                                <div class="col-8">
+                                    <div class="card-body">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <h5 class="card-title">
+                                                        <a class="text-dark" href="#" th:text="${lot.name}">Card
+                                                            title</a>
+                                                    </h5>
+                                                </div>
+                                                <div class="col-6">
+                                                    <h5 class="card-title">
+                                                        <a class="text-info" href="#"
+                                                           th:text="${lot.getUser().getUsername()}">Username</a>
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                            <p class="card-text text-truncate" th:text="${lot.description}">
-                                Some quick example text to build on the card title and
-                                make up the bulk of the card's content.
-                            </p>
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-4">
+                                        <p class="card-text text-truncate" th:text="${lot.description}">
+                                            Some quick example text to build on the card title and
+                                            make up the bulk of the card's content.
+                                        </p>
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-4">
                                         <span class="badge badge-primary"
                                               th:text="${lot.currentPrice} + ' р.'">100 p.</span>
-                                    </div>
-                                    <div class="col-4">
+                                                </div>
+                                                <div class="col-4">
                                                 <span class="badge badge-danger"
                                                       th:text="${lot.category.name}"> Category </span>
-                                    </div>
-                                    <div class="col-4">
-                                        <span class="badge badge-info" th:text="${lot.creationTime}">Created at</span>
+                                                </div>
+                                                <div class="col-4">
+                                                    <span class="badge badge-info" th:text="${lot.creationTime}">Created at</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                    </div>
+                    </th:block>
+                    <th:block th:if="${lots.size()==0}">
+                        <div>
+                            <h5 class="card-body">
+                                <div class="text-dark">You have not added any lots yet</div>
+                            </h5>
+                        </div>
+                    </th:block>
                 </div>
             </div>
-        </th:block>
-        <th:block th:if="${lots.size()==0}">
-            <div>
-                <h5 class="card-body">
-                    <div class="text-dark">You have not added any lots yet</div>
-                </h5>
-            </div>
-        </th:block>
-    </div>
 
-    <div class="col-12 col-md-3" id="userInfo">
-        <div class="card-body">
-            <div class="container">
-                <div class="col">
-                    <div class="row-6">
-                        <h5 class="card-title">
-                            <div class="text-dark" th:text="${user.getUsername()}">Card title</div>
-                        </h5>
-                    </div>
-                    <div class="row-6">
-                        <h5 class="card-title">
-                            <div class="text-info" th:text="${user.getCity().getName()}">City</div>
-                        </h5>
-                    </div>
-                    <div class="row-6">
-                        <h5 class="card-title">
-                            <div class="text-info" th:text="${user.getEmail()}">E-MAIL</div>
-                        </h5>
-                    </div>
-                    <div class="row-6">
-                        <h5 class="card-title">
-                            <div class="text-info" th:text="${user.getPhoneNumber()}">Phone</div>
-                        </h5>
-                    </div>
-                    <div class="row-6">
-                        <h5 class="card-title">
-                            <div class="text-info" th:text="${user.getFirstName()}">First name</div>
-                        </h5>
-                    </div>
-                    <div class="row-6">
-                        <h5 class="card-title">
-                            <div class="text-info" th:text="${user.getLastName()}">Last name</div>
-                        </h5>
-                    </div>
+            <div aria-labelledby="boughtLots-tab" class="tab-pane fade" id="boughtLots" role="tabpanel">
+                <table class="table">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">№</th>
+                        <th scope="col">Название</th>
+                        <th scope="col">Описание</th>
+                        <th scope="col">Категория</th>
+                        <th scope="col">Состояние</th>
+                        <th scope="col">Город</th>
+                        <th scope="col">Цена</th>
+                        <th scope="col">Контанкты продавца</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="purchase, iter : ${purchases}">
+                        <th scope="row" th:text="${iter.index + 1}">№</th>
+                        <td th:text="${purchase.item.getName()}">Название</td>
+                        <td th:text="${purchase.item.getDescription()}">Описание</td>
+                        <td th:text="${purchase.item.getCategory().getName()}">Категория</td>
+                        <td th:text="${purchase.item.getCondition().getName()}">Состояние</td>
+                        <td th:text="${purchase.item.getCity().getName()}">Город</td>
+                        <td th:text="${purchase.item.getCurrentPrice()}">Цена</td>
+                        <td>
+                            <p th:text="${purchase.item.getUser().getUsername()}"></p>
+                            <p th:text="${purchase.item.getUser().getFirstName() + ' ' + purchase.item.getUser().getLastName()}"></p>
+                            <p th:text="${purchase.item.getUser().getPhoneNumber()}"></p>
+                            <p th:text="${purchase.item.getUser().getEmail()}"></p>
+                            <p th:text="${purchase.item.getUser().getCity().getName()}"></p>
+                        </td>
 
-                </div>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
-    <div class="col d-none d-lg-block">R</div>
+    <div class="col" id="userInfo">
+        <div class="container">
+            <div class="row mt-2">
+                <div class="col">
+                    <label class="ml-2 font-weight-bold" for="inputUsername">Пользователь</label>
+                    <input class="form-control" id="inputUsername" readonly th:value="${user.getUsername()}"
+                           type="text">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col">
+                    <label class="ml-2 font-weight-bold" for="firstName">Имя</label>
+                    <input class="form-control" id="firstName" readonly th:value="${user.getFirstName()}" type="text">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col">
+                    <label class="ml-2 font-weight-bold" for="lastName">Фамилия</label>
+                    <input class="form-control" id="lastName" readonly th:value="${user.getLastName()}" type="text">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col">
+                    <label class="ml-2 font-weight-bold" for="email">E-mail</label>
+                    <input class="form-control" id="email" readonly th:value="${user.getEmail()}" type="text">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col">
+                    <label class="ml-2 font-weight-bold" for="phone">Номер телефона</label>
+                    <input class="form-control" id="phone" readonly th:value="${user.getPhoneNumber()}" type="text">
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col">
+                    <label class="ml-2 font-weight-bold" for="city">Город</label>
+                    <input class="form-control" id="city" readonly th:value="${user.getCity().getName()}" type="text">
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text font-weight-bold">Кошелек<i
+                                    class="fas fa-wallet pl-2 mt-1"></i></span>
+                        </div>
+                        <input class="form-control text-center" id="wallet" readonly th:value="${user.getWallet()}"
+                               type="number">
+                        <div class="input-group-append mr-3">
+                            <span class="input-group-text">&#x20bd</span>
+                        </div>
+                        <form method="POST" th:action="@{/account}">
+                            <input type="hidden" name="money" value="10000">
+                            <button class="btn btn-primary" type="submit"><i class="fas fa-plus-circle"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<th:block th:insert="base::scripts"/>
 </body>
 </html>

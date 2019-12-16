@@ -21,6 +21,7 @@ public class UserDto {
     private Role role;
     private City city;
     private Boolean deleted;
+    private Long wallet;
 
     public UserDto(User user) {
         this.username = user.getUsername();
@@ -31,5 +32,6 @@ public class UserDto {
         this.city = user.getCity();
         this.role = user.getRole();
         this.deleted = user.getDeleted();
+        this.wallet = user.getWallet();
     }
 }

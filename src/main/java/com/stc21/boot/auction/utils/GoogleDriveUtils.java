@@ -70,7 +70,7 @@ public class GoogleDriveUtils {
      *
      * @return - GoogleDrive connection instance.
      * @throws IOException - Throws if it was not possible to connect to GoogleDrive.
-     */
+    users */
     public static Drive getDriveService() throws IOException {
         if (driveServiceInstance != null) {
             return driveServiceInstance;

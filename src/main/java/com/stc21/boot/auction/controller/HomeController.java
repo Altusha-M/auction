@@ -1,10 +1,6 @@
 package com.stc21.boot.auction.controller;
 
 import com.stc21.boot.auction.dto.LotDto;
-import com.stc21.boot.auction.dto.UserDto;
-import com.stc21.boot.auction.entity.Category;
-import com.stc21.boot.auction.entity.City;
-import com.stc21.boot.auction.entity.Condition;
 import com.stc21.boot.auction.entity.Lot;
 import com.stc21.boot.auction.service.*;
 import org.springframework.data.domain.*;
@@ -12,11 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 
 @Controller
