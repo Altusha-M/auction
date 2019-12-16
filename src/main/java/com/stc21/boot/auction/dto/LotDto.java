@@ -39,13 +39,13 @@ public class LotDto {
     private Purchase purchase;
 
     @NotNull
-    @Range(min = 0, max = 500000)
+    @Range(min = 1, max = 500000)
     private Long currentPrice;
     @NotNull
-    @Range(min = 0, max = 500000)
+    @Range(min = 1, max = 500000)
     private Long maxPrice;
     @NotNull
-    @Range(min = 0, max = 500000)
+    @Range(min = 1, max = 500000)
     private Long minPrice;
 
     private Long stepPrice;

@@ -6,6 +6,7 @@ import com.stc21.boot.auction.entity.Lot;
 import com.stc21.boot.auction.entity.Photo;
 import com.stc21.boot.auction.entity.Purchase;
 import com.stc21.boot.auction.entity.User;
+import com.stc21.boot.auction.exception.ConcurrentBuyException;
 import com.stc21.boot.auction.exception.NotEnoughMoneyException;
 import com.stc21.boot.auction.exception.PageNotFoundException;
 import com.stc21.boot.auction.repository.LotRepository;
@@ -13,11 +14,8 @@ import com.stc21.boot.auction.repository.PhotoRepository;
 import com.stc21.boot.auction.repository.PurchaseRepository;
 import com.stc21.boot.auction.repository.UserRepository;
 import lombok.SneakyThrows;
-import org.hibernate.exception.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
-import org.springframework.retry.annotation.Recover;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -27,11 +25,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
-import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.lang.Thread.sleep;
+//import org.springframework.retry.annotation.Recover;
+//import org.springframework.retry.annotation.Retryable;
 
 @Service
 public class LotServiceImpl implements LotService {
@@ -189,13 +188,13 @@ public class LotServiceImpl implements LotService {
      * @throws NotEnoughMoneyException if User.wallet less than item's cost
      */
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW
+    @Transactional(propagation = Propagation.REQUIRED
             ,isolation = Isolation.SERIALIZABLE)
     public void sale(String username, LotDto lotDto) throws NotEnoughMoneyException {
 
         User buyer = userRepository.findByUsername(username).orElseThrow(NullPointerException::new);//userService.findByUsername(username);
         Long amount = lotDto.getCurrentPrice();
-        if(buyer.getWallet() < amount){
+        if(buyer.getWallet() < amount) {
             throw new NotEnoughMoneyException("Недостаточно средств на счету");
         }
         User seller = userRepository.findByUsername(lotDto.getUserDto().getUsername()).orElseThrow(NullPointerException::new);//userService.findByUsername(username);
@@ -205,12 +204,16 @@ public class LotServiceImpl implements LotService {
         boughtLot.setBought(true);
         seller.setWallet(seller.getWallet() + amount);
         buyer.setWallet(buyer.getWallet() - amount);
-
         Purchase purchase = new Purchase();
         purchase.setBuyer(buyer);
         purchase.setItem(boughtLot);
         purchase.setPurchaseTime(LocalDateTime.now());
-        purchaseRepository.saveAndFlush(purchase);
+
+        try {
+            purchaseRepository.saveAndFlush(purchase);
+        } catch (Exception e) {
+            throw new ConcurrentBuyException(e.getMessage());
+        }
     }
 
     @Override

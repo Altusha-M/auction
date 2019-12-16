@@ -33,7 +33,7 @@ public class HomeController {
 
     @ModelAttribute("queryParams")
     Map<String, String> queryParams() {
-        return new HashMap<>() {{
+        return new HashMap<String, String>() {{
             put("page", "1");
             put("sortBy", "creationTime");
             put("sortDir", "desc");

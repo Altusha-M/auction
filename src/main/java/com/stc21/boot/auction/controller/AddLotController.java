@@ -99,11 +99,11 @@ public class AddLotController {
 
     private Map<String, String> checkPriceValues(Long current, Long max, Long min) {
         Map<String, String> errors = new HashMap<>();
-        if (min > current || min > max)
+        if (min > current || min >= max)
             errors.put("minPrice", "Должна быть меньше текущей и максимальной");
         if (current < min || current > max)
             errors.put("currentPrice", "Должна быть больше минимальной и меньше максимальной");
-        if (max < min || max < current)
+        if (max <= min || max < current)
             errors.put("maxPrice", "Должна быть больше минимальной и больше текущей");
         return errors;
     }

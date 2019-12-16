@@ -108,6 +108,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Опишите док, а то непонятно, что делает метод
+     *
      * @param userRegistrationDto
      * @return
      */
