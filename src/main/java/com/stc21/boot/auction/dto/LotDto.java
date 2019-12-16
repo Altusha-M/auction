@@ -5,12 +5,15 @@ import com.stc21.boot.auction.entity.City;
 import com.stc21.boot.auction.entity.Condition;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -34,22 +37,20 @@ public class LotDto {
     private City city;
 
     @NotNull
-    @Min(value = 0)
-    @Max(value = 50000)
-    private Double currentPrice;
+    @Range(min = 0, max = 50000)
+    private Long currentPrice;
     @NotNull
-    @Min(value = 0)
-    @Max(value = 50000)
-    private Double maxPrice;
+    @Range(min = 0, max = 50000)
+    private Long maxPrice;
     @NotNull
-    @Min(value = 0)
-    @Max(value = 50000)
-    private Double minPrice;
+    @Range(min = 0, max = 50000)
+    private Long minPrice;
 
-    private Double stepPrice;
+    private Long stepPrice;
 
     private UserDto userDto;
 
-    private String photoUrl;
+    private List<String> photoUrls = new ArrayList<>();
+
     private Boolean deleted = false;
 }

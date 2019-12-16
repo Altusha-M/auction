@@ -12,6 +12,9 @@ import java.util.List;
 
 public interface LotService {
     List<Lot> getAllLots();
+
+    List<Lot> getAllLotsByUsername(Authentication token);
+
     void updateAllLots(List<Lot> lots);
     Page<LotDto> getPageOfHomePageLots(int page);
     Page<LotDto> getPaginated(Pageable pageable);
@@ -20,4 +23,5 @@ public interface LotService {
     LotDto convertToDto(Lot lot);
     void setDeletedTo(long id, boolean newValue);
     Lot saveNewLot(LotDto lotDto, Authentication token, MultipartFile[] images);
+    LotDto findById(long id);
 }
