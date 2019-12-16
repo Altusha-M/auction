@@ -23,7 +23,7 @@ VALUES (nextval('category_id_seq'), 'Одежда'),
 INSERT INTO users (id, username, first_name, last_name, password,
                    phone_number, email, city_id, role_id)
 VALUES (nextval('users_id_seq'), 'username1', 'first name 1', 'last name 1',
-        'password1', '1234565', 'email1',
+        '$2a$10$UqSbP/Wsulh3c/t058fW8ei04H1U1yThkiJ311mJANkt5Oi0ZqMK6', '1234565', 'email1',
         (SELECT id FROM city WHERE id = 1), 1),
        (nextval('users_id_seq'), 'username2', 'first name 2', 'last name 2',
         'password2', '1234564', 'email2',

@@ -165,7 +165,6 @@ public class LotServiceImpl implements LotService {
         }
         User seller = userRepository.findByUsername(lotDto.getUserDto().getUsername()).orElseThrow(NullPointerException::new);//userService.findByUsername(username);
         Lot boughtLot = lotRepository.findById(lotDto.getId()).orElseThrow(NullPointerException::new);
-
         seller.setWallet(seller.getWallet() + amount);
         buyer.setWallet(buyer.getWallet() - amount);
         Purchase purchase = new Purchase();
