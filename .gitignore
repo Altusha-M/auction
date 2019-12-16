@@ -3,7 +3,6 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
-/src/main/resources/application.properties
 src/main/resources/credentials/StoredCredential
 
 ### STS ###
@@ -32,3 +31,4 @@ build/
 ### VS Code ###
 .vscode/
 /target/
+/src/main/resources/application.properties

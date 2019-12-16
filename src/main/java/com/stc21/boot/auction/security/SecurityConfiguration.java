@@ -27,7 +27,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     // пока не используем шифратор пароля, далее будет BCryptPasswordEncoder
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(getNoPasswordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(getPasswordEncoder());
     }
 
 
@@ -37,7 +37,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/dashboard**").hasAuthority("admin")
-                .antMatchers("/account").authenticated()
+                .antMatchers("/lot/buy").authenticated()
+                .antMatchers("/account**").authenticated()
                 .antMatchers("/add/lot").authenticated()
                 .antMatchers("/*").permitAll()
                 .and()

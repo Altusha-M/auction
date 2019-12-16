@@ -50,12 +50,12 @@ public class UserRegistrationController {
                         fieldName->result.rejectValue(
                                 fieldName,
                                 null,
-                                "Username with this" + fieldName + " already exist. Pick another one."));
+                                "Username with this " + fieldName + " already exist. Pick another one."));
 
         if (result.hasErrors()) {
             List<City> cities = cityService.getAllCities();
             model.addAttribute("cities", cities);
-            return "redirect:/register?failure=true";
+            return "register";
         }
 
         userService.save(userRegistrationDto);
