@@ -27,7 +27,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     // пока не используем шифратор пароля, далее будет BCryptPasswordEncoder
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(getNoPasswordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(getPasswordEncoder());
     }
 
 

@@ -2,16 +2,17 @@ package com.stc21.boot.auction.service;
 
 import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.dto.UserRegistrationDto;
-import com.stc21.boot.auction.entity.Lot;
 import com.stc21.boot.auction.entity.User;
 import com.stc21.boot.auction.repository.CityRepository;
 import com.stc21.boot.auction.repository.RoleRepository;
 import com.stc21.boot.auction.repository.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,12 +27,15 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final CityRepository cityRepository;
     private final ModelMapper modelMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(ModelMapper modelMapper, UserRepository userRepository, RoleRepository roleRepository, CityRepository cityRepository) {
+    public UserServiceImpl(ModelMapper modelMapper, UserRepository userRepository, RoleRepository roleRepository,
+                           CityRepository cityRepository, @Qualifier("getPasswordEncoder") PasswordEncoder passwordEncoder) {
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.cityRepository = cityRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -50,6 +54,7 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.findByDeletedFalse(pageRequest).map(this::convertToDto);
     }
+
     @Override
     public Page<UserDto> getPaginatedEvenDeleted(Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(
@@ -133,7 +138,7 @@ public class UserServiceImpl implements UserService {
 
         User user = new User();
         user.setUsername(userRegistrationDto.getUsername());
-        user.setPassword(userRegistrationDto.getPassword()); // TODO: to hash
+        user.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword())); // TODO: to hash
         user.setEmail(userRegistrationDto.getEmail().equals("") ? null : userRegistrationDto.getEmail());
         user.setPhoneNumber(userRegistrationDto.getPhoneNumber().equals("") ? null : userRegistrationDto.getPhoneNumber());
         user.setFirstName(userRegistrationDto.getFirstName());
