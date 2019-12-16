@@ -7,31 +7,35 @@ import com.stc21.boot.auction.entity.Photo;
 import com.stc21.boot.auction.entity.Purchase;
 import com.stc21.boot.auction.entity.User;
 import com.stc21.boot.auction.exception.NotEnoughMoneyException;
+import com.stc21.boot.auction.exception.PageNotFoundException;
 import com.stc21.boot.auction.repository.LotRepository;
 import com.stc21.boot.auction.repository.PhotoRepository;
 import com.stc21.boot.auction.repository.PurchaseRepository;
 import com.stc21.boot.auction.repository.UserRepository;
 import lombok.SneakyThrows;
+import org.hibernate.exception.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.*;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.extras.springsecurity5.auth.Authorization;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.lang.Thread.sleep;
 
 @Service
 public class LotServiceImpl implements LotService {
 
-    // число карточек на странице
-    public static final int SIZE = 5;
     private final ModelMapper modelMapper;
     private final LotRepository lotRepository;
     private final PurchaseRepository purchaseRepository;
@@ -39,8 +43,12 @@ public class LotServiceImpl implements LotService {
     private final UserService userService;
     private final GoogleDriveService googleDriveService;
     private final PhotoRepository photoRepository;
-    public LotServiceImpl(ModelMapper modelMapper, LotRepository lotRepository, PurchaseRepository purchaseRepository,
-                          UserRepository userRepository, UserService userService, GoogleDriveService googleDriveService,
+    public LotServiceImpl(ModelMapper modelMapper,
+                          LotRepository lotRepository,
+                          PurchaseRepository purchaseRepository,
+                          UserRepository userRepository,
+                          UserService userService,
+                          GoogleDriveService googleDriveService,
                           PhotoRepository photoRepository) {
         this.modelMapper = modelMapper;
         this.lotRepository = lotRepository;
@@ -51,6 +59,18 @@ public class LotServiceImpl implements LotService {
         this.photoRepository = photoRepository;
     }
 
+    /* Read functions */
+        /* Basic read functions */
+
+    @Override
+    public LotDto findById(long id) {
+        Optional<Lot> lot = lotRepository.findById(id);
+        LotDto lotDto = null;
+        if (lot.isPresent())
+            lotDto = convertToLotDto(lot.get());
+        return lotDto;
+    }
+
     @Override
     public Page<LotDto> getPaginated(Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(
@@ -58,18 +78,13 @@ public class LotServiceImpl implements LotService {
                 pageable.getPageSize(),
                 pageable.getSortOr(Sort.unsorted()));
 
-        return lotRepository.findByDeletedFalse(pageRequest).map(this::convertToDto);
+        return lotRepository.findAll(pageRequest).map(this::convertToDto);
     }
 
     @Override
     public Page<LotDto> getPaginated(Lot exampleLot, Pageable pageable) {
         if (exampleLot == null)
             throw new NullPointerException("Example is null");
-
-        PageRequest pageRequest = PageRequest.of(
-                pageable.getPageNumber(),
-                pageable.getPageSize(),
-                pageable.getSortOr(Sort.unsorted()));
 
         ExampleMatcher.GenericPropertyMatcher matcherContains = new ExampleMatcher.GenericPropertyMatcher().contains().ignoreCase();
 
@@ -80,55 +95,68 @@ public class LotServiceImpl implements LotService {
 
         Example<Lot> example = Example.of(exampleLot, exampleMatcher);
 
+        Pageable pageRequest = Pageable.unpaged();
+        if (pageable.isPaged())
+            pageRequest = PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    pageable.getSortOr(Sort.unsorted()));
+
         return lotRepository.findAll(example, pageRequest).map(this::convertToDto);
     }
 
-    @Override
-    public Page<LotDto> getPaginatedEvenDeleted(Pageable pageable) {
-        PageRequest pageRequest = PageRequest.of(
-                pageable.getPageNumber(),
-                pageable.getPageSize(),
-                pageable.getSortOr(Sort.unsorted()));
+    private Page<LotDto> getBoughtAndPaginated(boolean isBought, Lot exampleLot, Pageable pageable) {
+        if (exampleLot == null)
+            exampleLot = new Lot();
 
-        return lotRepository.findAll(pageRequest).map(this::convertToDto);
+        exampleLot.setDeleted(false);
+        exampleLot.setBought(isBought);
+
+        return getPaginated(exampleLot, pageable);
+    }
+
+        /* Dependent read functions */
+
+    @Override
+    public Page<LotDto> getUnboughtLots(Lot exampleLot, Pageable pageable) {
+        return getBoughtAndPaginated(false, exampleLot, pageable);
     }
 
     @Override
-    public List<Lot> getAllLots() {
-        return lotRepository.findAll();
+    public Page<LotDto> getBoughtLotsOf(String username, Pageable pageable) {
+        Lot exampleLot = new Lot();
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new NullPointerException("Not found user with this username"));
+        exampleLot.setUser(user);
+
+        return getBoughtAndPaginated(true, exampleLot, pageable);
     }
 
     @Override
-    public List<Lot> getAllLotsByUsername(Authentication token) {
-        UserDto user = userService.findByUsername(token.getName());
-        return lotRepository.findAllByUserUsername(user.getUsername());
+    public Page<LotDto> getUnboughtLotsOf(String username, Pageable pageable) {
+        Lot exampleLot = new Lot();
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new NullPointerException("Not found user with this username"));
+        exampleLot.setUser(user);
+
+        return getBoughtAndPaginated(false, exampleLot, pageable);
     }
 
     @Override
-    @Transactional
-    public void updateAllLots(List<Lot> lots) {
-        lots.forEach(lot -> {
-            lotRepository.updateCurrentPrice(calcCurrentPrice(lot), lot.getId());
-        });
+    public Page<LotDto> getBoughtLotsBy(String username, Pageable pageable) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new NullPointerException("Not found user with this username"));
+
+        Page<Purchase> purchasePage = purchaseRepository.findAllByBuyer(user, pageable);
+
+        List<LotDto> lotDtos = purchaseRepository.findAllByBuyer(user, pageable).toList().stream()
+                .map(Purchase::getItem)
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+
+        Page<LotDto> lotDtoPage = new PageImpl<LotDto>(lotDtos, purchasePage.getPageable(), purchasePage.getTotalElements());
+
+        return lotDtoPage;
     }
 
-    @Override
-    public Page<LotDto> getPageOfHomePageLots(int page) {
-        PageRequest pageRequest = PageRequest.of(page, SIZE);
-//        Page<Lot> lots = lotRepository.findByDeletedFalse(pageRequest);
-        Page<Lot> lots = lotRepository.findByDeletedFalse(pageRequest);
-        return lots.map(this::convertToLotDto);
-    }
-
-    @Override
-    public Page<LotDto> getPageOfHomePageLots(int page, Authentication token) {
-        PageRequest pageRequest = PageRequest.of(page, SIZE);
-//        Page<Lot> lots = lotRepository.findByDeletedFalse(pageRequest);
-        Page<Lot> lots = lotRepository.getByDeletedFalseWhereUserUsernameNotEquals(pageRequest, token.getName());
-        return lots.map(this::convertToLotDto);
-    }
-
-
+    /* Create & update functions */
 
     @SneakyThrows
     @Override
@@ -154,20 +182,6 @@ public class LotServiceImpl implements LotService {
         return lotRepository.getOne(insertedLot.getId());
     }
 
-    @Override
-    public LotDto findById(long id) {
-        Optional<Lot> lot = lotRepository.findById(id);
-        LotDto lotDto = null;
-        if (lot.isPresent())
-            lotDto = convertToLotDto(lot.get());
-        return lotDto;
-    }
-
-    @Override
-    public LotDto findByLotId(Long id) {
-        return null;
-    }
-
     /**
      *
      * @param username User.username, which want to buy a lot
@@ -175,18 +189,23 @@ public class LotServiceImpl implements LotService {
      * @throws NotEnoughMoneyException if User.wallet less than item's cost
      */
     @Override
-    @Transactional(propagation = Propagation.REQUIRED
+    @Transactional(propagation = Propagation.REQUIRES_NEW
             ,isolation = Isolation.SERIALIZABLE)
     public void sale(String username, LotDto lotDto) throws NotEnoughMoneyException {
+
         User buyer = userRepository.findByUsername(username).orElseThrow(NullPointerException::new);//userService.findByUsername(username);
         Long amount = lotDto.getCurrentPrice();
         if(buyer.getWallet() < amount){
             throw new NotEnoughMoneyException("Недостаточно средств на счету");
         }
         User seller = userRepository.findByUsername(lotDto.getUserDto().getUsername()).orElseThrow(NullPointerException::new);//userService.findByUsername(username);
+        if (seller.getId() == buyer.getId()) throw new PageNotFoundException();
+
         Lot boughtLot = lotRepository.findById(lotDto.getId()).orElseThrow(NullPointerException::new);
+        boughtLot.setBought(true);
         seller.setWallet(seller.getWallet() + amount);
         buyer.setWallet(buyer.getWallet() - amount);
+
         Purchase purchase = new Purchase();
         purchase.setBuyer(buyer);
         purchase.setItem(boughtLot);
@@ -194,13 +213,42 @@ public class LotServiceImpl implements LotService {
         purchaseRepository.saveAndFlush(purchase);
     }
 
+    @Override
+    @Transactional
+    public void updateAllLots(List<LotDto> lots) {
+        lots.forEach(lot -> {
+            lotRepository.updateCurrentPrice(calcCurrentPrice(lot), lot.getId());
+        });
+    }
 
-    private Long calcCurrentPrice(Lot lot) {
+    private Long calcCurrentPrice(LotDto lotDto) {
         Random random = new Random();
-        Long max = lot.getMaxPrice();
-        Long min = lot.getMinPrice();
+        Long max = lotDto.getMaxPrice();
+        Long min = lotDto.getMinPrice();
         long randomValue = min + random.nextInt((int) (max - min));
         return randomValue;
+    }
+
+    @Override
+    @Transactional
+    public void setDeletedTo(long id, boolean newValue) {
+        lotRepository.updateDeletedTo(id, newValue);
+    }
+
+    /* Util functions */
+
+    @Override
+    public LotDto convertToDto(Lot lot) {
+        if (lot == null) return null;
+
+        LotDto lotDto = modelMapper.map(lot, LotDto.class);
+
+        lotDto.setUserDto(userService.convertToDto(lot.getUser()));
+        lotDto.setCategory(lot.getCategory());
+        lotDto.setCity(lot.getCity());
+        lotDto.setCondition(lot.getCondition());
+
+        return lotDto;
     }
 
     // через мапер преобразуем в DTO. Руками устанавливаем DTO пользователя
@@ -218,28 +266,7 @@ public class LotServiceImpl implements LotService {
         return lotDto;
     }
 
-
-    @Override
-    public LotDto convertToDto(Lot lot) {
-        if (lot == null) return null;
-
-        LotDto lotDto = modelMapper.map(lot, LotDto.class);
-
-        lotDto.setUserDto(userService.convertToDto(lot.getUser()));
-        lotDto.setCategory(lot.getCategory());
-        lotDto.setCity(lot.getCity());
-        lotDto.setCondition(lot.getCondition());
-
-        return lotDto;
-    }
-
     private Lot convertToEntity(LotDto lotDto) {
         return modelMapper.map(lotDto, Lot.class);
-    }
-
-    @Override
-    @Transactional
-    public void setDeletedTo(long id, boolean newValue) {
-        lotRepository.updateDeletedTo(id, newValue);
     }
 }

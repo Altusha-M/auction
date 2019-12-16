@@ -12,20 +12,19 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface LotService {
-    List<Lot> getAllLots();
-
-    List<Lot> getAllLotsByUsername(Authentication token);
-
-    void updateAllLots(List<Lot> lots);
-    Page<LotDto> getPageOfHomePageLots(int page);
-    Page<LotDto> getPageOfHomePageLots(int page, Authentication token);
+    LotDto findById(long id);
     Page<LotDto> getPaginated(Pageable pageable);
     Page<LotDto> getPaginated(Lot exampleLot, Pageable pageable);
-    Page<LotDto> getPaginatedEvenDeleted(Pageable pageable);
-    LotDto convertToDto(Lot lot);
-    void setDeletedTo(long id, boolean newValue);
+
     Lot saveNewLot(LotDto lotDto, Authentication token, MultipartFile[] images);
-    LotDto findByLotId(Long id);
     void sale(String username, LotDto lotDto) throws NotEnoughMoneyException;
-    LotDto findById(long id);
+    void updateAllLots(List<LotDto> lots);
+
+    void setDeletedTo(long id, boolean newValue);
+    LotDto convertToDto(Lot lot);
+
+    Page<LotDto> getUnboughtLots(Lot exampleLot, Pageable pageable);
+    Page<LotDto> getBoughtLotsOf(String username, Pageable pageable);
+    Page<LotDto> getUnboughtLotsOf(String username, Pageable pageable);
+    Page<LotDto> getBoughtLotsBy(String username, Pageable pageable);
 }

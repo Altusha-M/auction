@@ -3,6 +3,7 @@ package com.stc21.boot.auction.dto;
 import com.stc21.boot.auction.entity.Category;
 import com.stc21.boot.auction.entity.City;
 import com.stc21.boot.auction.entity.Condition;
+import com.stc21.boot.auction.entity.Purchase;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
@@ -35,15 +36,16 @@ public class LotDto {
     private Category category;
     private Condition condition;
     private City city;
+    private Purchase purchase;
 
     @NotNull
-    @Range(min = 0, max = 50000)
+    @Range(min = 0, max = 500000)
     private Long currentPrice;
     @NotNull
-    @Range(min = 0, max = 50000)
+    @Range(min = 0, max = 500000)
     private Long maxPrice;
     @NotNull
-    @Range(min = 0, max = 50000)
+    @Range(min = 0, max = 500000)
     private Long minPrice;
 
     private Long stepPrice;
@@ -53,4 +55,5 @@ public class LotDto {
     private List<String> photoUrls = new ArrayList<>();
 
     private Boolean deleted = false;
+    private Boolean bought = false;
 }

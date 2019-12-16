@@ -1,5 +1,6 @@
 package com.stc21.boot.auction.controller;
 
+import com.stc21.boot.auction.dto.LotDto;
 import com.stc21.boot.auction.dto.UserDto;
 import com.stc21.boot.auction.entity.Lot;
 import com.stc21.boot.auction.entity.Purchase;
@@ -8,6 +9,7 @@ import com.stc21.boot.auction.repository.PurchaseRepository;
 import com.stc21.boot.auction.service.LotService;
 import com.stc21.boot.auction.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -33,8 +35,8 @@ public class AccountController {
     }
 
     @ModelAttribute(name = "lots")
-    public List<Lot> userLots(@AuthenticationPrincipal Authentication token)  {
-        return lotService.getAllLotsByUsername(token);
+    public List<LotDto> userLots(@AuthenticationPrincipal Authentication token)  {
+        return lotService.getUnboughtLotsOf(token.getName(), Pageable.unpaged()).toList();
     }
 
     @ModelAttribute(name = "user")
@@ -42,9 +44,9 @@ public class AccountController {
         return userService.findByUsername(token.getName());
     }
 
-    @ModelAttribute(name = "purchases")
-    public List<Purchase> allByBuyer(@AuthenticationPrincipal Authentication token)  {
-        return purchaseRepository.findAllByBuyer(userService.convertToEntity(userService.findByUsername(token.getName())));
+    @ModelAttribute(name = "purchasedLots")
+    public List<LotDto> allByBuyer(@AuthenticationPrincipal Authentication token)  {
+        return lotService.getBoughtLotsBy(token.getName(), Pageable.unpaged()).toList();
     }
 
     @GetMapping()

@@ -29,7 +29,6 @@ public class Purchase {
     private LocalDateTime purchaseTime;
 
     @OneToOne(optional = false, fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "lot_id", nullable = false, updatable = false)
+    @JoinColumn(name = "lot_id", nullable = false, updatable = false, unique = true)
     private Lot item;
-
 }

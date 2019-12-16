@@ -73,7 +73,7 @@ public class DashboardController {
         model.addAttribute("sortBy", sortField);
         model.addAttribute("sortDir", sortDirection == Sort.Direction.ASC ? "asc" : "desc");
 
-        model.addAttribute(      "lots",       lotService.getPaginatedEvenDeleted(currentSection.equals(      "lots") ? specificPageable : defaultPageable));
+        model.addAttribute(      "lots",       lotService.getPaginated(currentSection.equals(      "lots") ? specificPageable : defaultPageable));
         model.addAttribute(     "users",      userService.getPaginatedEvenDeleted(currentSection.equals(     "users") ? specificPageable : defaultPageable));
         model.addAttribute(    "photos",     photoService.getPaginatedEvenDeleted(currentSection.equals(    "photos") ? specificPageable : defaultPageable));
         model.addAttribute("categories",  categoryService.getAllSortedEvenDeleted(currentSection.equals("categories") ? sort             : Sort.unsorted()));

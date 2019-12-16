@@ -77,7 +77,7 @@ public class HomeController {
 
         /* ----- */
 
-        Page<LotDto> pagedHomePageLots = lotService.getPaginated(exampleLot, pageRequest);
+        Page<LotDto> pagedHomePageLots = lotService.getUnboughtLots(exampleLot, pageRequest);
         model.addAttribute("lots", pagedHomePageLots);
 
         model.addAttribute("categories",  categoryService.findAll());

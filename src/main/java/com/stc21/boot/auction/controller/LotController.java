@@ -53,11 +53,7 @@ public class LotController {
         String username = token.getName();
 
         userService.findByUsername(username);
-        try{
-            lotService.sale(username, lotService.findById(lotId));
-        } catch (NotEnoughMoneyException e){
-            // TODO показать покупателю, что недостатчно денег
-        }
+        lotService.sale(username, lotService.findById(lotId));
 //        model.addAttribute("currentUser", username);
         return "redirect:/";
     }

@@ -50,7 +50,7 @@
                                                 <div class="col-6">
                                                     <h5 class="card-title">
                                                         <a class="text-info" href="#"
-                                                           th:text="${lot.getUser().getUsername()}">Username</a>
+                                                           th:text="${lot.userDto.username}">Username</a>
                                                     </h5>
                                                 </div>
                                             </div>
@@ -106,20 +106,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="purchase, iter : ${purchases}">
+                    <tr th:each="boughtLot, iter : ${purchasedLots}">
                         <th scope="row" th:text="${iter.index + 1}">№</th>
-                        <td th:text="${purchase.item.getName()}">Название</td>
-                        <td th:text="${purchase.item.getDescription()}">Описание</td>
-                        <td th:text="${purchase.item.getCategory().getName()}">Категория</td>
-                        <td th:text="${purchase.item.getCondition().getName()}">Состояние</td>
-                        <td th:text="${purchase.item.getCity().getName()}">Город</td>
-                        <td th:text="${purchase.item.getCurrentPrice()}">Цена</td>
+                        <td th:text="${boughtLot.getName()}">Название</td>
+                        <td th:text="${boughtLot.getDescription()}">Описание</td>
+                        <td th:text="${boughtLot.getCategory().getName()}">Категория</td>
+                        <td th:text="${boughtLot.getCondition().getName()}">Состояние</td>
+                        <td th:text="${boughtLot.getCity().getName()}">Город</td>
+                        <td th:text="${boughtLot.getCurrentPrice()}">Цена</td>
                         <td>
-                            <p th:text="${purchase.item.getUser().getUsername()}"></p>
-                            <p th:text="${purchase.item.getUser().getFirstName() + ' ' + purchase.item.getUser().getLastName()}"></p>
-                            <p th:text="${purchase.item.getUser().getPhoneNumber()}"></p>
-                            <p th:text="${purchase.item.getUser().getEmail()}"></p>
-                            <p th:text="${purchase.item.getUser().getCity().getName()}"></p>
+                            <p th:text="${boughtLot.userDto.getUsername()}"></p>
+                            <p th:text="${boughtLot.userDto.getFirstName() + ' ' + boughtLot.userDto.getLastName()}"></p>
+                            <p th:text="${boughtLot.userDto.getPhoneNumber()}"></p>
+                            <p th:text="${boughtLot.userDto.getEmail()}"></p>
+                            <p th:text="${boughtLot.userDto.getCity().getName()}"></p>
                         </td>
 
                     </tr>
