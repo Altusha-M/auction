@@ -55,8 +55,12 @@ public class LotServiceImpl implements LotService {
                 pageable.getPageSize(),
                 pageable.getSortOr(Sort.unsorted()));
 
+        ExampleMatcher.GenericPropertyMatcher matcherContains = new ExampleMatcher.GenericPropertyMatcher().contains().ignoreCase();
+
         ExampleMatcher exampleMatcher = ExampleMatcher.matching()
-                .withIgnorePaths("id");
+                .withIgnorePaths("id")
+                .withMatcher("name", matcherContains)
+                .withMatcher("description", matcherContains);
 
         Example<Lot> example = Example.of(exampleLot, exampleMatcher);
 

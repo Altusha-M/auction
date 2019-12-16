@@ -40,13 +40,15 @@ public class HomeController {
 
     @ModelAttribute("queryParams")
     Map<String, String> queryParams() {
-        return new HashMap<String, String>() {{
+        return new HashMap<>() {{
             put("page", "1");
             put("sortBy", "creationTime");
             put("sortDir", "asc");
             put("categoryFilter", "-1");
             put("cityFilter", "-1");
             put("conditionFilter", "-1");
+            put("searchText", "");
+            put("selectOption", "name");
         }};
     }
 
@@ -55,12 +57,24 @@ public class HomeController {
     public String showHomePage(
             Model model,
             @ModelAttribute("queryParams") Map<String, String> queryParams,
-            @RequestParam Map<String, String> allParams) {
-        queryParams.putAll(allParams);
+            @RequestParam Map<String, String> requestParams) {
+
+        queryParams.putAll(requestParams);
+
+        if (!requestParams.containsKey("page"))
+            queryParams.put("page", "1");
 
         /* ----- */
 
         Lot exampleLot = new Lot();
+        String selectOption = queryParams.get("selectOption").trim();
+        String searchText = queryParams.get("searchText").trim();
+        if (!selectOption.equals("")) {
+            switch (selectOption) {
+                default: /* name */ exampleLot.setName(searchText); break;
+                case "description": exampleLot.setDescription(searchText); break;
+            }
+        }
         exampleLot .setCategory( categoryService.getById(Integer.parseInt(queryParams.get( "categoryFilter"))).orElse(null));
         exampleLot     .setCity(     cityService.getById(Integer.parseInt(queryParams.get(     "cityFilter"))).orElse(null));
         exampleLot.setCondition(conditionService.getById(Integer.parseInt(queryParams.get("conditionFilter"))).orElse(null));
@@ -68,10 +82,10 @@ public class HomeController {
         Sort sort = Sort.by(queryParams.get("sortDir").equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, queryParams.get("sortBy"));
         PageRequest pageRequest = PageRequest.of(Integer.parseInt(queryParams.get("page")) - 1, 5, sort);
 
+        /* ----- */
+
         Page<LotDto> pagedHomePageLots = lotService.getPaginated(exampleLot, pageRequest);
         model.addAttribute("lots", pagedHomePageLots);
-
-        /* ----- */
 
         model.addAttribute("categories",  categoryService.findAll());
         model.addAttribute(    "cities",      cityService.findAll());
@@ -80,6 +94,8 @@ public class HomeController {
         model.addAttribute( "categoryFilterId", Integer.parseInt(queryParams.get( "categoryFilter")));
         model.addAttribute(     "cityFilterId", Integer.parseInt(queryParams.get(     "cityFilter")));
         model.addAttribute("conditionFilterId", Integer.parseInt(queryParams.get("conditionFilter")));
+        model.addAttribute(       "searchText",                  queryParams.get(     "searchText"));
+        model.addAttribute(     "selectOption",                  queryParams.get(   "selectOption"));
 
         return "home";
     }

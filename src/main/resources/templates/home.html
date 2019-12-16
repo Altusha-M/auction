@@ -19,6 +19,7 @@
 
             <div class="row mt-3">
                 <div class="col-12 col-md-3" id="filters">
+
                     <button aria-controls="collapseExample" aria-expanded="false" class="btn btn-primary btn-block d-md-none"
                             data-target="#collapseFilter" data-toggle="collapse" type="button">
                         Filter lots
@@ -26,38 +27,11 @@
 
                     <div class="collapse" id="collapseFilter">
                         <form id="filterParameters" th:action="@{/}" method="get">
-                            <!--
-                            <div class="form-group" id="formGroupPrice">
-                                <div class="form-row">
-                                    <div class="col">
-                                        <label for="formGroupPrice">Price label</label>
-                                    </div>
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="col">
-                                        <input class="form-control is-invalid" placeholder="min" type="text">
-                                        <div class="invalid-tooltip">
-                                            Min is less than 0
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <input class="form-control is-invalid" placeholder="max" type="text">
-                                        <div class="invalid-tooltip">
-                                            Max is less than min
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            -->
                             <label for="filterParameters"><h4>Filter</h4></label>
 
                             <div class="form-group" id="categoryFilterSelect">
                                 <label for="categoryFilterSelect">Select category</label>
                                 <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <label class="input-group-text" for="categoryGroupSelect">City</label>
-                                    </div>
                                     <select class="custom-select" id="categoryGroupSelect" name="categoryFilter">
                                         <option th:selected="${categoryFilterId==-1}" value="-1">Any category</option>
                                         <option th:each="category : ${categories}" th:text="${category.name}" th:selected="${categoryFilterId==category.id}" th:value="${category.id}">One</option>
@@ -68,9 +42,6 @@
                             <div class="form-group" id="cityFilterSelect">
                                 <label for="cityFilterSelect">Select city</label>
                                 <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <label class="input-group-text" for="cityGroupSelect">City</label>
-                                    </div>
                                     <select class="custom-select" id="cityGroupSelect" name="cityFilter">
                                         <option th:selected="${cityFilterId==-1}" value="-1">Any city</option>
                                         <option th:each="city : ${cities}" th:text="${city.name}" th:selected="${cityFilterId==city.id}" th:value="${city.id}">One</option>
@@ -81,9 +52,6 @@
                             <div class="form-group" id="conditionFilterSelect">
                                 <label for="conditionFilterSelect">Select condition</label>
                                 <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <label class="input-group-text" for="conditionGroupSelect">City</label>
-                                    </div>
                                     <select class="custom-select" id="conditionGroupSelect" name="conditionFilter">
                                         <option th:selected="${conditionFilterId==-1}" value="-1">Any condition</option>
                                         <option th:each="condition : ${conditions}" th:text="${condition.name}" th:selected="${conditionFilterId==condition.id}" th:value="${condition.id}">One</option>
@@ -91,70 +59,7 @@
                                 </div>
                             </div>
 
-
                             <hr>
-
-                            <!--
-                            <div class="form-group" id="formGroupCheckBox">
-                                <label for="formGroupCheckBox">Checkbox label</label>
-
-                                <div class="form-check">
-                                    <input class="form-check-input" id="defaultCheck1" type="checkbox" value="">
-                                    <label class="form-check-label" for="defaultCheck1">
-                                        Default checkbox
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" disabled="" id="defaultCheck2" type="checkbox" value="">
-                                    <label class="form-check-label" for="defaultCheck2">
-                                        Disabled checkbox
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" id="defaultCheck3" type="checkbox" value="">
-                                    <label class="form-check-label" for="defaultCheck3">
-                                        Default checkbox
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" id="defaultCheck4" type="checkbox" value="">
-                                    <label class="form-check-label" for="defaultCheck4">
-                                        Default checkbox
-                                    </label>
-                                </div>
-                            </div>
-
-                            <hr>
-                            -->
-
-                            <!--
-                            <div class="form-group" id="formGroupRadioBox">
-                                <label for="formGroupRadioBox">Radio label</label>
-                                <div class="form-check">
-                                    <input checked="" class="form-check-input" id="exampleRadios1" name="exampleRadios"
-                                           type="radio" value="option1">
-                                    <label class="form-check-label" for="exampleRadios1">
-                                        Default radio
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" id="exampleRadios2" name="exampleRadios" type="radio"
-                                           value="option2">
-                                    <label class="form-check-label" for="exampleRadios2">
-                                        Second default radio
-                                    </label>
-                                </div>
-                                <div class="form-check disabled">
-                                    <input class="form-check-input" disabled="" id="exampleRadios3" name="exampleRadios"
-                                           type="radio" value="option3">
-                                    <label class="form-check-label" for="exampleRadios3">
-                                        Disabled radio
-                                    </label>
-                                </div>
-                            </div>
-
-                            <hr>
-                            -->
 
                             <button class="btn btn-primary btn-block" type="submit">Filter</button>
                         </form>
@@ -166,7 +71,38 @@
                 <!---------------------------------->
 
                 <div class="col-12 col-md-9" id="cards">
+                    <form id="searchForm" th:action="@{/}" method="get">
+                    <div class="form-row">
+                        <div class="col-12">
+                                <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Search" name="searchText" th:value="${searchText}">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" id="searchButton"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            Поиск
+                            <div class="form-check form-check-inline pl-3">
+                                <input class="form-check-input" type="radio" name="selectOption" id="searchRadioOption1" value="name" th:checked="${selectOption.equals('name')}">
+                                <label class="form-check-label" for="searchRadioOption1">в заголовке</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="selectOption" id="searchRadioOption2" value="description" th:checked="${selectOption.equals('description')}">
+                                <label class="form-check-label" for="searchRadioOption2">в описании</label>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+
+                    <hr>
+
                     <div class="row">
+                        <div class="col">
+                            Found <span th:text="${lots.totalElements}">X</span>
+                            <span th:text="${lots.totalElements>1} ? lots : lot">lots</span>
+                        </div>
                         <div class="col text-right">
                             <h6>
                                 <span class="pr-3">Sort by:</span>
